@@ -25,7 +25,7 @@ func focus(focused:GameObject, new:bool, dontRedirect:bool) -> void: # Door or R
 		if !main.componentFocused:
 			%lockSettings.visible = false
 			%doorAxialNumberEdit.visible = false
-			%doorAuraSettings.visible = focused.type != Door.TYPE.GATE
+			%doorBooleans.visible = focused.type != Door.TYPE.GATE
 			%doorCopySettings.visible = focused.type != Door.TYPE.GATE
 			%doorColorSelector.setSelect(focused.colorSpend)
 			%spend.button_pressed = true
@@ -43,7 +43,7 @@ func focus(focused:GameObject, new:bool, dontRedirect:bool) -> void: # Door or R
 	elif focused is RemoteLock:
 		%door.visible = false
 		%remoteLock.visible = true
-		%doorAuraSettings.visible = !focused.armament
+		%doorBooleans.visible = !focused.armament
 		%lockConfigurationSelector.visible = false
 		%doorsHandler.setup(focused)
 		focusComponent(focused, new)
@@ -69,7 +69,7 @@ func focusComponent(component:GameComponent, new:bool) -> void: # Lock or Remote
 	if component.zeroI: %doorAxialNumberEdit.setZeroI()
 
 	%doorCopySettings.visible = false
-	if component is Lock: %doorAuraSettings.visible = false
+	if component is Lock: %doorBooleans.visible = false
 
 	%blastLockSettings.visible = component.type in [Lock.TYPE.BLAST, Lock.TYPE.ALL]
 	%blastLockSign.button_pressed = M.negative(M.sign(component.denominator))
