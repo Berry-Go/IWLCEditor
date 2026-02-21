@@ -36,6 +36,8 @@ var frozen:bool = false
 var crumbled:bool = false
 var painted:bool = false
 
+func getColors() -> Array[Game.COLOR]: return [color]
+
 var doors:Array[Door] = []
 
 var drawDropShadow:RID

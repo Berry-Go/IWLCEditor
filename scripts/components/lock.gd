@@ -132,6 +132,8 @@ var armament:bool = false
 var index:int
 var displayIndex:int # split into armaments and nonarmaments
 
+func getColors() -> Array[Game.COLOR]: return [color]
+
 var drawScaled:RID
 var drawAuraBreaker:RID
 var drawGlitch:RID

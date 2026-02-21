@@ -56,7 +56,8 @@ const CREATE_PARAMETERS:Array[StringName] = [
 const PROPERTIES:Array[StringName] = [
 	&"id", &"position", &"size",
 	&"color", &"type", &"count", &"infinite", &"glistening", &"un", &"altColor", &"operation"
-]								
+]
+
 static var ARRAYS:Dictionary[StringName,Variant] = {}
 
 var color:Game.COLOR = Game.COLOR.WHITE
@@ -68,6 +69,10 @@ var altColor:Game.COLOR = Game.COLOR.WHITE
 var operation:OPERATION = OPERATION.SET
 var un:bool = false # whether a star or curse key is an unstar or uncurse key
 var reciprocal:bool = false # whether a rotor key is reciprocal or not
+
+func getColors() -> Array[Game.COLOR]:
+	if type == TYPE.OPERATOR: return [color, altColor]
+	return [color]
 
 var drawDropShadow:RID
 var drawGlitch:RID

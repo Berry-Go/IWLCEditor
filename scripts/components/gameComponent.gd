@@ -31,3 +31,5 @@ func _notification(what: int) -> void:
 		NOTIFICATION_PREDELETE: _freed()
 
 func _freed() -> void: pass
+
+func getColors() -> Array[Game.COLOR]: return []

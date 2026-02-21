@@ -66,6 +66,8 @@ var frozen:bool = false
 var crumbled:bool = false
 var painted:bool = false
 
+func getColors() -> Array[Game.COLOR]: return [colorSpend]
+
 var drawDropShadow:RID
 var drawScaled:RID # also draws aura breaker fills
 var drawAuraBreaker:RID

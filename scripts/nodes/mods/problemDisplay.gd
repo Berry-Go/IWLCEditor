@@ -7,14 +7,14 @@ var type:StringName
 var findProblems:FindProblems
 var showIndex:int = 0
 var count:int:
-	get(): return len(mod.problems[type])
+	get(): return len(mod.problems[type].components)
 
 func setup(_mod:StringName,_type:StringName, _findProblems:FindProblems) -> ProblemDisplay:
 	modId = _mod
 	mod = Mods.mods[modId]
 	type = _type
 	findProblems = _findProblems
-	%nameLabel.text = getProblemName()
+	%nameLabel.text = mod.problems[type].name
 	return self
 
 func setTexts() -> void:
@@ -23,40 +23,10 @@ func setTexts() -> void:
 	%showIndex.text = str(showIndex+1) + "/" + str(count)
 	visible = count > 0
 
-func getProblemName() -> String:
-	match [modId, type]:
-		[&"MoreLockSizes", &"NstdLockSize"]: return "Nonstandard Lock Size"
-		[&"MoreLockConfigs", &"NstdLockConfig"]: return "Nonstandard Lock Configuration"
-		[&"ZeroCopyDoors",&"ZeroCopyDoor"]: return "Zero Copy Door"
-		[&"ZeroCostLocks",&"ZeroCostLock"]: return "Zero Cost Lock"
-		[&"InfCopyDoors",&"InfCopyDoor"]: return "Infinite Copy Door"
-		[&"NoneColor",&"NoneColorUsed"]: return "None Color Used"
-
-		[&"RemoteLocks", &"RemoteLock"]: return "Remote Lock"
-		[&"NegatedLocks", &"NegatedLock"]: return "Negated Lock"
-		[&"DynamiteColor", &"DynamiteColorUsed"]: return "Dynamite Color Used"
-		[&"QuicksilverColor", &"QuicksilverColorUsed"]: return "Quicksilver Color Used"
-		[&"PartialBlastLocks", &"PartialBlastLock"]: return "Partial Blast Lock"
-		[&"ExactLocks", &"ExactLock"]: return "Exact Lock"
-		[&"DarkAuraColors", &"DarkAuraColorUsed"]: return "Dark Aura Color Used"
-		[&"AuraBreakerColors", &"AuraBreakerColorUsed"]: return "Aura Breaker Color Used"
-		[&"CurseKeys", &"CurseKey"]: return "Curse/Decurse Key"
-		[&"Armaments", &"LockArmament"]: return "Lock Armament"
-		[&"RemainderLocks", &"RemainderLock"]: return "Remainder Lock"
-
-		[&"DisconnectedLocks", &"DisconnectedLock"]: return "Disconnected Lock"
-		[&"OutOfBounds", &"OutOfBounds"]: return "Object Out of Bounds"
-		
-		[&"PartialInPartialInfKeysfKey", &"PartialInfKey"]: return "Partial Infinite Key"
-		[&"MoreKeyCounterWidths", &"NstdKeyCounterWidth"]: return "Nonstandard Key Counter Width"
-		[&"OperatorKeys", &"OperatorKey"]: return "Operator Key"
-		[&"OperatorKeys", &"ReciprocalKey"]: return "Reciprocal Key"
-	return "Somebody forgot to set the ProblemDisplay text for this error :)"
-
 func showInstance(index:int) -> void:
 	showIndex = index
 	setTexts()
-	var component:GameComponent = mod.problems[type][index]
+	var component:GameComponent = mod.problems[type].components[index]
 	if component is GameObject:
 		Game.editor.focusDialog.defocusComponent()
 		Game.editor.focusDialog.focus(component,true)

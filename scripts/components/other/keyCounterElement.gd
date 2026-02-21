@@ -23,6 +23,8 @@ var parentId:int
 var color:Game.COLOR = Game.COLOR.WHITE
 var index:int
 
+func getColors() -> Array[Game.COLOR]: return [color]
+
 var drawStar:RID
 var drawGlitch:RID
 var drawMain:RID

@@ -5,127 +5,173 @@ static var mods:Dictionary[StringName, Mod] = {
 	&"MoreLockSizes": Mod.new(
 		"More Lock Sizes",
 		"Adds the option for locks on combo doors to be of arbitrary sizes",
-		[&"NstdLockSize"]
+		{&"NstdLockSize": ComponentProblem.new([Lock], func(component:GameComponent) -> bool: \
+			return component.parent.type != Door.TYPE.SIMPLE and component.size not in Lock.SIZES
+		, "Nonstandard Lock Size")}
 	),
 	&"ErrorColor": Mod.new(
 		"Error Color",
 		"Adds the Error Color from the Negative Worlds",
-		[&"ErrorColor"],
+		{&"ErrorColorUsed": ColorProblem.new([Game.COLOR.ERROR], "Error Color Used")},
 	),
 	&"MoreLockConfigs": Mod.new(
 		"More Lock Configurations",
 		"Adds predefined lock configurations for 7, 9, 10, 11, and 13 locks, as well as an alternative configuration for 24 locks.\nDesigns by JustImagineIt and themetah",
-		[&"NstdLockConfig"]
+		{&"NstdLockConfig": ComponentProblem.new([Lock], func(component:GameComponent) -> bool: \
+			return component.parent.type != Door.TYPE.SIMPLE and component.configuration in [
+				Lock.CONFIGURATION.spr7A, Lock.CONFIGURATION.spr9A, Lock.CONFIGURATION.spr9B, Lock.CONFIGURATION.spr10A, Lock.CONFIGURATION.spr11A, Lock.CONFIGURATION.spr13A,
+				Lock.CONFIGURATION.spr24B
+			]
+		, "Nonstandard Lock Configuration")}
 	),
 	&"ZeroCopyDoors": Mod.new(
 		"Zero Copy Doors",
 		"Allows doors to have zero copies",
-		[&"ZeroCopyDoor"], true
+		{&"ZeroCopyDoor": ComponentProblem.new([Door], func(component:GameComponent) -> bool: \
+			return M.nex(component.copies)
+		, "Zero Copy Door")}, true
 	),
 	&"ZeroCostLocks": Mod.new(
 		"Zero Cost Locks",
 		"Allows locks to have a cost of zero",
-		[&"ZeroCostLock"], true
+		{&"ZeroCostLock": ComponentProblem.new([Lock, RemoteLock], func(component:GameComponent) -> bool: \
+			return M.nex(component.count) and component.type not in [Lock.TYPE.BLAST, Lock.TYPE.ALL, Lock.TYPE.EXACT]
+		, "Zero Cost Lock")}, true
 	),
 	&"InfCopyDoors": Mod.new(
 		"Infinite Copy Doors",
 		"Adds the option for doors to have infinite copies",
-		[&"InfCopyDoor"]
+		{&"InfCopyDoor": ComponentProblem.new([Door], func(component:GameComponent) -> bool: \
+			return M.ex(component.infCopies)
+		, "Infinite Copy Door")}
 	),
 	&"NoneColor": Mod.new(
 		"None Color",
 		"Adds the None color from L4vo5's Lockpick Editor",
-		[&"NoneColorUsed"]
+		{&"NoneColorUsed": ColorProblem.new([Game.COLOR.NONE], "None Color Used")}
 	),
 	&"RemoteLocks": Mod.new(
 		"Remote Locks",
 		"Adds Remote Locks from world 1 of IWL:C",
-		[&"RemoteLock"]
+		{&"RemoteLock":  ComponentProblem.new([RemoteLock], func(_component:GameComponent) -> bool: \
+			return true
+		, "Remote Lock")}
 	),
 	&"NegatedLocks": Mod.new(
 		"Negated Locks",
 		"Adds the Negated property for Locks from world 1 of IWL:C",
-		[&"NegatedLock"]
+		{&"NegatedLock": ComponentProblem.new([Lock, RemoteLock], func(component:GameComponent) -> bool: \
+			return component.negated
+		, "Negated Lock")}
 	),
 	&"DynamiteColor": Mod.new(
 		"Dynamite Color",
 		"Adds the Dynamite color from world 2 of IWL:C",
-		[&"DynamiteColorUsed"]
+		{&"DynamiteColorUsed": ColorProblem.new([Game.COLOR.DYNAMITE], "Dynamite Color Used")}
 	),
 	&"QuicksilverColor": Mod.new(
 		"Quicksilver Color",
 		"Adds the Quicksilver color from world 2 of IWL:C",
-		[&"QuicksilverColorUsed"]
+		{&"QuicksilverColorUsed": ColorProblem.new([Game.COLOR.QUICKSILVER], "Quicksilver Color Used")}
 	),
 	&"PartialBlastLocks": Mod.new(
 		"Partial Blast Locks",
 		"Adds the Partial Blast type for Locks from world 3 of IWL:C",
-		[&"PartialBlastLock"]
+		{&"PartialBlastLock": ComponentProblem.new([Lock, RemoteLock], func(component:GameComponent) -> bool: \
+			return component.type == Lock.TYPE.BLAST and (component.isPartial or M.neq(component.count, component.denominator)) \
+				or component.type == Lock.TYPE.ALL and (component.isPartial or M.neq(component.count, M.ONE) or M.neq(component.denominator, M.ONE))
+		, "Partial Blast Lock")}
 	),
 	&"ExactLocks": Mod.new(
 		"Exact Locks",
 		"Adds the Exact type for Locks from world 3 of IWL:C",
-		[&"ExactLock"]
+		{&"ExactLock": ComponentProblem.new([Lock, RemoteLock], func(component:GameComponent) -> bool: \
+			return component.type == Lock.TYPE.EXACT
+		, "Exact Lock")}
 	),
 	&"DarkAuraColors": Mod.new(
 		"Dark Aura Colors",
 		"Adds the Dark Aura colors from world 4 of IWL:C",
-		[&"DarkAuraColorUsed"]
+		{&"DarkAuraColorUsed": ColorProblem.new([Game.COLOR.MAROON, Game.COLOR.FOREST, Game.COLOR.NAVY], "Dark Aura Color Used")}
 	),
 	&"AuraBreakerColors": Mod.new(
 		"Aura Breaker Colors",
 		"Adds the Aura Breaker colors from world 4 of IWL:C",
-		[&"AuraBreakerColorUsed"]
+		{&"AuraBreakerColorUsed": ColorProblem.new([Game.COLOR.ICE, Game.COLOR.MUD, Game.COLOR.GRAFFITI], "Aura Breaker Color Used")}
 	),
 	&"CurseKeys": Mod.new(
-		"Curse Keys",
-		"Adds Curse and Decurse Keys from world 5 of IWL:C",
-		[&"CurseKey"]
+		"Curse/Uncurse Keys",
+		"Adds Curse and Uncurse Keys from world 5 of IWL:C",
+		{&"CurseKey": ComponentProblem.new([KeyBulk], func(component:GameComponent) -> bool: \
+			return component.type == KeyBulk.TYPE.CURSE
+		, "Curse/Uncurse Key")}
 	),
 	&"Armaments": Mod.new(
 		"Armaments",
 		"Adds Armaments from world 5 of IWL:C",
-		[&"LockArmament"]
+		{&"LockArmament": ComponentProblem.new([Lock, RemoteLock], func(component:GameComponent) -> bool: \
+			return component.armament
+		, "Lock Armament")}
 	),
 	&"RemainderLocks": Mod.new(
 		"Remainder Locks",
 		"Adds Remainder Locks from world 6 of IWL:C. Added by Bored",
-		[&"RemainderLock"]
+		{&"RemainderLock": ComponentProblem.new([Lock, RemoteLock], func(component:GameComponent) -> bool: \
+			return component.type == Lock.TYPE.REMAINDER
+		, "Remainder Lock")}
 	),
 	&"DisconnectedLocks": Mod.new(
 		"Disconnected Locks",
 		"Allows locks of a door to be visually disconnected from it",
-		[&"DisconnectedLock"], true
+		{&"DisconnectedLock": ComponentProblem.new([Lock], func(component:GameComponent) -> bool: \
+			return !Rect2(component.getOffset(), component.parent.size).intersects(Rect2(component.position, component.size))
+		, "Disconnected Lock")}, true
 	),
 	&"OutOfBounds": Mod.new(
 		"Out of Bounds",
 		"Allows objects to be placed out of level bounds",
-		[&"OutOfBounds"], true
+		{&"OutOfBounds": ComponentProblem.new([GameObject], func(component:GameComponent) -> bool: \
+			return !Game.levelBounds.intersects(Rect2(component.position, component.size))
+		, "Object Out Of Bounds")}, true
 	),
 	&"PartialInfKeys": Mod.new(
 		"Partial Infinite Keys",
 		"Adds the option for infinite keys to only become re-available every N key collects",
-		[&"PartialInfKey"]
+		{&"PartialInfKey": ComponentProblem.new([KeyBulk], func(component:GameComponent) -> bool: \
+			return component.infinite not in [0, 1]
+		, "Partial Infinite Key")}
 	),
 	&"Fractions": Mod.new(
 		"Fractions",
 		"The fractional number type",
-		[]
+		{}
 	),
 	&"Glistening": Mod.new(
 		"Glistening",
 		"Adds Glistening keys and locks. Added by Bored",
-		[&"GlisteningKey", &"GlisteningLock"]
+		{&"GlisteningKey": ComponentProblem.new([KeyBulk], func(component:GameComponent) -> bool: \
+			return component.glistening
+		, "Glistening Key"),
+		&"GlisteningLock": ComponentProblem.new([Lock, RemoteLock], func(component:GameComponent) -> bool: \
+			return component.type == Lock.TYPE.GLISTENING
+		, "Glistening Lock")}
 	),
 	&"MoreKeyCounterWidths": Mod.new(
 		"More Key Counter Widths",
 		"Adds larger sizes for key counters. Added by Bored",
-		[&"NstdKeyCounterWidth"]
+		{&"NstdKeyCounterWidth": ComponentProblem.new([KeyCounter], func(component:GameComponent) -> bool: \
+			return KeyCounter.WIDTH_AMOUNT.find(component.size.x) in [KeyCounter.WIDTH.VLONG, KeyCounter.WIDTH.EXLONG]
+		, "Nonstandard Key COunter Width")}
 	),
 	&"OperatorKeys": Mod.new(
 		"Operator Keys",
 		"Adds Operator keys and Reciprocal keys. Added by Bored",
-		[&"OperatorKey", &"ReciprocalKey"]
+		{&"OperatorKey": ComponentProblem.new([KeyBulk], func(component:GameComponent) -> bool: \
+			return component.type == KeyBulk.TYPE.OPERATOR
+		, "Operator Key"),
+		&"ReciprocalKey": ComponentProblem.new([KeyBulk], func(component:GameComponent) -> bool: \
+			return component.reciprocal
+		, "Reciprocal Key")}
 	),
 }
 
@@ -292,20 +338,20 @@ class Mod extends RefCounted:
 	var disclosatory:bool
 
 	var treeItem:ModTreeItem # for the menu
-	var problems:Dictionary[StringName, Array] # dictionary[problemtype, [gamecomponent]]
+	var problems:Dictionary[StringName, Problem] # dictionary[problemtype, [gamecomponent]]
 	var selectButton:FindProblems.ModSelectButton # for findproblems
 
-	func _init(_name:String,_description:String,_problems:Array[StringName],_disclosatory:bool=false,_dependencies:Array[StringName]=[],_incompatibilities:Array[StringName]=[]) -> void:
+	func _init(_name:String,_description:String,_problems:Dictionary[StringName,Problem],_disclosatory:bool=false,_dependencies:Array[StringName]=[],_incompatibilities:Array[StringName]=[]) -> void:
 		name = _name
 		description = _description
-		for problem in _problems: problems[problem] = []
+		problems = _problems
 		disclosatory = _disclosatory
 		dependencies = _dependencies
 		incompatibilities = _incompatibilities
 	
-	func clearProblems() -> void: for array in problems.values(): array.clear()
+	func clearProblems() -> void: for problem in problems.values(): problem.components.clear()
 	func hasProblems() -> bool:
-		for array in problems.values(): if array: return true
+		for problem in problems.values(): if problem.components: return true
 		return false
 
 class Modpack extends RefCounted:
@@ -337,3 +383,23 @@ class Version extends RefCounted:
 		description = _description
 		link = _link
 		mods = _mods
+
+class Problem extends RefCounted:
+	var name:String
+	var components:Array[GameComponent] # components with the problem
+
+class ComponentProblem extends Problem:
+	var types:Array[GDScript]
+	var checker:Callable
+
+	func _init(_types:Array[GDScript], _checker:Callable, _name:String) -> void:
+		types = _types
+		checker = _checker
+		name = _name
+
+class ColorProblem extends Problem:
+	var colors:Array[Game.COLOR]
+
+	func _init(_colors:Array[Game.COLOR], _name:String) -> void:
+		colors = _colors
+		name = _name
