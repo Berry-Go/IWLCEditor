@@ -104,7 +104,7 @@ func _draw() -> void:
 	if !active and Game.playState == Game.PLAY_STATE.PLAY: return
 	var rect:Rect2 = Rect2(Vector2.ZERO, size)
 	RenderingServer.canvas_item_add_texture_rect(drawDropShadow,Rect2(Vector2(3,3),size),getOutlineTexture(color,type,un),false,Game.DROP_SHADOW_COLOR)
-	drawKey(drawGlitch,drawMain,Vector2.ZERO,baseColor(),type,un,glitchMimic,partialInfiniteAlpha)
+	drawKey(drawGlitch,drawMain,Vector2.ZERO,getColor(COLOR_STEP.DRAW_BASE),type,un,glitchMimic,partialInfiniteAlpha)
 	if color == Game.COLOR.ERROR:
 		var errorrect:Rect2 = Rect2(Vector2(randi_range(-5,5),randi_range(-5,5)),size)
 		RenderingServer.canvas_item_add_texture_rect(drawError,errorrect,ERROR_FX.current([randi_range(0,2)]))
@@ -202,7 +202,7 @@ func stop() -> void:
 func collect(player:Player) -> void:
 	if partialInfiniteCount: return
 
-	var collectColor:Game.COLOR = effectiveColor()
+	var collectColor:Game.COLOR = getColor(COLOR_STEP.FINAL)
 
 	if glistening:
 		match type:
@@ -214,8 +214,8 @@ func collect(player:Player) -> void:
 		TYPE.NORMAL: player.changeKeys(collectColor, M.add(player.key[collectColor], count))
 		TYPE.EXACT: player.changeKeys(collectColor, count)
 		TYPE.ROTOR: player.changeKeys(collectColor, M.times(player.key[collectColor], count))
-		TYPE.STAR: GameChanges.addChange(GameChanges.StarChange.new(effectiveColor(), !un))
-		TYPE.CURSE: GameChanges.addChange(GameChanges.CurseChange.new(effectiveColor(), !un))
+		TYPE.STAR: GameChanges.addChange(GameChanges.StarChange.new(collectColor, !un))
+		TYPE.CURSE: GameChanges.addChange(GameChanges.CurseChange.new(getColor(COLOR_STEP.FINAL), !un))
 	
 	if infinite:
 		flashAnimation()
@@ -255,10 +255,20 @@ func propertyGameChangedDo(property:StringName) -> void:
 	if property == &"active":
 		%interact.process_mode = PROCESS_MODE_INHERIT if active else PROCESS_MODE_DISABLED
 
-func baseColor() -> Game.COLOR:
-	if color == Game.COLOR.ERROR: return errorMimic
-	return color
+enum COLOR_STEP {INITIAL, Error, DRAW_BASE, Glitch, FINAL}
 
-func effectiveColor() -> Game.COLOR:
-	if color == Game.COLOR.GLITCH: return glitchMimic
-	return baseColor()
+func getColor(step:COLOR_STEP) -> Game.COLOR:
+	var resultColor:Game.COLOR = color
+
+	if step < COLOR_STEP.Error: return resultColor
+	if resultColor == Game.COLOR.ERROR: return errorMimic
+
+	# DRAW_BASE
+	# the step used for drawing
+
+	if step < COLOR_STEP.Glitch: return resultColor
+	if resultColor == Game.COLOR.GLITCH: return glitchMimic
+
+	# FINAL
+	# the step used for spending
+	return resultColor
