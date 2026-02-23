@@ -215,7 +215,7 @@ func collect(player:Player) -> void:
 		TYPE.EXACT: player.changeKeys(collectColor, count)
 		TYPE.ROTOR: player.changeKeys(collectColor, M.times(player.key[collectColor], count))
 		TYPE.STAR: GameChanges.addChange(GameChanges.StarChange.new(collectColor, !un))
-		TYPE.CURSE: GameChanges.addChange(GameChanges.CurseChange.new(getColor(COLOR_STEP.FINAL), !un))
+		TYPE.CURSE: GameChanges.addChange(GameChanges.CurseChange.new(collectColor, !un))
 	
 	if infinite:
 		flashAnimation()
