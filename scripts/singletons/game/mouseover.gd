@@ -62,8 +62,8 @@ func describe(object:GameObject, pos:Vector2, screenBottomRight:Vector2) -> void
 						if lock.color == Game.COLOR.GLITCH and lock.glitchMimic != object.glitchMimic: string += ", Mimic: " + Game.COLOR_NAMES[lock.glitchMimic]
 						elif lock.color == Game.COLOR.ERROR and lock.errorMimic != object.errorMimic: string += ", Mimic: " + Game.COLOR_NAMES[lock.errorMimic]
 						string += ")"
-			if object.hasBaseColor(Game.COLOR.GLITCH): string += "\nMimic: " + Game.COLOR_NAMES[object.glitchMimic]
-			elif object.hasBaseColor(Game.COLOR.ERROR): string += "\nMimic: " + Game.COLOR_NAMES[object.errorMimic]
+			if object.hasInitialColor(Game.COLOR.GLITCH): string += "\nMimic: " + Game.COLOR_NAMES[object.glitchMimic]
+			elif object.hasInitialColor(Game.COLOR.ERROR): string += "\nMimic: " + Game.COLOR_NAMES[object.errorMimic]
 			string += effects(object)
 			
 		RemoteLock:
@@ -118,6 +118,7 @@ func effects(object:GameObject) -> String:
 		else:
 			string += "\nCursed " + Game.COLOR_NAMES[object.curseColor] + "!"
 			if object.curseColor == Game.COLOR.GLITCH: string += " (Mimic: " + Game.COLOR_NAMES[object.curseGlitchMimic] + ")"
+			elif object.curseColor == Game.COLOR.ERROR: string += " (Mimic: " + Game.COLOR_NAMES[object.curseErrorMimic] + ")"
 	if object.gameFrozen: string += "\nFrozen! (1xRed)"
 	if object.gameCrumbled: string += "\nEroded! (5xGreen)"
 	if object.gamePainted: string += "\nPainted! (3xBlue)"

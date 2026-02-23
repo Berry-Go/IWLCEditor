@@ -149,7 +149,7 @@ func _draw() -> void:
 	if !active and Game.playState == Game.PLAY_STATE.PLAY: return
 	var rect:Rect2 = Rect2(Vector2.ZERO, size)
 	RenderingServer.canvas_item_add_texture_rect(drawDropShadow,Rect2(Vector2(3,3),size),getOutlineTexture(color,type,un,operation),false,Game.DROP_SHADOW_COLOR)
-	drawKey(drawGlitch,drawMain,Vector2.ZERO,baseColor(),type,un,glitchMimic,partialInfiniteAlpha)
+	drawKey(drawGlitch,drawMain,Vector2.ZERO,getColor(COLOR_STEP.DRAW_BASE),type,un,glitchMimic,partialInfiniteAlpha)
 	if color == Game.COLOR.ERROR:
 		var errorrect:Rect2 = Rect2(Vector2(randi_range(-5,5),randi_range(-5,5)),size)
 		RenderingServer.canvas_item_add_texture_rect(drawError,errorrect,ERROR_FX.current([randi_range(0,2)]))
@@ -274,8 +274,8 @@ func stop() -> void:
 
 func collect(player:Player) -> void:
 	if partialInfiniteCount: return
-	var collectColor:Game.COLOR = effectiveColor()
-	var collectAltColor:Game.COLOR = effectiveAltColor() # for operator
+	var collectColor:Game.COLOR = getColor(COLOR_STEP.FINAL)
+	var collectAltColor:Game.COLOR = getAltColor(COLOR_STEP.FINAL) # for operator
 
 	if glistening:
 		match type:
@@ -309,7 +309,7 @@ func collect(player:Player) -> void:
 				OPERATION.MULTIPLY: player.changeKeys(collectColor, M.times(player.key[collectColor], player.key[collectAltColor]))
 				OPERATION.DIVIDE: player.changeKeys(collectColor, M.divide(player.key[collectColor], player.key[collectAltColor]))
 				OPERATION.MODULO: player.changeKeys(collectColor, M.modulo(player.key[collectColor], player.key[collectAltColor]))
-	
+
 	if infinite:
 		flashAnimation()
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"partialInfiniteCount", infinite))
@@ -348,9 +348,7 @@ func propertyGameChangedDo(property:StringName) -> void:
 	if property == &"active":
 		%interact.process_mode = PROCESS_MODE_INHERIT if active else PROCESS_MODE_DISABLED
 
-func baseColor() -> Game.COLOR:
-	if color == Game.COLOR.ERROR: return errorMimic
-	return color
+enum COLOR_STEP {INITIAL, Error, DRAW_BASE, Glitch, FINAL}
 
 func effectiveColor() -> Game.COLOR:
 	if color == Game.COLOR.GLITCH: return glitchMimic
@@ -363,3 +361,35 @@ func baseAltColor() -> Game.COLOR:
 func effectiveAltColor() -> Game.COLOR:
 	if altColor == Game.COLOR.GLITCH: return glitchMimic
 	return baseAltColor()
+
+func getColor(step:COLOR_STEP) -> Game.COLOR:
+	var resultColor:Game.COLOR = color
+
+	if step < COLOR_STEP.Error: return resultColor
+	if resultColor == Game.COLOR.ERROR: return errorMimic
+
+	# DRAW_BASE
+	# the step used for drawing
+
+	if step < COLOR_STEP.Glitch: return resultColor
+	if resultColor == Game.COLOR.GLITCH: return glitchMimic
+
+	# FINAL
+	# the step used for spending
+	return resultColor
+
+func getAltColor(step:COLOR_STEP) -> Game.COLOR:
+	var resultColor:Game.COLOR = altColor
+
+	if step < COLOR_STEP.Error: return resultColor
+	if resultColor == Game.COLOR.ERROR: return errorMimic
+
+	# DRAW_BASE
+	# the step used for drawing
+
+	if step < COLOR_STEP.Glitch: return resultColor
+	if resultColor == Game.COLOR.GLITCH: return glitchMimic
+
+	# FINAL
+	# the step used for spending
+	return resultColor
