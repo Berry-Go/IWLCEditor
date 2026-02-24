@@ -241,10 +241,10 @@ func collect(player:Player) -> void:
 	Game.setError(collectColor)
 
 func setGlitch(setColor:Game.COLOR) -> void:
-	GameChanges.addChange(GameChanges.PropertyChange.new(self, &"glitchMimic", setColor))
+	if hasInitialColor(Game.COLOR.GLITCH): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"glitchMimic", setColor))
 	queue_redraw()
 func setError(setColor:Game.COLOR) -> void:
-	GameChanges.addChange(GameChanges.PropertyChange.new(self, &"errorMimic", setColor))
+	if hasInitialColor(Game.COLOR.ERROR): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"errorMimic", setColor))
 	queue_redraw()
 
 func flashAnimation() -> void:
@@ -254,6 +254,9 @@ func flashAnimation() -> void:
 func propertyGameChangedDo(property:StringName) -> void:
 	if property == &"active":
 		%interact.process_mode = PROCESS_MODE_INHERIT if active else PROCESS_MODE_DISABLED
+
+func hasInitialColor(checkColor:Game.COLOR) -> bool:
+	return color == checkColor
 
 enum COLOR_STEP {INITIAL, Error, DRAW_BASE, Glitch, FINAL}
 

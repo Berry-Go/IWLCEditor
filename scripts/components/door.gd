@@ -817,20 +817,23 @@ func complexCheck() -> void:
 	queue_redraw()
 
 func setGlitch(setColor:Game.COLOR) -> void:
-	if !cursed or curseColor == Game.COLOR.PURE: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"glitchMimic", setColor))
+	var curseUnaffected:bool = !cursed or curseColor == Game.COLOR.PURE
+	if curseUnaffected and hasInitialColor(Game.COLOR.GLITCH): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"glitchMimic", setColor))
 	elif curseColor == Game.COLOR.GLITCH: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseGlitchMimic", setColor))
 	for lock in locks:
-		if !cursed or curseColor == Game.COLOR.PURE or lock.armament: GameChanges.addChange(GameChanges.PropertyChange.new(lock, &"glitchMimic", setColor))
+		if (curseUnaffected or lock.armament) and lock.color == Game.COLOR.GLITCH: GameChanges.addChange(GameChanges.PropertyChange.new(lock, &"glitchMimic", setColor))
 		lock.queue_redraw()
 	queue_redraw()
 	if type == TYPE.GATE:
 		gateCheck(Game.player)
 		Game.player.bufferCheckKeys() # if armaments
+
 func setError(setColor:Game.COLOR) -> void:
-	if !cursed or curseColor == Game.COLOR.PURE: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"errorMimic", setColor))
+	var curseUnaffected:bool = !cursed or curseColor == Game.COLOR.PURE
+	if curseUnaffected and hasInitialColor(Game.COLOR.ERROR): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"errorMimic", setColor))
 	elif curseColor == Game.COLOR.ERROR: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseErrorMimic", setColor))
 	for lock in locks:
-		if !cursed or curseColor == Game.COLOR.PURE or lock.armament: GameChanges.addChange(GameChanges.PropertyChange.new(lock, &"errorMimic", setColor))
+		if (curseUnaffected or lock.armament) and lock.color == Game.COLOR.ERROR: GameChanges.addChange(GameChanges.PropertyChange.new(lock, &"errorMimic", setColor))
 		lock.queue_redraw()
 	queue_redraw()
 	if type == TYPE.GATE:
