@@ -321,6 +321,7 @@ func pauseTest() -> void:
 func stopTest() -> void:
 	playState = PLAY_STATE.EDIT
 	GameChanges.saveBuffered = false
+	GameChanges.previousSaveBuffered = false
 	player.pauseFrame = true
 	won = false
 	crashState = CRASH_STATE.NONE

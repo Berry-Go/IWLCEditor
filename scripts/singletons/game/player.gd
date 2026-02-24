@@ -40,6 +40,7 @@ var curse:Array[bool]
 var glisten:Array[PackedInt64Array] = [] #your glistening count
 
 var cantSave:bool = false # cant save if near a door
+var cantSavePrevious:bool = false
 
 var masterMode:PackedInt64Array = M.ZERO
 var masterCycle:int = 0 # 0 = None, 1 = Master, 2 = Silver
@@ -173,6 +174,7 @@ func _physics_process(_delta:float) -> void:
 	if pauseFrame:
 		pauseFrame = false
 	else:
+		cantSavePrevious = cantSave
 		cantSave = false
 		for area in %near.get_overlapping_areas(): near(area)
 		for area in %interact.get_overlapping_areas(): interacted(area)
@@ -293,6 +295,7 @@ func interacted(area:Area2D) -> void:
 func near(area:Area2D) -> void:
 	var object:GameObject = area.get_parent()
 	if object is Door:
+		print(object)
 		if object.type != Door.TYPE.GATE: cantSave = true
 		if curseMode: object.curseCheck(self)
 		object.auraCheck(self)
