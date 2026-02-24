@@ -349,7 +349,7 @@ func propertyGameChangedDo(property:StringName) -> void:
 		%interact.process_mode = PROCESS_MODE_INHERIT if active else PROCESS_MODE_DISABLED
 
 func hasInitialColor(checkColor:Game.COLOR) -> bool:
-	return color == checkColor
+	return color == checkColor or (type == TYPE.OPERATOR and altColor == checkColor)
 
 enum COLOR_STEP {INITIAL, Error, DRAW_BASE, Glitch, FINAL}
 
