@@ -7,16 +7,27 @@ class_name SelectMods
 
 # the way the select tree is laid out
 static var ModTree:Array = [
-	&"PartialInfKey", &"Glistening", &"CosmicColor",
+	&"PartialInfKey", &"Glistening",
 	SubTree.new(
 		"Benign",
 		"Mods that don't do much.",
 		[&"NstdLockSize",&"MoreLockConfigs",&"ZeroCostLock",&"ZeroCopies",&"MoreKeyCounterWidths"]
 	),
 	SubTree.new(
-		"I Wanna Lockpick: Continued",
-		"Mods that were made for the I Wanna Lockpick: Continued modpack.",
-		[&"C1",&"C2",&"C3",&"C4",&"C5"]
+		"Modpacks",
+		"Mods that are based on community ideas.",
+		[
+			SubTree.new(
+				"I Wanna Lockpick: Continued",
+				"Mods that were made for the I Wanna Lockpick: Continued modpack.",
+				[&"C1",&"C2",&"C3",&"C4",&"C5"]
+			),
+			SubTree.new(
+				"Negative Worlds",
+				"(by Something) Wow.. it's like these worlds are negative,,, (so far its just error)",
+				[&"ErrorColor"]
+			),
+		]
 	),
 	SubTree.new(
 		"Lockpick Editor Compatibility",
@@ -33,9 +44,9 @@ static var ModTree:Array = [
 class SubTree extends RefCounted:
 	var label:String
 	var description:String
-	var mods:Array[StringName] # cant recurse yet; maybe at some point
+	var mods:Array
 
-	func _init(_label:String, _description:String, _mods:Array[StringName]) -> void:
+	func _init(_label:String, _description:String, _mods:Array) -> void:
 		label = _label
 		description = _description
 		mods = _mods
@@ -76,16 +87,18 @@ func updateVersions() -> void:
 
 func updateMods() -> void:
 	for child in %mods.get_children(): child.queue_free()
-	for element in ModTree:
+	addModTree(%mods, ModTree)
+
+func addModTree(root:VBoxContainer, mods:Array) -> void:
+	for element in mods:
 		if element is StringName:
-			addModTreeItem(%mods, element)
+			addModTreeItem(root, element)
 		elif element is SubTree:
-			var subTree:ModTreeSubTree = preload("res://scenes/mods/modTreeSubTree.tscn").instantiate()
-			subTree.selectMods = self
-			subTree.subTree = element
-			%mods.add_child(subTree)
-			for subElement in element.mods:
-				addModTreeItem(subTree.cont, subElement)
+			var subTreeNode:ModTreeSubTree = preload("res://scenes/mods/modTreeSubTree.tscn").instantiate()
+			subTreeNode.selectMods = self
+			subTreeNode.subTree = element
+			root.add_child(subTreeNode)
+			addModTree(subTreeNode.cont, element.mods)
 
 func addModTreeItem(root:VBoxContainer, id:StringName) -> void:
 	var item:ModTreeItem = preload("res://scenes/mods/modTreeItem.tscn").instantiate()
