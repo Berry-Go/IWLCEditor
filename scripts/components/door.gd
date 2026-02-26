@@ -505,34 +505,10 @@ func tryOpen(player:Player) -> void:
 		if player.masterCycle == 1 and tryMasterOpen(player): return
 		if player.masterCycle == 2 and tryQuicksilverOpen(player): return
 
-	if M.ex(gameCopies): # although nothing (yet) can make a door 0 copy without destroying it
-		var willCrash:bool = false
-		var wontOpen:bool = false
-		for lock in locks:
-			if !lock.canOpen(player):
-				if lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE: willCrash = true
-				else: return
-			elif lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE: wontOpen = true
-		for lock in remoteLocks:
-			if !lock.satisfied: return
-		if willCrash: Game.crash(); return
-		if wontOpen: return
-	var cost:PackedInt64Array = M.ZERO
-	var glistenCost:PackedInt64Array = M.ZERO
-	for lock in locks:
-		if lock.type == lock.TYPE.GLISTENING:
-			glistenCost = M.add(cost, lock.getCost(player))
-		else:
-			cost = M.add(cost, lock.getCost(player))
-	for lock in remoteLocks:
-		if lock.type == Lock.TYPE.GLISTENING:
-			glistenCost = M.add(cost, lock.cost)
-		else:
-			cost = M.add(cost, lock.cost)
-	
+	if not calculateCanOpen(player): return
 	var spendColor:Game.COLOR = getColor(COLOR_STEP.FINAL)
-	player.changeGlisten(spendColor, M.sub(player.glisten[spendColor], glistenCost))
-	player.changeKeys(spendColor, M.sub(player.key[spendColor],cost))
+	player.changeGlisten(spendColor, M.sub(player.glisten[spendColor], calculateGlistenCosts(player)))
+	player.changeKeys(spendColor, M.sub(player.key[spendColor], calculateCosts(player)))
 	
 	GameChanges.addChange(GameChanges.PropertyChange.new(self, &"gameCopies", M.sub(gameCopies, M.across(ipow(), M.sub(M.allAxes(), infCopies)))))
 	
@@ -574,22 +550,10 @@ func tryQuicksilverOpen(player:Player) -> bool:
 	if hasEffectiveColor(Game.COLOR.QUICKSILVER): return false
 	if hasEffectiveColor(Game.COLOR.PURE): return false
 
-	var cost:PackedInt64Array = M.ZERO
-	var glistenCost:PackedInt64Array = M.ZERO
-	for lock in locks:
-		if lock.type == lock.TYPE.GLISTENING:
-			glistenCost = M.add(cost, lock.getCost(player, player.masterMode))
-		else:
-			cost = M.add(cost, lock.getCost(player, player.masterMode))
-	for lock in remoteLocks:
-		if lock.type == Lock.TYPE.GLISTENING:
-			glistenCost = M.add(cost, lock.cost)
-		else:
-			cost = M.add(cost, lock.cost)
 	player.changeKeys(Game.COLOR.QUICKSILVER, M.sub(player.key[Game.COLOR.QUICKSILVER], player.masterMode))
 	var spendColor:Game.COLOR = getColor(COLOR_STEP.FINAL)
-	player.changeGlisten(spendColor, M.sub(player.glisten[spendColor], glistenCost))
-	player.changeKeys(spendColor, M.sub(player.key[spendColor],cost))
+	player.changeGlisten(spendColor, M.sub(player.glisten[spendColor], calculateGlistenCosts(player, player.masterMode)))
+	player.changeKeys(spendColor, M.sub(player.key[spendColor],calculateCosts(player, player.masterMode)))
 
 	AudioManager.play(preload("res://resources/sounds/door/master.wav"))
 	relockAnimation()
@@ -634,6 +598,33 @@ func tryDynamiteOpen(player:Player) -> bool:
 
 	GameChanges.bufferSave()
 	return true
+
+func calculateCanOpen(player:Player) -> bool:
+	var willCrash:bool = false
+	var canOpen:bool = true
+	if M.ex(gameCopies): # although nothing (yet) can make a door 0 copy without destroying it
+		for lock in locks:
+			if !lock.canOpen(player):
+				if lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE: willCrash = true
+				else: canOpen = false
+			elif lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE: canOpen = true
+		for lock in remoteLocks:
+			if !lock.satisfied: canOpen = false
+		if willCrash: Game.crash(); return false
+	return canOpen
+
+func calculateCosts(player:Player, costIpow:PackedInt64Array=ipow()) -> PackedInt64Array:
+	var cost:PackedInt64Array = M.ZERO
+	for lock in locks: if lock.type != lock.TYPE.GLISTENING: cost = M.add(cost, lock.getCost(player, costIpow))
+	for lock in remoteLocks: if lock.type != Lock.TYPE.GLISTENING: cost = M.add(cost, lock.getCost(player))
+
+	return cost
+
+func calculateGlistenCosts(player:Player, costIpow:PackedInt64Array=ipow()) -> PackedInt64Array:
+	var cost:PackedInt64Array = M.ZERO
+	for lock in locks: if lock.type == lock.TYPE.GLISTENING: cost = M.add(cost, lock.getCost(player, costIpow))
+	for lock in remoteLocks: if lock.type == Lock.TYPE.GLISTENING: cost = M.add(cost, lock.getCost(player))
+	return cost
 
 func hasEffectiveColor(color:Game.COLOR) -> bool:
 	if getColor(COLOR_STEP.EFFECTIVE) == color: return true
