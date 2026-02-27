@@ -2,6 +2,7 @@ extends Node
 
 var undoStack:Array[RefCounted] = []
 var saveBuffered:bool = false
+var previousSaveBuffered:bool = false
 
 static var CHANGE_TYPES:Array[GDScript] = [
 	UndoSeparator,
@@ -31,15 +32,16 @@ func addChange(change:Change) -> Change:
 	return change
 
 func process() -> void:
-	if saveBuffered and Game.player.previousIsOnFloor and Game.player.is_on_floor() and !Game.player.cantSave:
+	if previousSaveBuffered and Game.player.previousIsOnFloor and Game.player.is_on_floor() and !Game.player.cantSavePrevious:
 		saveBuffered = false
-		if undoStack[-1] is not UndoSeparator: # could happen if something buffers save on the frame before a reset
-			undoStack.append(UndoSeparator.new(Game.player.previousPosition))
+		undoStack.append(UndoSeparator.new(Game.player.previousPosition))
+	previousSaveBuffered = saveBuffered
 
 func undo() -> bool:
 	if len(undoStack) == 1: return false
 	if undoStack[-1] is UndoSeparator: undoStack.pop_back()
 	saveBuffered = false
+	previousSaveBuffered = false
 	Game.player.pauseFrame = true
 	Game.player.velocity = Vector2.ZERO
 	while true:
@@ -103,7 +105,7 @@ class UndoSeparator extends RefCounted:
 		Game.player.bufferCheckKeys()
 
 	func _to_string() -> String:
-		return "<ColorChange:"+str(color)+">"
+		return "<ColorChange:"+str(color)+"."+array()+"->"+str(after)+">"
 	
 	func serialise() -> Array: return [GameChanges.CHANGE_TYPES.find(get_script()), color, before, after]
 	static func deserialise(properties:Array) -> ColorChange:

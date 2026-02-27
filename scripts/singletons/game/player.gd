@@ -192,11 +192,10 @@ func _physics_process(_delta:float) -> void:
 		previousIsOnFloor = is_on_floor()
 
 	var onAnything:bool = false
-	for body in %floor.get_overlapping_bodies():
-		if body == Game.tiles or body.get_parent() is FloatingTile: onAnything = true; break
 	var onOpeningDoor:bool = false
-	for area in %floor.get_overlapping_areas():
-		var object = area.get_parent()
+	for body in %floor.get_overlapping_bodies():
+		var object:Node = body.get_parent()
+		if body == Game.tiles or object is FloatingTile: onAnything = true; break
 		if object is Door:
 			if object.type == Door.TYPE.GATE and object.gateOpen: continue
 			if object.type == Door.TYPE.COMBO or !object.justOpened: onAnything = true
@@ -301,10 +300,11 @@ func near(area:Area2D) -> void:
 		if curseMode: object.curseCheck(self)
 		object.auraCheck(self)
 		if curseMode: object.curseCheck(self)
+		object.auraCheck(self)
 	if object is RemoteLock:
 		cantSave = true
-		object.auraCheck(self)
 		if curseMode: object.curseCheck(self)
+		object.auraCheck(self)
 
 func overlapping(area:Area2D) -> bool: return %interact.overlaps_area(area)
 

@@ -7,12 +7,14 @@ static var RECTANGLE_COMPONENTS:Array[GDScript] = [Door, Lock, KeyCounter, Remot
 static var RESIZABLE_COMPONENTS:Array[GDScript] = [Door, Lock, KeyCounter, RemoteLock, PlaceholderObject, FloatingTile]
 
 const COLORS:int = 24
-enum COLOR {MASTER, WHITE, ORANGE, PURPLE, RED, GREEN, BLUE, PINK, CYAN, BLACK, BROWN, PURE, GLITCH, STONE, DYNAMITE, QUICKSILVER, MAROON, FOREST, NAVY, ICE, MUD, GRAFFITI, NONE, COSMIC}
-const COLOR_NAMES:Array[String] = ["Master", "White", "Orange", "Purple", "Red", "Green", "Blue", "Pink", "Cyan", "Black", "Brown", "Pure", "Glitch", "Stone", "Dynamite", "Quicksilver", "Maroon", "Forest", "Navy", "Ice", "Mud", "Graffiti", "None", "Cosmic"]
-const NONFLAT_COLORS:Array[COLOR] = [COLOR.MASTER, COLOR.PURE, COLOR.GLITCH, COLOR.STONE, COLOR.DYNAMITE, COLOR.QUICKSILVER, COLOR.NONE, COLOR.COSMIC] # colors that cant be edited in colorblind settings
-const ANIMATED_COLORS:Array[COLOR] = [COLOR.MASTER, COLOR.PURE, COLOR.DYNAMITE, COLOR.QUICKSILVER, COLOR.COSMIC]
-const TEXTURED_COLORS:Array[COLOR] = [COLOR.MASTER, COLOR.PURE, COLOR.STONE, COLOR.DYNAMITE, COLOR.QUICKSILVER, COLOR.COSMIC]
-const TILED_TEXTURED_COLORS:Array[COLOR] = [COLOR.DYNAMITE, COLOR.COSMIC]
+enum COLOR {MASTER, WHITE, ORANGE, PURPLE, RED, GREEN, BLUE, PINK, CYAN, BLACK, BROWN, PURE, GLITCH, STONE, DYNAMITE, QUICKSILVER, MAROON, FOREST, NAVY, ICE, MUD, GRAFFITI, NONE, ERROR}
+const COLOR_NAMES:Array[String] = ["Master", "White", "Orange", "Purple", "Red", "Green", "Blue", "Pink", "Cyan", "Black", "Brown", "Pure", "Glitch", "Stone", "Dynamite", "Quicksilver", "Maroon", "Forest", "Navy", "Ice", "Mud", "Graffiti", "None", "Error"]
+const NONFLAT_COLORS:Array[COLOR] = [COLOR.MASTER, COLOR.PURE, COLOR.GLITCH, COLOR.STONE, COLOR.DYNAMITE, COLOR.QUICKSILVER, COLOR.NONE, COLOR.ERROR] # colors that cant be edited in colorblind settings
+const ANIMATED_COLORS:Array[COLOR] = [COLOR.MASTER, COLOR.PURE, COLOR.DYNAMITE, COLOR.QUICKSILVER, COLOR.ERROR]
+const TEXTURED_COLORS:Array[COLOR] = [COLOR.MASTER, COLOR.PURE, COLOR.STONE, COLOR.DYNAMITE, COLOR.QUICKSILVER, COLOR.ERROR]
+const TILED_TEXTURED_COLORS:Array[COLOR] = [COLOR.DYNAMITE, COLOR.ERROR]
+
+enum COLOR_STEP {Initial, CURSE, ERROR, DrawBase, GLITCH, AURA_BREAKER, Calculate}
 
 const DROP_SHADOW_COLOR:Color = Color(Color.BLACK, 0.35)
 
@@ -36,6 +38,7 @@ const DEFAULT_HIGH:Array[Color] = [
 	Color("#d1ffff"), Color("#b57ea7"), Color("#f2e380"),
 	Color("#00000000"),
 	Color("#240a44")
+	Color("#fff")
 ]
 const BRIGHT_HIGH:Array[Color] = [
 	Color("#e7bf98"),
@@ -51,6 +54,7 @@ const BRIGHT_HIGH:Array[Color] = [
 	Color("#d1ffff"), Color("#b57ea7"), Color("#f2e380"),
 	Color("#00000000"),
 	Color("#340e62")
+	Color("#fff")
 ]
 
 var mainTone:Array[Color] = DEFAULT_MAIN.duplicate()
@@ -68,6 +72,7 @@ const DEFAULT_MAIN:Array[Color] = [
 	Color("#82f0ff"), Color("#966489"), Color("#e2c961"),
 	Color("#00000000"),
 	Color("#19072f")
+	Color("#006dff")
 ]
 const BRIGHT_MAIN:Array[Color] = [
 	Color("#d68f49"),
@@ -83,6 +88,7 @@ const BRIGHT_MAIN:Array[Color] = [
 	Color("#82f0ff"), Color("#966489"), Color("#e2c961"),
 	Color("#00000000"),
 	Color("#240a44")
+	Color("#006dff")
 ]
 
 var darkTone:Array[Color] = DEFAULT_DARK.duplicate()
@@ -100,6 +106,7 @@ const DEFAULT_DARK:Array[Color] = [
 	Color("#62b6c1"), Color("#7f4972"), Color("#c6af51"),
 	Color("#00000000"),
 	Color("#110521")
+	Color("#006dff")
 ]
 const BRIGHT_DARK:Array[Color] = [
 	Color("#9c6023"),
@@ -115,6 +122,7 @@ const BRIGHT_DARK:Array[Color] = [
 	Color("#62b6c1"), Color("#7f4972"), Color("#c6af51"),
 	Color("#00000000"),
 	Color("#19072f")
+	Color("#006dff")
 ]
 
 @onready var editor:Editor = get_node("/root/editor")
@@ -319,6 +327,7 @@ func pauseTest() -> void:
 func stopTest() -> void:
 	playState = PLAY_STATE.EDIT
 	GameChanges.saveBuffered = false
+	GameChanges.previousSaveBuffered = false
 	player.pauseFrame = true
 	won = false
 	crashState = CRASH_STATE.NONE
@@ -354,6 +363,11 @@ func setGlitch(color:COLOR) -> void:
 	for object in objects.values():
 		if object.get_script() in [KeyBulk, Door, RemoteLock]:
 			object.setGlitch(color)
+func setError(color:COLOR) -> void:
+	if color == Game.COLOR.NONE: return
+	for object in objects.values():
+		if object.get_script() in [KeyBulk, Door, RemoteLock]:
+			object.setError(color)
 
 func play() -> void:
 	if !levelStart: return Saving.errorPopup("No level start found,\nCannot play level.", "Play Error")
