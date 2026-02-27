@@ -507,6 +507,10 @@ func stop() -> void:
 	errorMimic = Game.COLOR.ERROR
 	curseErrorMimic = Game.COLOR.ERROR
 	justOpened = false
+	starred = 0
+	starredSpendGlisten = M.ZERO
+	starredSpendKey = M.ZERO
+	starredColor = Game.COLOR.WHITE
 	super()
 
 func tryOpen(player:Player) -> void:
@@ -864,8 +868,7 @@ func complexCheck() -> void:
 	queue_redraw()
 
 func setGlitch(setColor:Game.COLOR) -> void:
-	var curseUnaffected:bool = (!cursed or curseColor == Game.COLOR.PURE)
-	if starred != 0: return
+	var curseUnaffected:bool = (!cursed or curseColor == Game.COLOR.PURE) and starred == 0
 	if curseUnaffected and hasInitialColor(Game.COLOR.GLITCH): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"glitchMimic", setColor))
 	elif curseColor == Game.COLOR.GLITCH: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseGlitchMimic", setColor))
 	for lock in locks:
@@ -877,8 +880,7 @@ func setGlitch(setColor:Game.COLOR) -> void:
 		Game.player.bufferCheckKeys() # if armaments
 
 func setError(setColor:Game.COLOR) -> void:
-	var curseUnaffected:bool = (!cursed or curseColor == Game.COLOR.PURE)
-	if starred != 0: return
+	var curseUnaffected:bool = (!cursed or curseColor == Game.COLOR.PURE) and starred == 0
 	if curseUnaffected and hasInitialColor(Game.COLOR.ERROR): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"errorMimic", setColor))
 	elif curseColor == Game.COLOR.ERROR: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseErrorMimic", setColor))
 	for lock in locks:
