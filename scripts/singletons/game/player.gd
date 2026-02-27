@@ -13,9 +13,9 @@ const HELD_MASTER:Texture2D = preload("res://assets/game/player/held/master.png"
 const HELD_QUICKSILVER:Texture2D = preload("res://assets/game/player/held/quicksilver.png")
 const HELD_MASTER_NEGATIVE:Texture2D = preload("res://assets/game/player/held/masterNegative.png")
 const HELD_QUICKSILVER_NEGATIVE:Texture2D = preload("res://assets/game/player/held/quicksilverNegative.png")
-# WIP
-const HELD_COSMIC:Texture2D = preload("res://assets/game/player/held/master.png")
-const HELD_COSMIC_NEGATIVE:Texture2D = preload("res://assets/game/player/held/masterNegative.png")
+
+const HELD_COSMIC:Texture2D = preload("res://assets/game/player/held/cosmic.png")
+const HELD_COSMIC_NEGATIVE:Texture2D = preload("res://assets/game/player/held/cosmicNegative.png")
 
 
 func getHeldKeySprite() -> Texture2D:
@@ -47,6 +47,7 @@ var curse:Array[bool]
 var glisten:Array[PackedInt64Array] = [] #your glistening count
 
 var cantSave:bool = false # cant save if near a door
+var cantSavePrevious = false
 
 var masterMode:PackedInt64Array = M.ZERO
 var masterCycle:int = 0 # 0 = None, 1 = Master, 2 = Silver, 3 = Cosmic
@@ -180,6 +181,7 @@ func _physics_process(_delta:float) -> void:
 	if pauseFrame:
 		pauseFrame = false
 	else:
+		cantSavePrevious = cantSave
 		cantSave = false
 		for area in %near.get_overlapping_areas(): near(area)
 		for area in %interact.get_overlapping_areas(): interacted(area)
@@ -297,8 +299,6 @@ func near(area:Area2D) -> void:
 	var object:GameObject = area.get_parent()
 	if object is Door:
 		if object.type != Door.TYPE.GATE: cantSave = true
-		if curseMode: object.curseCheck(self)
-		object.auraCheck(self)
 		if curseMode: object.curseCheck(self)
 		object.auraCheck(self)
 	if object is RemoteLock:

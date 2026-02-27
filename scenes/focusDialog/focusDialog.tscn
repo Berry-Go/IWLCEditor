@@ -1,831 +1,216 @@
 [gd_scene format=3 uid="uid://8bth374yqwpe"]
 
 [ext_resource type="Theme" uid="uid://bvfthh0vm4fbp" path="res://resources/uiTheme.tres" id="1_eqegh"]
-[ext_resource type="Script" uid="uid://dm8t82nhqkdlc" path="res://scripts/singletons/focusDialog/focusDialog.gd" id="2_k8bto"]
-[ext_resource type="Script" uid="uid://cj40i8w460jnl" path="res://scripts/singletons/focusDialog/keyDialog.gd" id="3_b5h7e"]
-[ext_resource type="Script" uid="uid://c70juj2p5s6yd" path="res://scripts/nodes/focusDialog/selector/colorSelector.gd" id="3_wmate"]
-[ext_resource type="Script" uid="uid://dgllodap6540" path="res://scripts/nodes/focusDialog/selector/keyTypeSelector.gd" id="4_cb7cu"]
-[ext_resource type="PackedScene" uid="uid://tpxbw5vtj5nx" path="res://scenes/focusDialog/complexNumberEdit.tscn" id="5_qjvko"]
-[ext_resource type="Texture2D" uid="uid://1qmmmrn67jvq" path="res://assets/ui/focusDialog/keyBooleans/infinite.png" id="6_4u2vc"]
-[ext_resource type="Script" uid="uid://bb323bon0ten5" path="res://scripts/nodes/focusDialog/selector/keyRotorSelector.gd" id="7_q8u4b"]
-[ext_resource type="Texture2D" uid="uid://co26yexy71p71" path="res://assets/ui/focusDialog/keyBooleans/partialInfinite.png" id="8_16i1m"]
-[ext_resource type="Texture2D" uid="uid://b1rtmm8li5skq" path="res://assets/ui/focusDialog/keySplitType/star.png" id="8_mscoq"]
-[ext_resource type="Texture2D" uid="uid://dcaheb86npiio" path="res://assets/ui/focusDialog/doorType/simple.png" id="10_oii3e"]
-[ext_resource type="Texture2D" uid="uid://b6ao3k0ww6tu1" path="res://assets/ui/focusDialog/keyBooleans/glistening.png" id="10_vapyv"]
-[ext_resource type="Script" uid="uid://cq06lldmmo4k4" path="res://scripts/singletons/focusDialog/doorDialog.gd" id="11_drywk"]
-[ext_resource type="Texture2D" uid="uid://ulo77sni12v" path="res://assets/ui/focusDialog/doorType/combo.png" id="11_jwt4y"]
-[ext_resource type="Texture2D" uid="uid://bowkgmjrwugjj" path="res://assets/ui/focusDialog/doorType/gate.png" id="12_qi8n2"]
-[ext_resource type="Texture2D" uid="uid://d2tw3epi1grlq" path="res://assets/ui/focusDialog/doorType/spend.png" id="13_jwt4y"]
-[ext_resource type="Script" uid="uid://d07pxhp1r6xex" path="res://scripts/nodes/focusDialog/lockHandler.gd" id="14_31m74"]
-[ext_resource type="Script" uid="uid://dbmpg02ass72r" path="res://scripts/nodes/focusDialog/spend.gd" id="14_e2stj"]
-[ext_resource type="Script" uid="uid://cxlnmn0e36ba" path="res://scripts/nodes/focusDialog/selector/lockTypeSelector.gd" id="15_vfuuy"]
-[ext_resource type="Texture2D" uid="uid://blvji7kl64sbd" path="res://assets/ui/focusDialog/lockHandler/colorLink.png" id="17_5vlab"]
-[ext_resource type="Script" uid="uid://c71qe58ht0isn" path="res://scripts/nodes/focusDialog/configurationSelector.gd" id="17_cu8b0"]
-[ext_resource type="Texture2D" uid="uid://cc64xnxuowxqi" path="res://assets/game/door/aura/frozen1x1.png" id="19_vn3na"]
-[ext_resource type="PackedScene" uid="uid://sm362bc2r4fm" path="res://scenes/focusDialog/numberEdit.tscn" id="20_gx4cd"]
-[ext_resource type="Texture2D" uid="uid://cpqsyj5t7vigm" path="res://assets/game/door/aura/crumbled1x1.png" id="20_vn3na"]
-[ext_resource type="Texture2D" uid="uid://bar7rrr1p3a1h" path="res://assets/ui/focusDialog/lockBooleans/negated.png" id="21_bfxh1"]
-[ext_resource type="Texture2D" uid="uid://dy8u44tdg6vrv" path="res://assets/game/door/aura/painted1x1.png" id="21_drywk"]
-[ext_resource type="Script" uid="uid://cqv0og8rnwrph" path="res://scripts/nodes/focusDialog/axialNumberEdit.gd" id="21_k4n5y"]
-[ext_resource type="Texture2D" uid="uid://brhnpnqvdifb8" path="res://assets/ui/focusDialog/lockBooleans/armament.png" id="22_4u2vc"]
-[ext_resource type="Texture2D" uid="uid://dyhbxvexn1w26" path="res://assets/ui/focusDialog/blastLockSettings/negative.png" id="22_hh12n"]
-[ext_resource type="Script" uid="uid://cgjhnhjwymb8g" path="res://scripts/resources/controlExplanation.gd" id="22_s5h3h"]
-[ext_resource type="Texture2D" uid="uid://f5p4r1jp4dsm" path="res://assets/ui/focusDialog/lockBooleans/remoteLock.png" id="23_ft2jg"]
-[ext_resource type="Texture2D" uid="uid://b38kvgugo2qsu" path="res://assets/ui/focusDialog/blastLockSettings/i.png" id="23_h1xy2"]
-[ext_resource type="Texture2D" uid="uid://ddautei1wlnil" path="res://assets/ui/focusDialog/otherObjects/playtest.png" id="24_7tfe2"]
-[ext_resource type="Script" uid="uid://lbaubg2qq1s1" path="res://scripts/nodes/focusDialog/keyCounterHandler.gd" id="25_1rcup"]
-[ext_resource type="Script" uid="uid://ckcofkmbukj5o" path="res://scripts/nodes/focusDialog/selector/keyCounterWidthSelector.gd" id="25_7tfe2"]
-[ext_resource type="Texture2D" uid="uid://c1sixdrnoyq7f" path="res://assets/ui/focusDialog/numberEdit/infinite.png" id="25_hb0ue"]
-[ext_resource type="Script" uid="uid://bg8oswa2bhdsv" path="res://scripts/nodes/focusDialog/goalTypeSelector.gd" id="26_1rcup"]
-[ext_resource type="Texture2D" uid="uid://cln0osp8um3ti" path="res://assets/ui/focusDialog/numberEdit/partialBlast.png" id="29_di8ev"]
-[ext_resource type="Script" uid="uid://dihumic7k5rec" path="res://scripts/singletons/focusDialog/keyCounterDialog.gd" id="30_bfxh1"]
-[ext_resource type="Script" uid="uid://2iqmgcrc5wpq" path="res://scripts/nodes/focusDialog/doorsHandler.gd" id="31_xwnfa"]
-[ext_resource type="Script" uid="uid://b0shfyjnfk7ih" path="res://scripts/singletons/focusDialog/goalDialog.gd" id="33_di8ev"]
-[ext_resource type="Texture2D" uid="uid://cv1qa4bwwetr5" path="res://assets/ui/focusDialog/numberEdit/parenthesis.png" id="38_lm5cw"]
-[ext_resource type="Script" uid="uid://vfxgywtu3kgg" path="res://scripts/singletons/focusDialog/playerDialog.gd" id="40_p7jkh"]
-[ext_resource type="Texture2D" uid="uid://bde4hvh2i41bh" path="res://assets/ui/focusDialog/keySplitType/curse.png" id="41_ft2jg"]
+[ext_resource type="Script" uid="uid://bkauup2it2tfp" path="res://scripts/singletons/game/playGame.gd" id="1_pl6ga"]
+[ext_resource type="Script" uid="uid://q0u3f7fb1u41" path="res://scripts/nodes/aspectRatioContainer.gd" id="2_vom3a"]
+[ext_resource type="Shader" uid="uid://donorxvv474n1" path="res://resources/materials/playGame.gdshader" id="3_u4wji"]
+[ext_resource type="PackedScene" uid="uid://2hd65vn44me7" path="res://scenes/world.tscn" id="4_842y5"]
+[ext_resource type="PackedScene" uid="uid://ccqphk3fjcl1e" path="res://scenes/mouseover.tscn" id="5_qc2hf"]
+[ext_resource type="PackedScene" uid="uid://cudl265jx2hk6" path="res://scenes/gameSettings.tscn" id="7_etlns"]
 
-[sub_resource type="Resource" id="Resource_hdjws"]
-script = ExtResource("22_s5h3h")
-explanation = "[%s]Toggle infinite"
-hotkeys = Array[StringName]([&"focusKeyInfinite"])
-metadata/_custom_type_script = "uid://cgjhnhjwymb8g"
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_abwwd"]
+bg_color = Color(0, 0, 0, 1)
 
-[sub_resource type="ButtonGroup" id="ButtonGroup_oii3e"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n2d1d"]
+shader = ExtResource("3_u4wji")
+shader_parameter/pauseAnimTimer = 0.0
+shader_parameter/darken = false
 
-[sub_resource type="ButtonGroup" id="ButtonGroup_e2stj"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y4ge2"]
+bg_color = Color(0, 0, 0, 1)
 
-[sub_resource type="Resource" id="Resource_jx0iq"]
-script = ExtResource("22_s5h3h")
-explanation = "[%s]Toggle color link"
-hotkeys = Array[StringName]([&"focusDoorColorLink"])
-metadata/_custom_type_script = "uid://lwocqakgt4qr"
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wfiui"]
+bg_color = Color(0.15727392, 0.15727398, 0.15727389, 1)
 
-[sub_resource type="Resource" id="Resource_q8u4b"]
-script = ExtResource("22_s5h3h")
-explanation = "[%s]Toggle negated"
-hotkeys = Array[StringName]([&"focusLockNegated"])
-metadata/_custom_type_script = "uid://lwocqakgt4qr"
+[sub_resource type="ButtonGroup" id="ButtonGroup_y4ge2"]
 
-[sub_resource type="Resource" id="Resource_mscoq"]
-script = ExtResource("22_s5h3h")
-explanation = "[%s]Toggle armament"
-hotkeys = Array[StringName]([&"focusLockArmament"])
-metadata/_custom_type_script = "uid://lwocqakgt4qr"
+[node name="playGame" type="PanelContainer" unique_id=974390549]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_abwwd")
+script = ExtResource("1_pl6ga")
 
-[sub_resource type="Resource" id="Resource_ljt45"]
-script = ExtResource("22_s5h3h")
-explanation = "[%s]Convert to Remote Lock"
-hotkeys = Array[StringName]([&"focusLockConvertRemote"])
-metadata/_custom_type_script = "uid://cgjhnhjwymb8g"
+[node name="aspectRatioContainer" type="Container" parent="." unique_id=216354553]
+layout_mode = 2
+script = ExtResource("2_vom3a")
+metadata/_custom_type_script = "uid://q0u3f7fb1u41"
 
-[sub_resource type="Resource" id="Resource_p7jkh"]
-script = ExtResource("22_s5h3h")
-explanation = "[%s]Toggle frozen"
-hotkeys = Array[StringName]([&"focusDoorFrozen"])
-metadata/_custom_type_script = "uid://cgjhnhjwymb8g"
+[node name="gameViewportCont" type="SubViewportContainer" parent="aspectRatioContainer" unique_id=1163296198]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_n2d1d")
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+stretch = true
 
-[sub_resource type="Resource" id="Resource_ft2jg"]
-script = ExtResource("22_s5h3h")
-explanation = "[%s]Toggle crumbled"
-hotkeys = Array[StringName]([&"focusDoorCrumbled"])
-metadata/_custom_type_script = "uid://cgjhnhjwymb8g"
+[node name="gameViewport" type="SubViewport" parent="aspectRatioContainer/gameViewportCont" unique_id=1433594085]
+unique_name_in_owner = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(820, 623)
+size_2d_override = Vector2i(800, 608)
+size_2d_override_stretch = true
+render_target_update_mode = 4
 
-[sub_resource type="Resource" id="Resource_16i1m"]
-script = ExtResource("22_s5h3h")
-explanation = "[%s]Toggle painted"
-hotkeys = Array[StringName]([&"focusDoorPainted"])
-metadata/_custom_type_script = "uid://cgjhnhjwymb8g"
+[node name="Panel" type="Panel" parent="aspectRatioContainer/gameViewportCont/gameViewport" unique_id=1316509062]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_y4ge2")
 
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_di8ev"]
-content_margin_left = 4.0
-content_margin_right = 4.0
-color = Color(0.8352941, 0.8352941, 0.8352941, 1)
-grow_begin = 2.0
-grow_end = 2.0
-thickness = 2
+[node name="worldViewportCont" type="SubViewportContainer" parent="aspectRatioContainer/gameViewportCont/gameViewport" unique_id=897771345]
+unique_name_in_owner = true
+offset_right = 800.0
+offset_bottom = 608.0
 
-[sub_resource type="Resource" id="Resource_s5h3h"]
-script = ExtResource("22_s5h3h")
-explanation = "[%s]×-1"
-hotkeys = Array[StringName]([&"numberNegate"])
-metadata/_custom_type_script = "uid://lwocqakgt4qr"
+[node name="worldViewport" type="SubViewport" parent="aspectRatioContainer/gameViewportCont/gameViewport/worldViewportCont" unique_id=1938474643]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(800, 608)
+render_target_update_mode = 4
 
-[sub_resource type="Resource" id="Resource_rmnx8"]
-script = ExtResource("22_s5h3h")
-explanation = "[%s]×i"
-hotkeys = Array[StringName]([&"numberTimesI"])
-metadata/_custom_type_script = "uid://lwocqakgt4qr"
+[node name="world" parent="aspectRatioContainer/gameViewportCont/gameViewport/worldViewportCont/worldViewport" unique_id=1669920642 instance=ExtResource("4_842y5")]
+unique_name_in_owner = true
 
-[sub_resource type="ButtonGroup" id="ButtonGroup_xwnfa"]
-allow_unpress = true
+[node name="playCamera" type="Camera2D" parent="aspectRatioContainer/gameViewportCont/gameViewport/worldViewportCont/worldViewport/world" unique_id=486925955]
+unique_name_in_owner = true
+limit_left = 0
+limit_top = 0
+limit_right = 800
+limit_bottom = 608
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
 
-[sub_resource type="Resource" id="Resource_rrq8c"]
-script = ExtResource("22_s5h3h")
-explanation = "[%s]Start from this spawn"
-hotkeys = Array[StringName]([&"focusPlayerStart"])
-metadata/_custom_type_script = "uid://cgjhnhjwymb8g"
+[node name="mouseover" parent="aspectRatioContainer/gameViewportCont/gameViewport" unique_id=2030446618 instance=ExtResource("5_qc2hf")]
+unique_name_in_owner = true
 
-[sub_resource type="ButtonGroup" id="ButtonGroup_h1xy2"]
+[node name="drawParent" type="Node2D" parent="aspectRatioContainer/gameViewportCont/gameViewport" unique_id=1168904747]
+unique_name_in_owner = true
 
-[sub_resource type="Resource" id="Resource_2wjug"]
-script = ExtResource("22_s5h3h")
-explanation = "[%s]Leave savestate"
-hotkeys = Array[StringName]([&"focusPlayerSavestate"])
-metadata/_custom_type_script = "uid://cgjhnhjwymb8g"
+[node name="pauseMenu" type="Panel" parent="aspectRatioContainer/gameViewportCont/gameViewport" unique_id=1066233586]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_eqegh")
+theme_override_styles/panel = SubResource("StyleBoxFlat_wfiui")
 
-[sub_resource type="LabelSettings" id="LabelSettings_p7jkh"]
-font_size = 10
-font_color = Color(0.70519364, 0.70519364, 0.7051936, 1)
+[node name="gameSettings" parent="aspectRatioContainer/gameViewportCont/gameViewport/pauseMenu" unique_id=1574010737 instance=ExtResource("7_etlns")]
+unique_name_in_owner = true
+layout_mode = 1
+toneButtonGroup = SubResource("ButtonGroup_y4ge2")
 
-[sub_resource type="Resource" id="Resource_vapyv"]
-script = ExtResource("22_s5h3h")
-explanation = "[%s]Toggle star"
-hotkeys = Array[StringName]([&"focusPlayerStar"])
-metadata/_custom_type_script = "uid://cgjhnhjwymb8g"
+[node name="main" type="MarginContainer" parent="aspectRatioContainer/gameViewportCont/gameViewport/pauseMenu" unique_id=1384260393]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -259.0
+offset_top = -92.5
+offset_bottom = 92.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_right = 49
 
-[sub_resource type="Resource" id="Resource_lm5cw"]
-script = ExtResource("22_s5h3h")
-explanation = "[%s]Toggle curse"
-hotkeys = Array[StringName]([&"focusPlayerCurse"])
-metadata/_custom_type_script = "uid://cgjhnhjwymb8g"
+[node name="c" type="VBoxContainer" parent="aspectRatioContainer/gameViewportCont/gameViewport/pauseMenu/main" unique_id=1683743068]
+custom_minimum_size = Vector2(301, 0)
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
 
-[sub_resource type="ButtonGroup" id="ButtonGroup_7tfe2"]
-allow_unpress = true
+[node name="resume" type="Button" parent="aspectRatioContainer/gameViewportCont/gameViewport/pauseMenu/main/c" unique_id=2109884854]
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+theme_type_variation = &"RadioButtonText"
+theme_override_font_sizes/font_size = 16
+text = "Resume"
 
-[node name="focusDialog" type="Control" unique_id=504607072]
+[node name="edit" type="Button" parent="aspectRatioContainer/gameViewportCont/gameViewport/pauseMenu/main/c" unique_id=1158251695]
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+theme_type_variation = &"RadioButtonText"
+theme_override_font_sizes/font_size = 16
+text = "Edit Level"
+
+[node name="quit" type="Button" parent="aspectRatioContainer/gameViewportCont/gameViewport/pauseMenu/main/c" unique_id=1020062966]
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+theme_type_variation = &"RadioButtonText"
+theme_override_font_sizes/font_size = 16
+text = "Quit Game (Instantly)"
+
+[node name="erasePencilmarks" type="Button" parent="aspectRatioContainer/gameViewportCont/gameViewport/pauseMenu/main/c" unique_id=1423398898]
+visible = false
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+theme_type_variation = &"RadioButtonText"
+theme_override_font_sizes/font_size = 16
+text = "Erase Pencilmarks"
+
+[node name="mouseBlocker" type="Control" parent="aspectRatioContainer/gameViewportCont/gameViewport/pauseMenu" unique_id=390708940]
+unique_name_in_owner = true
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="winMenu" type="Control" parent="aspectRatioContainer/gameViewportCont/gameViewport" unique_id=2120672347]
+unique_name_in_owner = true
+visible = false
 layout_mode = 3
-anchors_preset = 0
-theme = ExtResource("1_eqegh")
-theme_type_variation = &"DialogPanelContainer"
-script = ExtResource("2_k8bto")
-
-[node name="keyDialog" type="Control" parent="." unique_id=538684455 groups=["modUI"]]
-unique_name_in_owner = true
-visible = false
-anchors_preset = 0
-script = ExtResource("3_b5h7e")
-
-[node name="c" type="PanelContainer" parent="keyDialog" unique_id=1933145102]
-custom_minimum_size = Vector2(174, 0)
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -87.0
-offset_right = 87.0
-offset_bottom = 36.0
-grow_horizontal = 2
-theme_type_variation = &"DialogPanelContainer"
-
-[node name="c" type="MarginContainer" parent="keyDialog/c" unique_id=820110612]
-layout_mode = 2
-
-[node name="c" type="VBoxContainer" parent="keyDialog/c/c" unique_id=312215880]
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="keyColorSelector" type="GridContainer" parent="keyDialog/c/c/c" unique_id=740040409 groups=["modUI"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("1_eqegh")
-script = ExtResource("3_wmate")
-metadata/_custom_type_script = "uid://c70juj2p5s6yd"
-
-[node name="c" type="HBoxContainer" parent="keyDialog/c/c/c" unique_id=457898854]
-layout_mode = 2
-alignment = 1
-
-[node name="keyTypeSelector" type="GridContainer" parent="keyDialog/c/c/c/c" unique_id=162565847 groups=["modUI"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("4_cb7cu")
-metadata/_custom_type_script = "uid://dgllodap6540"
-
-[node name="sep" type="VSeparator" parent="keyDialog/c/c/c/c" unique_id=732163152]
-layout_mode = 2
-theme_type_variation = &"VSeperatorHigh"
-
-[node name="keyInfiniteToggle" type="Button" parent="keyDialog/c/c/c/c" unique_id=1742292094 groups=["explained"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-toggle_mode = true
-icon = ExtResource("6_4u2vc")
-metadata/explanation = SubResource("Resource_hdjws")
-
-[node name="keyPartialInfinite" type="HBoxContainer" parent="keyDialog/c/c/c/c" unique_id=1803119117]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="keyPartialInfiniteSlash" type="TextureRect" parent="keyDialog/c/c/c/c/keyPartialInfinite" unique_id=1809684457]
-layout_mode = 2
-texture = ExtResource("8_16i1m")
-expand_mode = 3
-
-[node name="keyPartialInfiniteEdit" parent="keyDialog/c/c/c/c/keyPartialInfinite" unique_id=1703551654 instance=ExtResource("20_gx4cd")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-purpose = 1
-
-[node name="keyGlisteningToggle" type="Button" parent="keyDialog/c/c/c/c" unique_id=1657225081 groups=["explained"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-toggle_mode = true
-icon = ExtResource("10_vapyv")
-metadata/explanation = SubResource("Resource_hdjws")
-
-[node name="keyCountEdit" parent="keyDialog/c/c/c" unique_id=2107257614 instance=ExtResource("5_qjvko")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="keyRotorSelector" type="GridContainer" parent="keyDialog/c/c/c" unique_id=40169752]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("7_q8u4b")
-
-[node name="keyUn" type="Button" parent="keyDialog/c/c/c" unique_id=265341602]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-toggle_mode = true
-button_pressed = true
-icon = ExtResource("8_mscoq")
-
-[node name="doorDialog" type="Control" parent="." unique_id=1206125138 groups=["modUI"]]
-unique_name_in_owner = true
-visible = false
-anchors_preset = 0
-script = ExtResource("11_drywk")
-
-[node name="c" type="VBoxContainer" parent="doorDialog" unique_id=1850472094]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -87.0
-offset_right = 87.0
-offset_bottom = 40.0
-grow_horizontal = 2
-theme_override_constants/separation = 4
-
-[node name="door" type="PanelContainer" parent="doorDialog/c" unique_id=1657575624]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(182, 0)
-layout_mode = 2
-theme_type_variation = &"DialogPanelContainer"
-
-[node name="c" type="MarginContainer" parent="doorDialog/c/door" unique_id=685399445]
-layout_mode = 2
-
-[node name="c" type="HBoxContainer" parent="doorDialog/c/door/c" unique_id=1464086261]
-layout_mode = 2
-
-[node name="doorTypes" type="HBoxContainer" parent="doorDialog/c/door/c/c" unique_id=1085486274]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 4
-
-[node name="simple" type="Button" parent="doorDialog/c/door/c/c/doorTypes" unique_id=882073070]
-layout_mode = 2
-toggle_mode = true
-button_pressed = true
-button_group = SubResource("ButtonGroup_oii3e")
-icon = ExtResource("10_oii3e")
-
-[node name="combo" type="Button" parent="doorDialog/c/door/c/c/doorTypes" unique_id=1579164306]
-layout_mode = 2
-toggle_mode = true
-button_group = SubResource("ButtonGroup_oii3e")
-icon = ExtResource("11_jwt4y")
-
-[node name="gate" type="Button" parent="doorDialog/c/door/c/c/doorTypes" unique_id=1266627681]
-layout_mode = 2
-toggle_mode = true
-button_group = SubResource("ButtonGroup_oii3e")
-icon = ExtResource("12_qi8n2")
-
-[node name="sep" type="VSeparator" parent="doorDialog/c/door/c/c/doorTypes" unique_id=1068233592]
-layout_mode = 2
-
-[node name="spend" type="Button" parent="doorDialog/c/door/c/c/doorTypes" unique_id=94492553]
-unique_name_in_owner = true
-layout_mode = 2
-toggle_mode = true
-button_group = SubResource("ButtonGroup_e2stj")
-icon = ExtResource("13_jwt4y")
-script = ExtResource("14_e2stj")
-
-[node name="scroll" type="ScrollContainer" parent="doorDialog/c/door/c/c" unique_id=1101083884]
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 0
-mouse_force_pass_scroll_events = false
-
-[node name="lockHandler" type="HFlowContainer" parent="doorDialog/c/door/c/c/scroll" unique_id=1264105223]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-last_wrap_alignment = 1
-script = ExtResource("14_31m74")
-buttonGroup = SubResource("ButtonGroup_e2stj")
-
-[node name="colorLink" type="Button" parent="doorDialog/c/door/c/c/scroll/lockHandler" unique_id=1578365227 groups=["explained"]]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SelectorButton"
-toggle_mode = true
-button_pressed = true
-icon = ExtResource("17_5vlab")
-metadata/explanation = SubResource("Resource_jx0iq")
-
-[node name="lock" type="PanelContainer" parent="doorDialog/c" unique_id=1945491626]
-custom_minimum_size = Vector2(174, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_type_variation = &"DialogPanelContainer"
-
-[node name="c" type="MarginContainer" parent="doorDialog/c/lock" unique_id=807639655]
-layout_mode = 2
-
-[node name="c" type="VBoxContainer" parent="doorDialog/c/lock/c" unique_id=108508937]
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="lockConfigurationSelector" type="HBoxContainer" parent="doorDialog/c/lock/c/c" unique_id=1466233714]
-unique_name_in_owner = true
-layout_mode = 2
-alignment = 1
-script = ExtResource("17_cu8b0")
-metadata/_custom_type_script = "uid://c71qe58ht0isn"
-
-[node name="doorColorSelector" type="GridContainer" parent="doorDialog/c/lock/c/c" unique_id=612300549 groups=["modUI"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("3_wmate")
-metadata/_custom_type_script = "uid://c70juj2p5s6yd"
-
-[node name="lockSettings" type="HBoxContainer" parent="doorDialog/c/lock/c/c" unique_id=453563631]
-unique_name_in_owner = true
-layout_mode = 2
-alignment = 1
-
-[node name="lockTypeSelector" type="GridContainer" parent="doorDialog/c/lock/c/c/lockSettings" unique_id=898968259 groups=["modUI"]]
-unique_name_in_owner = true
-layout_mode = 2
-script = ExtResource("15_vfuuy")
-metadata/_custom_type_script = "uid://cxlnmn0e36ba"
-
-[node name="lockSettingsSep" type="VSeparator" parent="doorDialog/c/lock/c/c/lockSettings" unique_id=427259883]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"VSeperatorHigh"
-
-[node name="lockNegated" type="Button" parent="doorDialog/c/lock/c/c/lockSettings" unique_id=1971445719 groups=["explained"]]
-unique_name_in_owner = true
-layout_mode = 2
-toggle_mode = true
-icon = ExtResource("21_bfxh1")
-metadata/explanation = SubResource("Resource_q8u4b")
-
-[node name="lockArmament" type="Button" parent="doorDialog/c/lock/c/c/lockSettings" unique_id=408229517 groups=["explained"]]
-unique_name_in_owner = true
-layout_mode = 2
-toggle_mode = true
-icon = ExtResource("22_4u2vc")
-metadata/explanation = SubResource("Resource_mscoq")
-
-[node name="remoteLockConvert" type="Button" parent="doorDialog/c/lock/c/c/lockSettings" unique_id=1304098552 groups=["explained"]]
-unique_name_in_owner = true
-layout_mode = 2
-icon = ExtResource("23_ft2jg")
-metadata/explanation = SubResource("Resource_ljt45")
-
-[node name="doorAuraSettings" type="HBoxContainer" parent="doorDialog/c/lock/c/c" unique_id=16192028]
-unique_name_in_owner = true
-layout_mode = 2
-alignment = 1
-
-[node name="frozen" type="Button" parent="doorDialog/c/lock/c/c/doorAuraSettings" unique_id=1221504007 groups=["explained"]]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SelectorButton"
-toggle_mode = true
-icon = ExtResource("19_vn3na")
-metadata/explanation = SubResource("Resource_p7jkh")
-
-[node name="crumbled" type="Button" parent="doorDialog/c/lock/c/c/doorAuraSettings" unique_id=961008234 groups=["explained"]]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SelectorButton"
-toggle_mode = true
-icon = ExtResource("20_vn3na")
-metadata/explanation = SubResource("Resource_ft2jg")
-
-[node name="painted" type="Button" parent="doorDialog/c/lock/c/c/doorAuraSettings" unique_id=1835139374 groups=["explained"]]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SelectorButton"
-toggle_mode = true
-icon = ExtResource("21_drywk")
-metadata/explanation = SubResource("Resource_16i1m")
-
-[node name="doorCopySettings" type="HBoxContainer" parent="doorDialog/c/lock/c/c" unique_id=690871626]
-unique_name_in_owner = true
-layout_mode = 2
-alignment = 1
-
-[node name="realInfiniteCopy" type="Button" parent="doorDialog/c/lock/c/c/doorCopySettings" unique_id=826471876]
-unique_name_in_owner = true
-layout_mode = 2
-toggle_mode = true
-icon = ExtResource("25_hb0ue")
-
-[node name="doorCopiesEdit" parent="doorDialog/c/lock/c/c/doorCopySettings" unique_id=1127114799 instance=ExtResource("5_qjvko")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="imaginaryInfiniteCopy" type="Button" parent="doorDialog/c/lock/c/c/doorCopySettings" unique_id=709491226]
-unique_name_in_owner = true
-layout_mode = 2
-toggle_mode = true
-icon = ExtResource("25_hb0ue")
-
-[node name="doorAxialNumberEdit" parent="doorDialog/c/lock/c/c" unique_id=643775389 instance=ExtResource("20_gx4cd")]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(151, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("21_k4n5y")
-
-[node name="blastLockSettings" type="VBoxContainer" parent="doorDialog/c/lock/c/c" unique_id=2055272722]
-unique_name_in_owner = true
-layout_mode = 2
-alignment = 1
-
-[node name="partialBlastSettings" type="VBoxContainer" parent="doorDialog/c/lock/c/c/blastLockSettings" unique_id=1131635201]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="partialBlastNumeratorEdit" parent="doorDialog/c/lock/c/c/blastLockSettings/partialBlastSettings" unique_id=720183521 instance=ExtResource("5_qjvko")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="partialBlastSep" type="HSeparator" parent="doorDialog/c/lock/c/c/blastLockSettings/partialBlastSettings" unique_id=1939953753]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 6
-theme_override_styles/separator = SubResource("StyleBoxLine_di8ev")
-
-[node name="c" type="HBoxContainer" parent="doorDialog/c/lock/c/c/blastLockSettings" unique_id=760688557]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="isPartial" type="Button" parent="doorDialog/c/lock/c/c/blastLockSettings/c" unique_id=1530165757]
-unique_name_in_owner = true
-layout_mode = 2
-toggle_mode = true
-icon = ExtResource("29_di8ev")
-
-[node name="discreteBlastSettings" type="HBoxContainer" parent="doorDialog/c/lock/c/c/blastLockSettings/c" unique_id=1456643502]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-alignment = 1
-
-[node name="blastLockSign" type="Button" parent="doorDialog/c/lock/c/c/blastLockSettings/c/discreteBlastSettings" unique_id=906409161 groups=["explained"]]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SelectorButton"
-toggle_mode = true
-icon = ExtResource("22_hh12n")
-metadata/explanation = SubResource("Resource_s5h3h")
-
-[node name="blastLockAxis" type="Button" parent="doorDialog/c/lock/c/c/blastLockSettings/c/discreteBlastSettings" unique_id=344995792 groups=["explained"]]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SelectorButton"
-toggle_mode = true
-icon = ExtResource("23_h1xy2")
-metadata/explanation = SubResource("Resource_rmnx8")
-
-[node name="partialDenominator" type="HBoxContainer" parent="doorDialog/c/lock/c/c/blastLockSettings/c" unique_id=1469452128]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="partialBlastDenominatorEdit" parent="doorDialog/c/lock/c/c/blastLockSettings/c/partialDenominator" unique_id=15618427 instance=ExtResource("5_qjvko")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="remoteLock" type="PanelContainer" parent="doorDialog/c" unique_id=381581047]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"DialogPanelContainer"
-
-[node name="c" type="MarginContainer" parent="doorDialog/c/remoteLock" unique_id=587777913]
-layout_mode = 2
-
-[node name="scroll" type="ScrollContainer" parent="doorDialog/c/remoteLock/c" unique_id=1798076683]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-
-[node name="doorsHandler" type="HFlowContainer" parent="doorDialog/c/remoteLock/c/scroll" unique_id=32576251]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("31_xwnfa")
-buttonGroup = SubResource("ButtonGroup_xwnfa")
-metadata/_custom_type_script = "uid://2iqmgcrc5wpq"
-
-[node name="playerDialog" type="Control" parent="." unique_id=1028920322 groups=["modUI"]]
-unique_name_in_owner = true
-anchors_preset = 0
-script = ExtResource("40_p7jkh")
-
-[node name="c" type="VBoxContainer" parent="playerDialog" unique_id=1238799024]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -92.5
-offset_right = 92.5
-offset_bottom = 40.0
-grow_horizontal = 2
-theme_override_constants/separation = 4
-
-[node name="c" type="PanelContainer" parent="playerDialog/c" unique_id=467634627]
-custom_minimum_size = Vector2(174, 0)
-layout_mode = 2
-theme_type_variation = &"DialogPanelContainer"
-
-[node name="c" type="MarginContainer" parent="playerDialog/c/c" unique_id=1808720828]
-layout_mode = 2
-
-[node name="c" type="VBoxContainer" parent="playerDialog/c/c/c" unique_id=280102584]
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="playerSpawnSettings" type="VBoxContainer" parent="playerDialog/c/c/c/c" unique_id=1417747881]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="c" type="HBoxContainer" parent="playerDialog/c/c/c/c/playerSpawnSettings" unique_id=363086311]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="playTest" type="Button" parent="playerDialog/c/c/c/c/playerSpawnSettings/c" unique_id=1577978487 groups=["explained"]]
-layout_mode = 2
-size_flags_vertical = 4
-icon = ExtResource("24_7tfe2")
-metadata/explanation = SubResource("Resource_rrq8c")
-
-[node name="levelStart" type="Button" parent="playerDialog/c/c/c/c/playerSpawnSettings/c" unique_id=189377556]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"RadioButtonText"
-toggle_mode = true
-button_group = SubResource("ButtonGroup_h1xy2")
-text = "Level Start"
-
-[node name="savestate" type="Button" parent="playerDialog/c/c/c/c/playerSpawnSettings/c" unique_id=951357561]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"RadioButtonText"
-toggle_mode = true
-button_group = SubResource("ButtonGroup_h1xy2")
-text = "Savestate"
-
-[node name="playerSettings" type="VBoxContainer" parent="playerDialog/c/c/c/c" unique_id=292002503]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-
-[node name="leaveSavestate" type="Button" parent="playerDialog/c/c/c/c/playerSettings" unique_id=905176357 groups=["explained"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-theme_type_variation = &"RadioButtonText"
-text = "Leave savestate"
-metadata/explanation = SubResource("Resource_2wjug")
-
-[node name="playerStateSettings" type="VBoxContainer" parent="playerDialog/c/c/c/c" unique_id=10430987]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-
-[node name="playerUndostack" type="Label" parent="playerDialog/c/c/c/c/playerStateSettings" unique_id=2133804781]
-unique_name_in_owner = true
-layout_mode = 2
-text = "2 positions in undo stack"
-label_settings = SubResource("LabelSettings_p7jkh")
-horizontal_alignment = 1
-
-[node name="playerColorSelector" type="GridContainer" parent="playerDialog/c/c/c/c/playerStateSettings" unique_id=190976619 groups=["modUI"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("3_wmate")
-metadata/_custom_type_script = "uid://c70juj2p5s6yd"
-
-[node name="playerStateColorSettings" type="PanelContainer" parent="playerDialog/c" unique_id=4846107]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"DialogPanelContainer"
-
-[node name="c" type="MarginContainer" parent="playerDialog/c/playerStateColorSettings" unique_id=2136528159]
-layout_mode = 2
-
-[node name="c" type="VBoxContainer" parent="playerDialog/c/playerStateColorSettings/c" unique_id=890339268]
-layout_mode = 2
-
-[node name="playerKeyCountEdit" parent="playerDialog/c/playerStateColorSettings/c/c" unique_id=1084238138 instance=ExtResource("5_qjvko")]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="playerKeyGlistenCont" type="HBoxContainer" parent="playerDialog/c/playerStateColorSettings/c/c" unique_id=865961514]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="p" type="TextureRect" parent="playerDialog/c/playerStateColorSettings/c/c/playerKeyGlistenCont" unique_id=875548380]
-layout_mode = 2
-texture = ExtResource("38_lm5cw")
-
-[node name="playerKeyGlistenEdit" parent="playerDialog/c/playerStateColorSettings/c/c/playerKeyGlistenCont" unique_id=399422665 instance=ExtResource("5_qjvko")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="p2" type="TextureRect" parent="playerDialog/c/playerStateColorSettings/c/c/playerKeyGlistenCont" unique_id=1003227765]
-layout_mode = 2
-texture = ExtResource("38_lm5cw")
-flip_h = true
-
-[node name="colorSettings" type="HBoxContainer" parent="playerDialog/c/playerStateColorSettings/c/c" unique_id=750588887]
-layout_mode = 2
-alignment = 1
-
-[node name="playerStar" type="Button" parent="playerDialog/c/playerStateColorSettings/c/c/colorSettings" unique_id=178393802 groups=["explained"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-toggle_mode = true
-icon = ExtResource("8_mscoq")
-metadata/explanation = SubResource("Resource_vapyv")
-
-[node name="playerCurse" type="Button" parent="playerDialog/c/playerStateColorSettings/c/c/colorSettings" unique_id=76095913 groups=["explained"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-toggle_mode = true
-icon = ExtResource("41_ft2jg")
-metadata/explanation = SubResource("Resource_lm5cw")
-
-[node name="keyCounterDialog" type="Control" parent="." unique_id=295158797]
-unique_name_in_owner = true
-visible = false
-anchors_preset = 0
-script = ExtResource("30_bfxh1")
-
-[node name="c" type="PanelContainer" parent="keyCounterDialog" unique_id=583986146]
-layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -88.0
-offset_top = -28.0
-offset_right = 88.0
+offset_left = -300.0
+offset_top = -120.0
+offset_right = 300.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_type_variation = &"DialogPanelContainer"
+theme = ExtResource("1_eqegh")
 
-[node name="c" type="MarginContainer" parent="keyCounterDialog/c" unique_id=967377483]
-layout_mode = 2
-
-[node name="c" type="VBoxContainer" parent="keyCounterDialog/c/c" unique_id=36732370]
-layout_mode = 2
-
-[node name="keyCounterWidthSelector" type="GridContainer" parent="keyCounterDialog/c/c/c" unique_id=2056077053 groups=["modUI"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("25_7tfe2")
-
-[node name="scroll" type="ScrollContainer" parent="keyCounterDialog/c/c/c" unique_id=520671896]
-custom_minimum_size = Vector2(164, 16)
-layout_mode = 2
-mouse_filter = 0
-mouse_force_pass_scroll_events = false
-
-[node name="keyCounterHandler" type="HFlowContainer" parent="keyCounterDialog/c/c/c/scroll" unique_id=1886833265]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 0)
-layout_mode = 2
-script = ExtResource("25_1rcup")
-buttonGroup = SubResource("ButtonGroup_7tfe2")
-metadata/_custom_type_script = "uid://lbaubg2qq1s1"
-
-[node name="keyCounterColorSelector" type="GridContainer" parent="keyCounterDialog/c/c/c" unique_id=1469942818 groups=["modUI"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("3_wmate")
-metadata/_custom_type_script = "uid://c70juj2p5s6yd"
-
-[node name="goalDialog" type="Control" parent="." unique_id=1207556588]
-unique_name_in_owner = true
-visible = false
-anchors_preset = 0
-script = ExtResource("33_di8ev")
-
-[node name="c" type="PanelContainer" parent="goalDialog" unique_id=509152303]
+[node name="c" type="HBoxContainer" parent="aspectRatioContainer/gameViewportCont/gameViewport/winMenu" unique_id=370977512]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 33.0
 grow_horizontal = 2
-theme_type_variation = &"DialogPanelContainer"
+theme_override_constants/separation = 8
+alignment = 1
 
-[node name="c" type="MarginContainer" parent="goalDialog/c" unique_id=142938472]
+[node name="restart" type="Button" parent="aspectRatioContainer/gameViewportCont/gameViewport/winMenu/c" unique_id=1901374287]
+custom_minimum_size = Vector2(0, 33)
 layout_mode = 2
+theme_type_variation = &"RadioButtonText"
+theme_override_font_sizes/font_size = 16
+text = "Restart (R)"
 
-[node name="c" type="VBoxContainer" parent="goalDialog/c/c" unique_id=1983543705]
+[node name="edit" type="Button" parent="aspectRatioContainer/gameViewportCont/gameViewport/winMenu/c" unique_id=606174565]
+custom_minimum_size = Vector2(0, 33)
 layout_mode = 2
+theme_type_variation = &"RadioButtonText"
+theme_override_font_sizes/font_size = 16
+text = "Edit Level"
 
-[node name="goalTypeSelector" type="GridContainer" parent="goalDialog/c/c/c" unique_id=1778497396]
-unique_name_in_owner = true
+[node name="quit" type="Button" parent="aspectRatioContainer/gameViewportCont/gameViewport/winMenu/c" unique_id=289226071]
+custom_minimum_size = Vector2(0, 33)
 layout_mode = 2
-script = ExtResource("26_1rcup")
-metadata/_custom_type_script = "uid://bg8oswa2bhdsv"
+theme_type_variation = &"RadioButtonText"
+theme_override_font_sizes/font_size = 16
+text = "Quit Game (Instantly)"
 
-[node name="speechBubbler" type="Node2D" parent="." unique_id=1211445522]
-unique_name_in_owner = true
-
-[node name="Polygon2D" type="Polygon2D" parent="speechBubbler" unique_id=2113235186]
-color = Color(0.25490198, 0.25490198, 0.25490198, 1)
-polygon = PackedVector2Array(0, 5, 8, -3, -8, -3)
-
-[node name="Line2D" type="Line2D" parent="speechBubbler" unique_id=1533049232]
-points = PackedVector2Array(-8, -1, -6, -1, 0, 5, 6, -1, 8, -1)
-width = 2.0
-default_color = Color(0.8352941, 0.8352941, 0.8352941, 1)
-
-[connection signal="select" from="keyDialog/c/c/c/keyColorSelector" to="keyDialog" method="_keyColorSelected"]
-[connection signal="select" from="keyDialog/c/c/c/c/keyTypeSelector" to="keyDialog" method="_keyTypeSelected"]
-[connection signal="toggled" from="keyDialog/c/c/c/c/keyInfiniteToggle" to="keyDialog" method="_keyInfiniteToggled"]
-[connection signal="valueSet" from="keyDialog/c/c/c/c/keyPartialInfinite/keyPartialInfiniteEdit" to="keyDialog" method="_keyPartialInfiniteSet"]
-[connection signal="toggled" from="keyDialog/c/c/c/c/keyGlisteningToggle" to="keyDialog" method="_keyGlisteningToggled"]
-[connection signal="valueSet" from="keyDialog/c/c/c/keyCountEdit" to="keyDialog" method="_keyCountSet"]
-[connection signal="select" from="keyDialog/c/c/c/keyRotorSelector" to="keyDialog" method="_keyRotorSelected"]
-[connection signal="toggled" from="keyDialog/c/c/c/keyUn" to="keyDialog" method="_keyUnToggled"]
-[connection signal="pressed" from="doorDialog/c/door/c/c/doorTypes/simple" to="doorDialog" method="_doorTypeSelected" binds= [0]]
-[connection signal="pressed" from="doorDialog/c/door/c/c/doorTypes/combo" to="doorDialog" method="_doorTypeSelected" binds= [1]]
-[connection signal="pressed" from="doorDialog/c/door/c/c/doorTypes/gate" to="doorDialog" method="_doorTypeSelected" binds= [2]]
-[connection signal="pressed" from="doorDialog/c/door/c/c/doorTypes/spend" to="doorDialog" method="_spendSelected"]
-[connection signal="select" from="doorDialog/c/lock/c/c/lockConfigurationSelector" to="doorDialog" method="_lockConfigurationSelected"]
-[connection signal="select" from="doorDialog/c/lock/c/c/doorColorSelector" to="doorDialog" method="_doorColorSelected"]
-[connection signal="select" from="doorDialog/c/lock/c/c/lockSettings/lockTypeSelector" to="doorDialog" method="_lockTypeSelected"]
-[connection signal="toggled" from="doorDialog/c/lock/c/c/lockSettings/lockNegated" to="doorDialog" method="_lockNegatedSet"]
-[connection signal="toggled" from="doorDialog/c/lock/c/c/lockSettings/lockArmament" to="doorDialog" method="_lockArmamentSet"]
-[connection signal="pressed" from="doorDialog/c/lock/c/c/lockSettings/remoteLockConvert" to="doorDialog" method="_remoteLockConvert"]
-[connection signal="toggled" from="doorDialog/c/lock/c/c/doorAuraSettings/frozen" to="doorDialog" method="_frozenSet"]
-[connection signal="toggled" from="doorDialog/c/lock/c/c/doorAuraSettings/crumbled" to="doorDialog" method="_crumbledSet"]
-[connection signal="toggled" from="doorDialog/c/lock/c/c/doorAuraSettings/painted" to="doorDialog" method="_paintedSet"]
-[connection signal="toggled" from="doorDialog/c/lock/c/c/doorCopySettings/realInfiniteCopy" to="doorDialog" method="_doorRealInfiniteSet"]
-[connection signal="valueSet" from="doorDialog/c/lock/c/c/doorCopySettings/doorCopiesEdit" to="doorDialog" method="_doorCopiesSet"]
-[connection signal="toggled" from="doorDialog/c/lock/c/c/doorCopySettings/imaginaryInfiniteCopy" to="doorDialog" method="_doorImaginaryInfiniteSet"]
-[connection signal="valueSet" from="doorDialog/c/lock/c/c/doorAxialNumberEdit" to="doorDialog" method="_doorAxialNumberSet"]
-[connection signal="valueSet" from="doorDialog/c/lock/c/c/blastLockSettings/partialBlastSettings/partialBlastNumeratorEdit" to="doorDialog" method="partialBlastNumeratorSet"]
-[connection signal="toggled" from="doorDialog/c/lock/c/c/blastLockSettings/c/isPartial" to="doorDialog" method="_isPartialSet"]
-[connection signal="toggled" from="doorDialog/c/lock/c/c/blastLockSettings/c/discreteBlastSettings/blastLockSign" to="doorDialog" method="_blastLockSignSet"]
-[connection signal="toggled" from="doorDialog/c/lock/c/c/blastLockSettings/c/discreteBlastSettings/blastLockAxis" to="doorDialog" method="_blastLockAxisSet"]
-[connection signal="valueSet" from="doorDialog/c/lock/c/c/blastLockSettings/c/partialDenominator/partialBlastDenominatorEdit" to="doorDialog" method="partialBlastDenominatorSet"]
-[connection signal="pressed" from="playerDialog/c/c/c/c/playerSpawnSettings/c/playTest" to="playerDialog" method="_playTest"]
-[connection signal="pressed" from="playerDialog/c/c/c/c/playerSpawnSettings/c/levelStart" to="playerDialog" method="_setLevelStart"]
-[connection signal="pressed" from="playerDialog/c/c/c/c/playerSpawnSettings/c/savestate" to="playerDialog" method="_setSavestate"]
-[connection signal="pressed" from="playerDialog/c/c/c/c/playerSettings/leaveSavestate" to="playerDialog" method="_leaveSavestate"]
-[connection signal="select" from="playerDialog/c/c/c/c/playerStateSettings/playerColorSelector" to="playerDialog" method="_playerColorSelected"]
-[connection signal="valueSet" from="playerDialog/c/playerStateColorSettings/c/c/playerKeyCountEdit" to="playerDialog" method="_playerKeyCountSet"]
-[connection signal="valueSet" from="playerDialog/c/playerStateColorSettings/c/c/playerKeyGlistenCont/playerKeyGlistenEdit" to="playerDialog" method="_playerKeyGlistenSet"]
-[connection signal="toggled" from="playerDialog/c/playerStateColorSettings/c/c/colorSettings/playerStar" to="playerDialog" method="_playerStarSet"]
-[connection signal="toggled" from="playerDialog/c/playerStateColorSettings/c/c/colorSettings/playerCurse" to="playerDialog" method="_playerCurseSet"]
-[connection signal="select" from="keyCounterDialog/c/c/c/keyCounterWidthSelector" to="keyCounterDialog" method="_keyCounterWidthSelected"]
-[connection signal="select" from="keyCounterDialog/c/c/c/keyCounterColorSelector" to="keyCounterDialog" method="_keyCounterColorSelected"]
-[connection signal="select" from="goalDialog/c/c/c/goalTypeSelector" to="goalDialog" method="_goalTypeSelected"]
+[connection signal="pressed" from="aspectRatioContainer/gameViewportCont/gameViewport/pauseMenu/main/c/resume" to="." method="pause"]
+[connection signal="pressed" from="aspectRatioContainer/gameViewportCont/gameViewport/pauseMenu/main/c/edit" to="." method="editLevel"]
+[connection signal="pressed" from="aspectRatioContainer/gameViewportCont/gameViewport/pauseMenu/main/c/quit" to="." method="quit"]
+[connection signal="pressed" from="aspectRatioContainer/gameViewportCont/gameViewport/winMenu/c/restart" to="." method="restart"]
+[connection signal="pressed" from="aspectRatioContainer/gameViewportCont/gameViewport/winMenu/c/edit" to="." method="editLevel"]
+[connection signal="pressed" from="aspectRatioContainer/gameViewportCont/gameViewport/winMenu/c/quit" to="." method="quit"]

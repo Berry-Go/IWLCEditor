@@ -625,15 +625,15 @@ func tryDynamiteOpen(player:Player) -> bool:
 	return true
 	
 func tryCosmicOpen(player:Player) -> bool:
-	if hasColor(Game.COLOR.COSMIC): return false
-	if hasColor(Game.COLOR.PURE): return false
+	if hasEffectiveColor(Game.COLOR.COSMIC): return false
+	if hasEffectiveColor(Game.COLOR.PURE): return false
 	if starred == 0 and player.masterMode == M.ONE:
 		player.changeKeys(Game.COLOR.COSMIC, M.sub(player.key[Game.COLOR.COSMIC], player.masterMode))
 		if calculateCanOpen(player): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starred", 1))
 		else: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starred", -1))
-		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendKey", calculateCosts(player, false)))
-		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendGlisten", calculateCosts(player, true)))
-		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredColor", colorAfterAurabreaker()))
+		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendKey", calculateCosts(player)))
+		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendGlisten", calculateGlistenCosts(player)))
+		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredColor", getColor(COLOR_STEP.FINAL)))
 		relockAnimation()
 		GameChanges.bufferSave()
 		return true
@@ -644,20 +644,6 @@ func tryCosmicOpen(player:Player) -> bool:
 		GameChanges.bufferSave()
 		return true
 	else: return false # hopefully unreachable
-	
-func calculateCanOpen(player:Player) -> bool:
-	var willCrash:bool = false
-	var wontOpen:bool = false
-	if M.ex(gameCopies): # although nothing (yet) can make a door 0 copy without destroying it
-		for lock in locks:
-			if !lock.canOpen(player):
-				if lock.colorAfterAurabreaker() == Game.COLOR.NONE: willCrash = true
-				else: wontOpen = true
-			elif lock.colorAfterAurabreaker() == Game.COLOR.NONE: wontOpen = true
-		for lock in remoteLocks:
-			if !lock.satisfied: wontOpen = true
-		if willCrash: Game.crash(); return false
-	return not wontOpen
 
 func calculateCanOpen(player:Player) -> bool:
 	var willCrash:bool = false
@@ -761,6 +747,7 @@ func gateCheck(player:Player, starting:bool=false) -> void:
 func auraCheck(player:Player) -> void:
 	if type == TYPE.GATE: return
 	if animState != ANIM_STATE.IDLE: return
+	if starred != 0: return
 	var deAuraed:bool = false
 	if player.auraRed and gameFrozen and !hasEffectiveColor(Game.COLOR.MAROON):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gameFrozen",false))
@@ -803,6 +790,7 @@ func isAllBaseColor(color:Game.COLOR) -> bool:
 
 func curseCheck(player:Player) -> void:
 	if type == TYPE.GATE: return
+	if starred != 0: return
 	if animState != ANIM_STATE.IDLE: return
 	if hasEffectiveColor(Game.COLOR.PURE): return
 	var willCurse:bool = player.curseMode > 0 and (!cursed or (curseColor != player.curseColor and curseColor != Game.COLOR.PURE))
@@ -876,7 +864,8 @@ func complexCheck() -> void:
 	queue_redraw()
 
 func setGlitch(setColor:Game.COLOR) -> void:
-	var curseUnaffected:bool = !cursed or curseColor == Game.COLOR.PURE
+	var curseUnaffected:bool = (!cursed or curseColor == Game.COLOR.PURE)
+	if starred != 0: return
 	if curseUnaffected and hasInitialColor(Game.COLOR.GLITCH): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"glitchMimic", setColor))
 	elif curseColor == Game.COLOR.GLITCH: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseGlitchMimic", setColor))
 	for lock in locks:
@@ -888,7 +877,8 @@ func setGlitch(setColor:Game.COLOR) -> void:
 		Game.player.bufferCheckKeys() # if armaments
 
 func setError(setColor:Game.COLOR) -> void:
-	var curseUnaffected:bool = !cursed or curseColor == Game.COLOR.PURE
+	var curseUnaffected:bool = (!cursed or curseColor == Game.COLOR.PURE)
+	if starred != 0: return
 	if curseUnaffected and hasInitialColor(Game.COLOR.ERROR): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"errorMimic", setColor))
 	elif curseColor == Game.COLOR.ERROR: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseErrorMimic", setColor))
 	for lock in locks:
