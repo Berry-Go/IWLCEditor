@@ -38,18 +38,26 @@ var mouseDragStart:int = -1 # the character a mouse drag started on; -1 for not 
 
 enum TYPE {ALL, AXIAL, NONNEGATIVE_INTEGER}
 
-@export var type:TYPE = TYPE.ALL
+@export var type:TYPE = TYPE.ALL:
+	set(value):
+		type = value
+		updateRestrictionDisplay()
 @export var allowZeroI:bool = false:
 	set(value):
 		allowZeroI = value
 		if !allowZeroI: isZeroI = false
-@export var allowZero:bool = true
+		updateRestrictionDisplay()
+@export var allowZero:bool = true:
+	set(value):
+		allowZero = value
+		updateRestrictionDisplay()
 ## the parent. usually focusDialog
 @export var context:Node
 
 func _ready() -> void:
 	context.numberEdits.append(self)
 	shapedText = ts.create_shaped_text()
+	updateRestrictionDisplay()
 
 func setValue(value:PackedInt64Array) -> void:
 	text = M.strDistributeFraction(value)
@@ -62,15 +70,34 @@ func setZeroI() -> void:
 	parseText(true)
 	buildText()
 
+func convertNumbers(_from) -> void:
+	updateRestrictionDisplay()
+
+func updateRestrictionDisplay() -> void:
+	match type:
+		TYPE.ALL:
+			if M.system & M.SYSTEM.FRACTIONS: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/complexRational.png")
+			else: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/complex.png")
+		TYPE.AXIAL:
+			if M.system & M.SYSTEM.FRACTIONS: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/axialRational.png")
+			else: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/axial.png")
+		TYPE.NONNEGATIVE_INTEGER:
+			if allowZero: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/nonnegativeInteger.png")
+			else: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/positiveInteger.png")
+	%nonzero.visible = !allowZero and type != TYPE.NONNEGATIVE_INTEGER
+	%zeroi.visible = allowZeroI
+
 func interact(last:bool=false) -> void:
 	theme_type_variation = &"NumberEditPanelContainerError" if expressionErrored else &"NumberEditPanelContainerSelected"
 	if numbers: numberCaptureCursor(numbers-1 if last else 0)
 	%cursor.visible = true
+	%side.visible = true
 
 func deinteract() -> void:
 	setValue(result)
 	theme_type_variation = &"NumberEditPanelContainer"
 	%cursor.visible = false
+	%side.visible = false
 
 func parseText(manual:bool=false) -> void:
 	textLen = len(text)
@@ -435,7 +462,7 @@ func receiveUnhandledKey(key:InputEventKey) -> bool:
 					setNumber(cursorSelectedNumber, -numberValues[cursorSelectedNumber])
 					numberCaptureCursor(cursorSelectedNumber)
 				elif "0123456789".contains(character):
-					setNumber(cursorSelectedNumber, character.to_int())
+					setNumber(cursorSelectedNumber, (-1 if numberValues[cursorSelectedNumber] < 0 else 1)*character.to_int())
 					Changes.addChange(Changes.GlobalPropertyChange.new(self, &"cursorStart", numberEnds[cursorSelectedNumber]))
 					Changes.addChange(Changes.GlobalPropertyChange.new(self, &"cursorEnd", cursorStart))
 					cursorMode = CURSOR_MODE.NORMAL
@@ -462,11 +489,11 @@ func _gui_input(event:InputEvent) -> void:
 				cursorEnd = mouseDragStart
 			cursorMode = CURSOR_MODE.NORMAL
 			placeCursor()
-		if Editor.isLeftUnclick(event):
-			mouseDragStart = -1
-			if cursorStart == cursorEnd: numberCaptureCursor(numberAtIndex(mouseIndex, true))
 	var numberAtMouse:int = numberAtIndex(mouseIndex, true)
 	var tooFar:bool = mouseX > ts.shaped_text_get_width(shapedText)
+	if Editor.isLeftUnclick(event):
+			mouseDragStart = -1
+			if cursorStart == cursorEnd and !tooFar: numberCaptureCursor(numberAtMouse)
 	mouse_default_cursor_shape = Control.CURSOR_VSPLIT if mouseDragStart == -1 and numberAtMouse != -1 and !tooFar else Control.CURSOR_IBEAM
 	if numberAtMouse != -1 and event is InputEventMouseButton and event.pressed and !tooFar:
 		match event.button_index:
