@@ -28,7 +28,7 @@ var numberValues:Array[int] = []
 var numberSemiNegative:Array[bool] = [] # if a number's sign is currently inaccurate, from flipping a +/- without reparsing. saves a bit of performance
 var texts:Array[String] = [""] # one at the start and one after each number. may be empty
 var currentExpression:Array = []
-var expressionErrored:bool = false
+var expressionError:ERROR = ERROR.NONE
 var result:PackedInt64Array
 var isZeroI:bool = false
 
@@ -37,6 +37,9 @@ var shapedText:RID
 var mouseDragStart:int = -1 # the character a mouse drag started on; -1 for not currently dragging
 
 enum TYPE {ALL, AXIAL, NONNEGATIVE_INTEGER}
+
+enum ERROR {NONE, SYNTAX, NUMBER, ZERO}
+const ERROR_COLOR:Color = Color("#ff0066")
 
 @export var type:TYPE = TYPE.ALL:
 	set(value):
@@ -88,7 +91,7 @@ func updateRestrictionDisplay() -> void:
 	%zeroi.visible = allowZeroI
 
 func interact(last:bool=false) -> void:
-	theme_type_variation = &"NumberEditPanelContainerError" if expressionErrored else &"NumberEditPanelContainerSelected"
+	theme_type_variation = &"NumberEditPanelContainerError" if expressionError else &"NumberEditPanelContainerSelected"
 	if numbers: numberCaptureCursor(numbers-1 if last else 0)
 	%cursor.visible = true
 	%side.visible = true
@@ -166,21 +169,23 @@ func parseText(manual:bool=false) -> void:
 	evaluate(manual)
 
 func evaluate(manual:bool=false) -> void:
-	expressionErrored = false
+	expressionError = ERROR.NONE
 	result = evaluateExpression(currentExpression)
 	isZeroI = allowZeroI and text == "0i"
-	if !allowZero and !isZeroI and M.nex(result): expressionErrored = true
-	if !expressionErrored:
+	if !allowZero and !isZeroI and M.nex(result) and expressionError != ERROR.SYNTAX: expressionError = ERROR.ZERO
+	if !expressionError:
 		if !manual:
 			match type:
 				TYPE.ALL: valueSet.emit(result)
 				TYPE.AXIAL:
 					if M.isAxial(result): valueSet.emit(result)
-					else: expressionErrored = true
+					else: expressionError = ERROR.NUMBER
 				TYPE.NONNEGATIVE_INTEGER:
 					if M.isReal(result) and M.isInteger(result) and M.gte(result, M.ZERO): valueSet.emit(result)
-					else: expressionErrored = true
-	theme_type_variation = (&"NumberEditPanelContainerError" if expressionErrored else &"NumberEditPanelContainerSelected") if context.interacted == self else &"NumberEditPanelContainer"
+					else: expressionError = ERROR.NUMBER
+	theme_type_variation = (&"NumberEditPanelContainerError" if expressionError else &"NumberEditPanelContainerSelected") if context.interacted == self else &"NumberEditPanelContainer"
+	%type.modulate = ERROR_COLOR if expressionError == ERROR.NUMBER else Color.WHITE
+	%nonzero.modulate = ERROR_COLOR if expressionError == ERROR.ZERO else Color.WHITE
 
 enum TOKEN {NUMBER, LBRACKET, RBRACKET, CROSS, DASH, X, SLASH, I, UNKNOWN}
 enum STEP {VALUE, BRACKET, AXIS, PRODUCT, SUM} # symbol in the parsing expression grammar
@@ -330,7 +335,7 @@ func evaluateExpression(expression:Array) -> PackedInt64Array:
 		EXPRESSION.DIVIDE: return M.divide(evaluateExpression(expression[1]), evaluateExpression(expression[2]))
 		EXPRESSION.CONSTANT: return expression[1]
 		EXPRESSION.ERROR, _:
-			expressionErrored = true
+			expressionError = ERROR.SYNTAX
 			return M.ZERO
 
 func buildText() -> void:
@@ -457,8 +462,8 @@ func receiveUnhandledKey(key:InputEventKey) -> bool:
 				placeCursor()
 			CURSOR_MODE.NUMBER:
 				var character:String = char(key.unicode)
-				if Editor.eventIs(key, &"numberTimesI"): pass
-				elif Editor.eventIs(key, &"numberNegate"):
+				#if Editor.eventIs(key, &"numberTimesI"):
+				if Editor.eventIs(key, &"numberNegate"):
 					setNumber(cursorSelectedNumber, -numberValues[cursorSelectedNumber])
 					numberCaptureCursor(cursorSelectedNumber)
 				elif "0123456789".contains(character):
@@ -572,13 +577,15 @@ func numberAtIndex(index:int, strict:bool=false) -> int:
 		for number in numbers: if index >= numberStarts[number] and index <= numberEnds[number]: return number
 	return -1
 
+const CURSOR_MARGIN:int = 15
+
 func placeCursor() -> void:
 	cursorStart = clamp(cursorStart, 0, len(text))
 	cursorEnd = clamp(cursorEnd, 0, len(text))
 	%cursor.position.x = FNUMBEREDIT.get_string_size(text.substr(0,cursorStart)).x - 1
 	%cursor.size.x = FNUMBEREDIT.get_string_size(text.substr(0,cursorEnd)).x - %cursor.position.x + 1
 	var cursorEndPos:float = %cursor.position.x + %cursor.size.x
-	if cursorEndPos + %drawText.position.x + 20 > size.x:
-		%drawText.position.x = size.x - cursorEndPos - 20
-	if %cursor.position.x + %drawText.position.x < 20:
-		%drawText.position.x = min(0, -%cursor.position.x + 20)
+	if cursorEndPos + %drawText.position.x + CURSOR_MARGIN > size.x:
+		%drawText.position.x = size.x - cursorEndPos - CURSOR_MARGIN
+	if %cursor.position.x + %drawText.position.x < CURSOR_MARGIN:
+		%drawText.position.x = min(0, -%cursor.position.x + CURSOR_MARGIN)
