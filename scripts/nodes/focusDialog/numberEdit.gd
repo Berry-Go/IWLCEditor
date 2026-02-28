@@ -31,6 +31,7 @@ var currentExpression:Array = []
 var expressionError:ERROR = ERROR.NONE
 var result:PackedInt64Array
 var isZeroI:bool = false
+var baseForm:BASE_FORM = BASE_FORM.FACTORED
 
 var shapedText:RID
 @onready var ts = TextServerManager.get_primary_interface()
@@ -40,6 +41,8 @@ enum TYPE {ALL, AXIAL, NONNEGATIVE_INTEGER}
 
 enum ERROR {NONE, SYNTAX, NUMBER, ZERO}
 const ERROR_COLOR:Color = Color("#ff0066")
+
+enum BASE_FORM {FACTORED, DISTRIBUTED}
 
 @export var type:TYPE = TYPE.ALL:
 	set(value):
@@ -63,7 +66,9 @@ func _ready() -> void:
 	updateRestrictionDisplay()
 
 func setValue(value:PackedInt64Array) -> void:
-	text = M.strDistributeFraction(value)
+	match baseForm:
+		BASE_FORM.FACTORED: text = M.str(value)
+		BASE_FORM.DISTRIBUTED: text = M.strDistributeFraction(value)
 	if text == "ERROR": text = "0/0"
 	parseText(true)
 	buildText()
@@ -73,13 +78,21 @@ func setZeroI() -> void:
 	parseText(true)
 	buildText()
 
-func convertNumbers(_from) -> void:
+func convertNumbers(from:M.SYSTEM) -> void:
+	Changes.addChange(Changes.ConvertNumberChange.new(self, from, &"result"))
 	updateRestrictionDisplay()
 
 func updateRestrictionDisplay() -> void:
 	match type:
 		TYPE.ALL:
-			if M.system & M.SYSTEM.FRACTIONS: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/complexRational.png")
+			if M.system & M.SYSTEM.FRACTIONS:
+				match baseForm:
+					BASE_FORM.FACTORED:
+						%type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/complexRational.png")
+						%changeBaseForm.icon = preload("res://assets/ui/focusDialog/numberEdit/restrictions/complexRationalB.png")
+					BASE_FORM.DISTRIBUTED:
+						%type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/complexRationalB.png")
+						%changeBaseForm.icon = preload("res://assets/ui/focusDialog/numberEdit/restrictions/complexRational.png")
 			else: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/complex.png")
 		TYPE.AXIAL:
 			if M.system & M.SYSTEM.FRACTIONS: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/axialRational.png")
@@ -87,18 +100,22 @@ func updateRestrictionDisplay() -> void:
 		TYPE.NONNEGATIVE_INTEGER:
 			if allowZero: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/nonnegativeInteger.png")
 			else: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/positiveInteger.png")
+	%changeBaseForm.visible = M.system & M.SYSTEM.FRACTIONS and type == TYPE.ALL
 	%nonzero.visible = !allowZero and type != TYPE.NONNEGATIVE_INTEGER
 	%zeroi.visible = allowZeroI
+	%sideCont.size = Vector2.ZERO
 
 func interact(last:bool=false) -> void:
 	theme_type_variation = &"NumberEditPanelContainerError" if expressionError else &"NumberEditPanelContainerSelected"
 	if numbers: numberCaptureCursor(numbers-1 if last else 0)
 	%cursor.visible = true
 	%side.visible = true
+	updateRestrictionDisplay()
 
 func deinteract() -> void:
 	setValue(result)
 	theme_type_variation = &"NumberEditPanelContainer"
+	baseForm = BASE_FORM.FACTORED
 	%cursor.visible = false
 	%side.visible = false
 
@@ -589,3 +606,11 @@ func placeCursor() -> void:
 		%drawText.position.x = size.x - cursorEndPos - CURSOR_MARGIN
 	if %cursor.position.x + %drawText.position.x < CURSOR_MARGIN:
 		%drawText.position.x = min(0, -%cursor.position.x + CURSOR_MARGIN)
+
+func _baseFormChanged():
+	match baseForm:
+		BASE_FORM.FACTORED: baseForm = BASE_FORM.DISTRIBUTED
+		BASE_FORM.DISTRIBUTED: baseForm = BASE_FORM.FACTORED
+	updateRestrictionDisplay()
+	setValue(result)
+	if cursorMode == CURSOR_MODE.NUMBER: numberCaptureCursor(cursorSelectedNumber)
