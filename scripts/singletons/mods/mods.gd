@@ -86,6 +86,11 @@ static var mods:Dictionary[StringName, Mod] = {
 		"More Key Counter Widths",
 		"Adds larger sizes for key counters. Added by Bored",
 		[&"NstdKeyCounterWidth"]
+	),
+	&"CosmicColor": Mod.new(
+		"Cosmic Color",
+		"Adds the Cosmic color. Added by Bored",
+		[&"CosmicColor"]
 	)
 }
 
@@ -179,6 +184,7 @@ func colors() -> Array[Game.COLOR]:
 	if active(&"C2"): array.append_array([Game.COLOR.DYNAMITE, Game.COLOR.QUICKSILVER])
 	if active(&"C4"): array.append_array([Game.COLOR.MAROON, Game.COLOR.FOREST, Game.COLOR.NAVY, Game.COLOR.ICE, Game.COLOR.MUD, Game.COLOR.GRAFFITI])
 	if active(&"NoneColor"): array.append(Game.COLOR.NONE)
+	if active(&"CosmicColor"): array.append(Game.COLOR.COSMIC)
 	if active(&"ErrorColor"): array.append(Game.COLOR.ERROR)
 	return array
 
