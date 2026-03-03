@@ -70,12 +70,6 @@ var frozen:bool = false
 var crumbled:bool = false
 var painted:bool = false
 
-var starred:int = 0 # 0 = not starred, 1 = starred + open, -1 = starred + no open
-var starredColor:Game.COLOR = Game.COLOR.WHITE 
-var starredSpendKey:PackedInt64Array = M.ZERO
-var starredSpendGlisten:PackedInt64Array = M.ZERO
-
-
 var drawDropShadow:RID
 var drawScaled:RID # also draws aura breaker fills
 var drawAuraBreaker:RID
@@ -409,6 +403,11 @@ var glitchMimic:Game.COLOR = Game.COLOR.GLITCH
 var curseGlitchMimic:Game.COLOR = Game.COLOR.GLITCH
 var errorMimic:Game.COLOR = Game.COLOR.ERROR
 var curseErrorMimic:Game.COLOR = Game.COLOR.ERROR
+
+var starred:int = 0 # 0 = not starred, 1 = starred + open, -1 = starred + no open
+var starredColor:Game.COLOR = Game.COLOR.WHITE 
+var starredSpendKey:PackedInt64Array = M.ZERO
+var starredSpendGlisten:PackedInt64Array = M.ZERO
 
 enum ANIM_STATE {IDLE, ADD_COPY, RELOCK}
 var animState:ANIM_STATE = ANIM_STATE.IDLE
