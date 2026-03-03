@@ -437,7 +437,7 @@ func _process(delta:float) -> void:
 	if type == TYPE.GATE:
 		if gateBufferCheck and !overlappingPlayer() and !Game.player.overlapping(%interact):
 			GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gateBufferCheck",false))
-			GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gateOpen",false))
+			gateCheck(Game.player, false)
 			GameChanges.bufferSave()
 		if !gateOpen and gateAlpha < 1:
 			gateAlpha = min(gateAlpha+delta*6, 1)
@@ -672,6 +672,9 @@ func propertyGameChangedDo(property:StringName) -> void:
 	if property == &"gameCopies": complexCheck()
 
 func gateCheck(player:Player, starting:bool=false) -> void:
+	if player.overlapping(%interact):
+		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gateBufferCheck",true))
+		return
 	var shouldOpen:bool = true
 	var willCrash:bool = false
 	for lock in locks:
@@ -683,10 +686,8 @@ func gateCheck(player:Player, starting:bool=false) -> void:
 		if !lock.satisfied: shouldOpen = false
 	if shouldOpen and willCrash: Game.crash(); return
 	if gateOpen and !shouldOpen:
-		if player.overlapping(%interact): GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gateBufferCheck",true))
-		else: GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gateOpen",false))
+		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gateOpen",false))
 	elif !gateOpen and shouldOpen:
-		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gateBufferCheck",false))
 		if starting: gateOpen = true
 		else: GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gateOpen",true))
 
