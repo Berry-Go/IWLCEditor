@@ -106,15 +106,14 @@ func effects(object:GameObject) -> String:
 	if object.gameFrozen: string += "\nFrozen! (1xRed)"
 	if object.gameCrumbled: string += "\nEroded! (5xGreen)"
 	if object.gamePainted: string += "\nPainted! (3xBlue)"
-	if object.starred == 1: string += "\nStarred! (Unlocked"
-	if object.starred == -1: string += "\nStarred! (Locked"
-	if object.starred != 0: 
-		if object.hasArmament: string += ", has armament lock(s))"
-		else: string += ")"
-		string += "\n(Spends " + M.str(object.starredSpendKey)
-		if object.starredSpendGlisten != M.ZERO:
-			string += " (" + M.str(object.starredSpendGlisten) + ")"
-		if object.hasArmament: string += "+???"
+	match object.starred:
+		Door.STAR_STATE.STARRED_UNLOCKED: string += "\nStarred! (Unlocked)"
+		Door.STAR_STATE.STARRED_LOCKED: string += "\nStarred! (Locked)"
+	if object.starred != Door.STAR_STATE.UNSTARRED:
+		string += "\n    Spends " + M.str(object.starredSpendKey)
+		if M.ex(object.starredSpendGlisten):
+			string += "(" + M.str(object.starredSpendGlisten) + ")"
+		if object.hasArmamentLocks(): string += " (+ Armament locks)"
 		string += " " + Game.COLOR_NAMES[object.starredColor] + ")"
 	if string: string = "\n- Effects -" + string
 	return string
