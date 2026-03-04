@@ -45,8 +45,8 @@ const GLISTENING_SYMBOL:Texture2D = preload("res://assets/game/key/symbols/glist
 static var TEXTURE:KeyColorsTextureLoader = KeyColorsTextureLoader.new("res://assets/game/key/$c/$t.png", TEXTURE_COLORS, true, false, {capitalised=false})
 static var GLITCH:KeyColorsTextureLoader = KeyColorsTextureLoader.new("res://assets/game/key/$c/glitch$t.png", TEXTURE_COLORS, false, false, {capitalised=true})
 
-static var OPERATION_TEXTURE:OperatorColorsTextureLoader = OperatorColorsTextureLoader.new("res://assets/game/key/$c/operator/$t.png", TEXTURE_COLORS, true, false, {capitalised=false})
-static var OPERATION_GLITCH:OperatorColorsTextureLoader = OperatorColorsTextureLoader.new("res://assets/game/key/$c/operator/glitch$t.png", TEXTURE_COLORS, false, false, {capitalised=true})
+static var OPERATION_TEXTURE:OperatorColorsTextureLoader = OperatorColorsTextureLoader.new("res://assets/game/key/$c/operand/$t.png", TEXTURE_COLORS, true, false, {capitalised=false})
+static var OPERATION_GLITCH:OperatorColorsTextureLoader = OperatorColorsTextureLoader.new("res://assets/game/key/$c/operand/glitch$t.png", TEXTURE_COLORS, false, false, {capitalised=true})
 
 const FKEYBULK:Font = preload("res://resources/fonts/fKeyBulk.fnt")
 
