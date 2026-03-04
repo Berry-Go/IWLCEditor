@@ -29,7 +29,7 @@ var numberSemiNegative:Array[bool] = [] # if a number's sign is currently inaccu
 var texts:Array[String] = [""] # one at the start and one after each number. may be empty
 var currentExpression:Array = []
 var expressionError:ERROR = ERROR.NONE
-var result:PackedInt64Array
+var result:PackedInt64Array = M.ZERO
 var isZeroI:bool = false
 var baseForm:BASE_FORM = BASE_FORM.FACTORED
 
@@ -83,6 +83,7 @@ func convertNumbers(from:M.SYSTEM) -> void:
 	updateRestrictionDisplay()
 
 func updateRestrictionDisplay() -> void:
+	var explanation:String = "{ Number Edit ("
 	match type:
 		TYPE.ALL:
 			if M.system & M.SYSTEM.FRACTIONS:
@@ -93,13 +94,27 @@ func updateRestrictionDisplay() -> void:
 					BASE_FORM.DISTRIBUTED:
 						%type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/complexRationalB.png")
 						%changeBaseForm.icon = preload("res://assets/ui/focusDialog/numberEdit/restrictions/complexRational.png")
-			else: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/complex.png")
+				explanation += "Complex rational"
+			else:
+				%type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/complex.png")
+				explanation += "Complex"
 		TYPE.AXIAL:
-			if M.system & M.SYSTEM.FRACTIONS: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/axialRational.png")
-			else: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/axial.png")
+			if M.system & M.SYSTEM.FRACTIONS:
+				%type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/axialRational.png")
+				explanation += "Axial rational"
+			else:
+				%type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/axial.png")
+				explanation += "Axial"
 		TYPE.NONNEGATIVE_INTEGER:
-			if allowZero: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/nonnegativeInteger.png")
-			else: %type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/positiveInteger.png")
+			if allowZero:
+				%type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/nonnegativeInteger.png")
+				explanation += "Nonnegative integer"
+			else:
+				%type.texture = preload("res://assets/ui/focusDialog/numberEdit/restrictions/positiveInteger.png")
+				explanation += "Positive integer"
+	if !allowZero: explanation += " nonzero"
+	explanation += " number) }"
+	%restriction.get_meta(&"explanation").explanation = explanation
 	%changeBaseForm.visible = M.system & M.SYSTEM.FRACTIONS and type == TYPE.ALL
 	%nonzero.visible = !allowZero and type != TYPE.NONNEGATIVE_INTEGER
 	%zeroi.visible = allowZeroI
@@ -525,7 +540,7 @@ func _gui_input(event:InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		numberCaptureCursor(numberAtMouse)
 		placeCursor()
-
+		if self not in Explainer.explainedControls: Explainer._explain(self) # idk why it breaks explain
 
 # not sure how powerful i want these to be
 ## for ctrl+right

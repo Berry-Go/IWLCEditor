@@ -6,9 +6,24 @@
 [ext_resource type="Texture2D" uid="uid://dhgve1atblewf" path="res://assets/ui/focusDialog/numberEdit/restrictions/complexRational.png" id="4_1pxev"]
 [ext_resource type="Texture2D" uid="uid://la85kt7w7edo" path="res://assets/ui/focusDialog/numberEdit/restrictions/noZero.png" id="5_1pxev"]
 [ext_resource type="Texture2D" uid="uid://b3gkjk33cski0" path="res://assets/ui/focusDialog/numberEdit/restrictions/zeroI.png" id="6_5c4sp"]
+[ext_resource type="Script" uid="uid://cgjhnhjwymb8g" path="res://scripts/resources/controlExplanation.gd" id="6_amhd8"]
 [ext_resource type="Texture2D" uid="uid://dpqxiojndel7f" path="res://assets/ui/focusDialog/numberEdit/restrictions/complexRationalB.png" id="7_5c4sp"]
 
-[node name="numberEdit" type="PanelContainer" unique_id=231119399 groups=["hasNumbers"]]
+[sub_resource type="Resource" id="Resource_5c4sp"]
+script = ExtResource("6_amhd8")
+explanation = "{ Number Edit [Tab]Change Selection [img]res://assets/ui/explainer/mmb.png[/img][img]res://assets/ui/explainer/arrowsUD.png[/img]±1 [Enter]Evaluate }"
+metadata/_custom_type_script = "uid://cgjhnhjwymb8g"
+
+[sub_resource type="Resource" id="Resource_d2j70"]
+script = ExtResource("6_amhd8")
+metadata/_custom_type_script = "uid://cgjhnhjwymb8g"
+
+[sub_resource type="Resource" id="Resource_eo48x"]
+script = ExtResource("6_amhd8")
+explanation = "{ Number Edit (0i valid) }"
+metadata/_custom_type_script = "uid://cgjhnhjwymb8g"
+
+[node name="numberEdit" type="PanelContainer" unique_id=231119399 groups=["explained", "hasNumbers"]]
 custom_minimum_size = Vector2(70, 18)
 offset_right = 70.0
 offset_bottom = 18.0
@@ -17,6 +32,7 @@ mouse_default_cursor_shape = 1
 theme = ExtResource("1_r568y")
 theme_type_variation = &"NumberEditPanelContainer"
 script = ExtResource("2_xys7f")
+metadata/explanation = SubResource("Resource_5c4sp")
 
 [node name="c" type="Control" parent="." unique_id=1333043490]
 clip_contents = true
@@ -80,26 +96,29 @@ theme_override_constants/margin_bottom = 2
 [node name="c" type="VBoxContainer" parent="c2/side/sideCont/c2" unique_id=1505657986]
 layout_mode = 2
 
-[node name="c" type="HBoxContainer" parent="c2/side/sideCont/c2/c" unique_id=172368647]
+[node name="restriction" type="HBoxContainer" parent="c2/side/sideCont/c2/c" unique_id=172368647 groups=["explained"]]
+unique_name_in_owner = true
 layout_mode = 2
+metadata/explanation = SubResource("Resource_d2j70")
 
-[node name="type" type="TextureRect" parent="c2/side/sideCont/c2/c/c" unique_id=1299738022]
+[node name="type" type="TextureRect" parent="c2/side/sideCont/c2/c/restriction" unique_id=1299738022]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("4_1pxev")
 stretch_mode = 3
 
-[node name="nonzero" type="TextureRect" parent="c2/side/sideCont/c2/c/c" unique_id=1604953531]
+[node name="nonzero" type="TextureRect" parent="c2/side/sideCont/c2/c/restriction" unique_id=1604953531]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("5_1pxev")
 stretch_mode = 3
 
-[node name="zeroi" type="TextureRect" parent="c2/side/sideCont/c2/c/c" unique_id=825559832]
+[node name="zeroi" type="TextureRect" parent="c2/side/sideCont/c2/c/restriction" unique_id=825559832 groups=["explained"]]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("6_5c4sp")
 stretch_mode = 3
+metadata/explanation = SubResource("Resource_eo48x")
 
 [node name="changeBaseForm" type="Button" parent="c2/side/sideCont/c2/c" unique_id=738210166]
 unique_name_in_owner = true
