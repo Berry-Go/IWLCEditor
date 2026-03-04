@@ -547,6 +547,7 @@ func tryOpen(player:Player) -> void:
 
 	if M.nex(gameCopies): destroy()
 	else: relockAnimation()
+	Game.player.bufferCheckKeys()
 	GameChanges.bufferSave()
 
 func tryMasterOpen(player:Player) -> bool:
@@ -566,6 +567,7 @@ func tryMasterOpen(player:Player) -> bool:
 		addCopyAnimation()
 
 	player.dropMaster()
+	Game.player.bufferCheckKeys()
 	GameChanges.bufferSave()
 	return true
 
@@ -588,6 +590,7 @@ func tryQuicksilverOpen(player:Player) -> bool:
 	Game.setGlitch(getColor(COLOR_STEP.EFFECTIVE))
 
 	player.dropMaster()
+	Game.player.bufferCheckKeys()
 	GameChanges.bufferSave()
 
 	return true
@@ -623,6 +626,7 @@ func tryDynamiteOpen(player:Player) -> bool:
 			addCopyAnimation()
 			add_child(ExplosionParticle.new(size/2,-1))
 
+	Game.player.bufferCheckKeys()
 	GameChanges.bufferSave()
 	return true
 
@@ -637,18 +641,16 @@ func tryCosmicOpen(player:Player) -> bool:
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendGlisten", calculateCosts(player, ipow(), true, false, true)))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredColor", getColor(COLOR_STEP.FINAL)))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredipow", ipow()))
-		relockAnimation()
-		player.dropMaster()
-		GameChanges.bufferSave()
 		return true
 	elif starred != STAR_STATE.UNSTARRED and player.masterMode == M.nONE:
 		player.changeKeys(Game.COLOR.COSMIC, M.sub(player.key[Game.COLOR.COSMIC], player.masterMode))
-		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starred", 0))
-		relockAnimation()
-		player.dropMaster()
-		GameChanges.bufferSave()
-		return true
-	return false
+		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starred", STAR_STATE.UNSTARRED))
+	else: return false
+	relockAnimation()
+	player.dropMaster()
+	Game.player.bufferCheckKeys()
+	GameChanges.bufferSave()
+	return true
 
 func checkCanOpen(player:Player, checkNonarmamentLocks:bool=true, checkArmamentLocks:bool=true, checkCrash:bool=true) -> bool:
 	var willCrash:bool = false
