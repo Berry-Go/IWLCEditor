@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ugjjf3d0yr3y"
-path="res://.godot/imported/multiply9.png-1e67a34e1eea23bc3806529863eef12b.ctex"
+path="res://.godot/imported/multiply9.png-046fc4cde24fb91dc091b4968a831d56.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/dynamite/operator/multiply9.png"
-dest_files=["res://.godot/imported/multiply9.png-1e67a34e1eea23bc3806529863eef12b.ctex"]
+source_file="res://assets/game/key/dynamite/operand/multiply9.png"
+dest_files=["res://.godot/imported/multiply9.png-046fc4cde24fb91dc091b4968a831d56.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://by4j747oyv53u"
-path="res://.godot/imported/modulo.png-27ad1360b65f3f3c698f1468c31a35aa.ctex"
+path="res://.godot/imported/modulo.png-14e742354ec6558939cb2b8bb119372a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/stone/operator/modulo.png"
-dest_files=["res://.godot/imported/modulo.png-27ad1360b65f3f3c698f1468c31a35aa.ctex"]
+source_file="res://assets/game/key/stone/operand/modulo.png"
+dest_files=["res://.godot/imported/modulo.png-14e742354ec6558939cb2b8bb119372a.ctex"]
 
 [params]
 

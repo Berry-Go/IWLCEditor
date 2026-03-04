@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cjd1c3dysup4h"
-path="res://.godot/imported/set3.png-ba565b0199b9995bf755084d3a6280d1.ctex"
+path="res://.godot/imported/set3.png-7f833b0bfc70c63f7c76274f0bbb7182.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/quicksilver/operator/set3.png"
-dest_files=["res://.godot/imported/set3.png-ba565b0199b9995bf755084d3a6280d1.ctex"]
+source_file="res://assets/game/key/quicksilver/operand/set3.png"
+dest_files=["res://.godot/imported/set3.png-7f833b0bfc70c63f7c76274f0bbb7182.ctex"]
 
 [params]
 

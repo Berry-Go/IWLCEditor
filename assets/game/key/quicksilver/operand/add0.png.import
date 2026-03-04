@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c5tyf8rgo858s"
-path="res://.godot/imported/add0.png-3899838c9d01cf87d18ec2cd68e46c44.ctex"
+path="res://.godot/imported/add0.png-228625b567be221577ba1770e5cdbf59.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/quicksilver/operator/add0.png"
-dest_files=["res://.godot/imported/add0.png-3899838c9d01cf87d18ec2cd68e46c44.ctex"]
+source_file="res://assets/game/key/quicksilver/operand/add0.png"
+dest_files=["res://.godot/imported/add0.png-228625b567be221577ba1770e5cdbf59.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c8s7tdiqgxwts"
-path="res://.godot/imported/set2.png-d40a2d3ca153a144eb45c2eab831da42.ctex"
+path="res://.godot/imported/set2.png-e9003a234aab34c3aac464684139a156.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/dynamite/operator/set2.png"
-dest_files=["res://.godot/imported/set2.png-d40a2d3ca153a144eb45c2eab831da42.ctex"]
+source_file="res://assets/game/key/dynamite/operand/set2.png"
+dest_files=["res://.godot/imported/set2.png-e9003a234aab34c3aac464684139a156.ctex"]
 
 [params]
 

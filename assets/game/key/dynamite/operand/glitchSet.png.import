@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://8u3d6dnosk2l"
-path="res://.godot/imported/glitchSet.png-3b7e31a23655c945e76c160a04bfe420.ctex"
+path="res://.godot/imported/glitchSet.png-45f91292f9b2d6b31b10d0f2f1af1c19.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/dynamite/operator/glitchSet.png"
-dest_files=["res://.godot/imported/glitchSet.png-3b7e31a23655c945e76c160a04bfe420.ctex"]
+source_file="res://assets/game/key/dynamite/operand/glitchSet.png"
+dest_files=["res://.godot/imported/glitchSet.png-45f91292f9b2d6b31b10d0f2f1af1c19.ctex"]
 
 [params]
 

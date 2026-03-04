@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b1hrelc6y420v"
-path="res://.godot/imported/glitchSet.png-b00c5a85ee45bf63593f432d69483572.ctex"
+path="res://.godot/imported/glitchSet.png-ebef80a579be58c8f6566d9d38fc97f1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/ice/operator/glitchSet.png"
-dest_files=["res://.godot/imported/glitchSet.png-b00c5a85ee45bf63593f432d69483572.ctex"]
+source_file="res://assets/game/key/ice/operand/glitchSet.png"
+dest_files=["res://.godot/imported/glitchSet.png-ebef80a579be58c8f6566d9d38fc97f1.ctex"]
 
 [params]
 

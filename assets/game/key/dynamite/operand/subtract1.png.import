@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://nypw2orokj6b"
-path="res://.godot/imported/subtract1.png-b46612695109c4c0dabcf91998267b7f.ctex"
+path="res://.godot/imported/subtract1.png-b57fc17b2de4d44ae8d2a100a002ddf4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/dynamite/operator/subtract1.png"
-dest_files=["res://.godot/imported/subtract1.png-b46612695109c4c0dabcf91998267b7f.ctex"]
+source_file="res://assets/game/key/dynamite/operand/subtract1.png"
+dest_files=["res://.godot/imported/subtract1.png-b57fc17b2de4d44ae8d2a100a002ddf4.ctex"]
 
 [params]
 

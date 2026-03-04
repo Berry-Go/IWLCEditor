@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bddlji1pdaq6m"
-path="res://.godot/imported/glitchAdd.png-08ce8721daf10bb0eda91327f7ddcd3a.ctex"
+path="res://.godot/imported/glitchAdd.png-74ef35ed1ed5389c8272a25e2b3447f6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/stone/operator/glitchAdd.png"
-dest_files=["res://.godot/imported/glitchAdd.png-08ce8721daf10bb0eda91327f7ddcd3a.ctex"]
+source_file="res://assets/game/key/stone/operand/glitchAdd.png"
+dest_files=["res://.godot/imported/glitchAdd.png-74ef35ed1ed5389c8272a25e2b3447f6.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dahkfs3i4hgt7"
-path="res://.godot/imported/glitchSubtract.png-2a05ede6aec41f157a202af1060fb5c7.ctex"
+path="res://.godot/imported/glitchSubtract.png-47742b4fd1bd4aaba2757c033cd7a706.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/mud/operator/glitchSubtract.png"
-dest_files=["res://.godot/imported/glitchSubtract.png-2a05ede6aec41f157a202af1060fb5c7.ctex"]
+source_file="res://assets/game/key/mud/operand/glitchSubtract.png"
+dest_files=["res://.godot/imported/glitchSubtract.png-47742b4fd1bd4aaba2757c033cd7a706.ctex"]
 
 [params]
 

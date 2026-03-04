@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cnsushif7wpsg"
-path="res://.godot/imported/glitchDivide.png-316619db10ba32c6032853ac0080ee07.ctex"
+path="res://.godot/imported/glitchDivide.png-1fdec642f4adac91e7c2d887178e3427.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/master/operator/glitchDivide.png"
-dest_files=["res://.godot/imported/glitchDivide.png-316619db10ba32c6032853ac0080ee07.ctex"]
+source_file="res://assets/game/key/master/operand/glitchDivide.png"
+dest_files=["res://.godot/imported/glitchDivide.png-1fdec642f4adac91e7c2d887178e3427.ctex"]
 
 [params]
 

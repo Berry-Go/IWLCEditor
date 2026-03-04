@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cvsavagvl5mkm"
-path="res://.godot/imported/modulo3.png-31151140f37b377789a4c158f52fb46c.ctex"
+path="res://.godot/imported/modulo3.png-7ff558bb44be07a8339911816315c649.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/pure/operator/modulo3.png"
-dest_files=["res://.godot/imported/modulo3.png-31151140f37b377789a4c158f52fb46c.ctex"]
+source_file="res://assets/game/key/pure/operand/modulo3.png"
+dest_files=["res://.godot/imported/modulo3.png-7ff558bb44be07a8339911816315c649.ctex"]
 
 [params]
 

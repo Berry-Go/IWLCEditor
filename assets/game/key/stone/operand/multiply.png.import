@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://rrv5twelbxbh"
-path="res://.godot/imported/multiply.png-53874b277a7d28e5ced650804d184892.ctex"
+path="res://.godot/imported/multiply.png-68c8661b7954dac358d864c049499eae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/stone/operator/multiply.png"
-dest_files=["res://.godot/imported/multiply.png-53874b277a7d28e5ced650804d184892.ctex"]
+source_file="res://assets/game/key/stone/operand/multiply.png"
+dest_files=["res://.godot/imported/multiply.png-68c8661b7954dac358d864c049499eae.ctex"]
 
 [params]
 

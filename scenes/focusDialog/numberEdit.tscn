@@ -11,7 +11,8 @@
 
 [sub_resource type="Resource" id="Resource_5c4sp"]
 script = ExtResource("6_amhd8")
-explanation = "{ Number Edit [Tab]Change Selection [img]res://assets/ui/explainer/mmb.png[/img][img]res://assets/ui/explainer/arrowsUD.png[/img]±1 [Enter]Evaluate }"
+explanation = "{ Number Edit [img]res://assets/ui/explainer/mmb.png[/img][img]res://assets/ui/explainer/arrowsUD.png[/img]±1 [%s]×-1 [%s]×i [Tab]Next [%s]Evaluate }"
+hotkeys = Array[StringName]([&"numberNegate", &"numberTimesI", &"numberEvaluate"])
 metadata/_custom_type_script = "uid://cgjhnhjwymb8g"
 
 [sub_resource type="Resource" id="Resource_d2j70"]

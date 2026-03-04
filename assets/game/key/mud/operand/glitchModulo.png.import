@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dvm5baxybktmx"
-path="res://.godot/imported/glitchModulo.png-c579bf6ce74707ac873a27b1a3a16ca0.ctex"
+path="res://.godot/imported/glitchModulo.png-12ee12e51ab6ea1d073d401923bacd04.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/mud/operator/glitchModulo.png"
-dest_files=["res://.godot/imported/glitchModulo.png-c579bf6ce74707ac873a27b1a3a16ca0.ctex"]
+source_file="res://assets/game/key/mud/operand/glitchModulo.png"
+dest_files=["res://.godot/imported/glitchModulo.png-12ee12e51ab6ea1d073d401923bacd04.ctex"]
 
 [params]
 

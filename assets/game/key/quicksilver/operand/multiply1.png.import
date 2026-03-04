@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://vxvnq45g22ws"
-path="res://.godot/imported/multiply1.png-2fd95da97d75b8f817c5d94e89573ba6.ctex"
+path="res://.godot/imported/multiply1.png-a6e60fdc3c244598bf3ff62713788daa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/quicksilver/operator/multiply1.png"
-dest_files=["res://.godot/imported/multiply1.png-2fd95da97d75b8f817c5d94e89573ba6.ctex"]
+source_file="res://assets/game/key/quicksilver/operand/multiply1.png"
+dest_files=["res://.godot/imported/multiply1.png-a6e60fdc3c244598bf3ff62713788daa.ctex"]
 
 [params]
 

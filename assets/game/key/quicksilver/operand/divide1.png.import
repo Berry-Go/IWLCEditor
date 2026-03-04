@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://4vccjhmok7pg"
-path="res://.godot/imported/divide1.png-75d5ef35ab5cc0c242eb54e204e40be5.ctex"
+path="res://.godot/imported/divide1.png-0e0d2b4b76cfb0e5cb0c6b889199bdb4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/quicksilver/operator/divide1.png"
-dest_files=["res://.godot/imported/divide1.png-75d5ef35ab5cc0c242eb54e204e40be5.ctex"]
+source_file="res://assets/game/key/quicksilver/operand/divide1.png"
+dest_files=["res://.godot/imported/divide1.png-0e0d2b4b76cfb0e5cb0c6b889199bdb4.ctex"]
 
 [params]
 

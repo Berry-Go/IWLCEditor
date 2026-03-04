@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dkbmwk0enj2po"
-path="res://.godot/imported/glitchMultiply.png-a22a1a373a274810f8d88c289070c4ce.ctex"
+path="res://.godot/imported/glitchMultiply.png-cba61a1cb225abb402834aae9eef8242.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/pure/operator/glitchMultiply.png"
-dest_files=["res://.godot/imported/glitchMultiply.png-a22a1a373a274810f8d88c289070c4ce.ctex"]
+source_file="res://assets/game/key/pure/operand/glitchMultiply.png"
+dest_files=["res://.godot/imported/glitchMultiply.png-cba61a1cb225abb402834aae9eef8242.ctex"]
 
 [params]
 

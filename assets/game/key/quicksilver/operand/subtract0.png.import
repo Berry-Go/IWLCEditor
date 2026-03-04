@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c068diiq7r5rj"
-path="res://.godot/imported/subtract0.png-4585eb8733779f3702b718991f95a9d6.ctex"
+path="res://.godot/imported/subtract0.png-26965a016dddf6f53a34f9596ad57b0e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/quicksilver/operator/subtract0.png"
-dest_files=["res://.godot/imported/subtract0.png-4585eb8733779f3702b718991f95a9d6.ctex"]
+source_file="res://assets/game/key/quicksilver/operand/subtract0.png"
+dest_files=["res://.godot/imported/subtract0.png-26965a016dddf6f53a34f9596ad57b0e.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://jmhfpqpk37a3"
-path="res://.godot/imported/multiply1.png-a3b050ce9384c6da775026bbb3e3a048.ctex"
+path="res://.godot/imported/multiply1.png-716f5682536d44e75b6f39b9daf6be08.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/pure/operator/multiply1.png"
-dest_files=["res://.godot/imported/multiply1.png-a3b050ce9384c6da775026bbb3e3a048.ctex"]
+source_file="res://assets/game/key/pure/operand/multiply1.png"
+dest_files=["res://.godot/imported/multiply1.png-716f5682536d44e75b6f39b9daf6be08.ctex"]
 
 [params]
 

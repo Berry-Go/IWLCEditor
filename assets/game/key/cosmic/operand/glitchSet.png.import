@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cmr7s0d2eof1w"
-path="res://.godot/imported/glitchSet.png-6250aa897f3b996a339a2f8a53f12195.ctex"
+path="res://.godot/imported/glitchSet.png-77a8b2a15cd9bcfd7a67b0112c1b1886.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/cosmic/operator/glitchSet.png"
-dest_files=["res://.godot/imported/glitchSet.png-6250aa897f3b996a339a2f8a53f12195.ctex"]
+source_file="res://assets/game/key/cosmic/operand/glitchSet.png"
+dest_files=["res://.godot/imported/glitchSet.png-77a8b2a15cd9bcfd7a67b0112c1b1886.ctex"]
 
 [params]
 

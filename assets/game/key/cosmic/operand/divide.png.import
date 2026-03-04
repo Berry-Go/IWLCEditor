@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://fxf75k2m8thv"
-path="res://.godot/imported/divide.png-7a2043727d9cb32984332cd8fedbcaa2.ctex"
+path="res://.godot/imported/divide.png-09a144e34f5ef7dbd89a7d6c82a2ec6e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/cosmic/operator/divide.png"
-dest_files=["res://.godot/imported/divide.png-7a2043727d9cb32984332cd8fedbcaa2.ctex"]
+source_file="res://assets/game/key/cosmic/operand/divide.png"
+dest_files=["res://.godot/imported/divide.png-09a144e34f5ef7dbd89a7d6c82a2ec6e.ctex"]
 
 [params]
 

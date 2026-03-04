@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cnar62qoq7bg3"
-path="res://.godot/imported/divide1.png-6ef4cd06c21a23ded1a5b8dc22405e81.ctex"
+path="res://.godot/imported/divide1.png-2a2f888d3b74d3926cd0e2dc088302ce.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/dynamite/operator/divide1.png"
-dest_files=["res://.godot/imported/divide1.png-6ef4cd06c21a23ded1a5b8dc22405e81.ctex"]
+source_file="res://assets/game/key/dynamite/operand/divide1.png"
+dest_files=["res://.godot/imported/divide1.png-2a2f888d3b74d3926cd0e2dc088302ce.ctex"]
 
 [params]
 

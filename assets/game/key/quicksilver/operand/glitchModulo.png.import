@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bvyje5q46p8cg"
-path="res://.godot/imported/glitchModulo.png-e0fd408b5af6d2245c0ae9873a3eb64a.ctex"
+path="res://.godot/imported/glitchModulo.png-1f98a028bd5b44f07a306eb693d1cd13.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/key/quicksilver/operator/glitchModulo.png"
-dest_files=["res://.godot/imported/glitchModulo.png-e0fd408b5af6d2245c0ae9873a3eb64a.ctex"]
+source_file="res://assets/game/key/quicksilver/operand/glitchModulo.png"
+dest_files=["res://.godot/imported/glitchModulo.png-1f98a028bd5b44f07a306eb693d1cd13.ctex"]
 
 [params]
 
