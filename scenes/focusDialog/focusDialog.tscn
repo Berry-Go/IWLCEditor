@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://cj40i8w460jnl" path="res://scripts/singletons/focusDialog/keyDialog.gd" id="3_b5h7e"]
 [ext_resource type="Script" uid="uid://c70juj2p5s6yd" path="res://scripts/nodes/focusDialog/selector/colorSelector.gd" id="3_wmate"]
 [ext_resource type="Script" uid="uid://dgllodap6540" path="res://scripts/nodes/focusDialog/selector/keyTypeSelector.gd" id="4_cb7cu"]
+[ext_resource type="PackedScene" path="res://scenes/focusDialog/complexNumberEdit.tscn" id="5_qjvko"]
 [ext_resource type="Texture2D" uid="uid://1qmmmrn67jvq" path="res://assets/ui/focusDialog/keyBooleans/infinite.png" id="6_4u2vc"]
 [ext_resource type="Script" uid="uid://bb323bon0ten5" path="res://scripts/nodes/focusDialog/selector/keyRotorSelector.gd" id="7_q8u4b"]
 [ext_resource type="Texture2D" uid="uid://co26yexy71p71" path="res://assets/ui/focusDialog/keyBooleans/partialInfinite.png" id="8_16i1m"]
