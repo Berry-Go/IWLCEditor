@@ -390,9 +390,8 @@ var gamePainted:bool = false
 var cursed:bool = false
 var curseColor:Game.COLOR
 var glitchMimic:Game.COLOR = Game.COLOR.GLITCH
-var curseGlitchMimic:Game.COLOR = Game.COLOR.GLITCH
 var errorMimic:Game.COLOR = Game.COLOR.ERROR
-var curseErrorMimic:Game.COLOR = Game.COLOR.ERROR
+var curseMimic:Game.COLOR = Game.COLOR.GLITCH
 
 enum STAR_STATE {UNSTARRED, STARRED_UNLOCKED, STARRED_LOCKED}
 var starred:STAR_STATE = STAR_STATE.UNSTARRED
@@ -467,10 +466,6 @@ func start() -> void:
 	gameCrumbled = crumbled
 	gamePainted = painted
 	animState = ANIM_STATE.IDLE
-	starred = STAR_STATE.UNSTARRED
-	starredSpendGlisten = M.ZERO
-	starredSpendKey = M.ZERO
-	starredColor = Game.COLOR.WHITE
 	animTimer = 0
 	animAlpha = 0
 	animPart = 0
@@ -494,9 +489,8 @@ func stop() -> void:
 	gateBufferCheck = false
 	drawComplex = false
 	glitchMimic = Game.COLOR.GLITCH
-	curseGlitchMimic = Game.COLOR.GLITCH
 	errorMimic = Game.COLOR.ERROR
-	curseErrorMimic = Game.COLOR.ERROR
+	curseMimic = Game.COLOR.GLITCH
 	justOpened = false
 	starred = STAR_STATE.UNSTARRED
 	starredSpendGlisten = M.ZERO
@@ -799,13 +793,13 @@ func curseCheck(player:Player) -> void:
 	if willCurse and !willCurseRedundant:
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"cursed",true))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"curseColor",player.curseColor))
+		if player.curseColor in [Game.COLOR.GLITCH, Game.COLOR.ERROR]:
+			GameChanges.addChange(GameChanges.PropertyChange.new(self,&"curseMimic",player.curseColor))
 		makeCurseParticles(curseColor, 1, 0.2, 0.5)
 		AudioManager.play(preload("res://resources/sounds/door/curse.wav"))
 		GameChanges.bufferSave()
 	elif cursed and (willCurseRedundant or (player.curseMode < 0 and curseColor == player.curseColor)):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"cursed",false))
-		if curseColor == Game.COLOR.GLITCH:
-			GameChanges.addChange(GameChanges.PropertyChange.new(self,&"curseGlitchMimic",Game.COLOR.GLITCH))
 		if willCurseRedundant:
 			makeCurseParticles(player.curseColor, 1, 0.2, 0.5)
 			AudioManager.play(preload("res://resources/sounds/door/curse.wav"))
@@ -833,13 +827,13 @@ func getColor(step:COLOR_STEP) -> Game.COLOR:
 
 	if step < COLOR_STEP.Error: return resultColor
 	var checkColor:Game.COLOR = resultColor # error and glitch act independently
-	if checkColor == Game.COLOR.ERROR: resultColor = curseErrorMimic if curseAffected else errorMimic
+	if checkColor == Game.COLOR.ERROR: resultColor = curseMimic if curseAffected else errorMimic
 
 	# DRAW_BASE
 	# the step used for drawing
 
 	if step < COLOR_STEP.Glitch: return resultColor
-	if checkColor == Game.COLOR.GLITCH: resultColor = curseGlitchMimic if curseAffected else glitchMimic
+	if checkColor == Game.COLOR.GLITCH: resultColor = curseMimic if curseAffected else glitchMimic
 
 	# EFFECTIVE
 	# the step used for normal immunities, and what glitch gets set to when the door is opened
@@ -865,10 +859,10 @@ func complexCheck() -> void:
 	queue_redraw()
 
 func setGlitch(setColor:Game.COLOR) -> void:
-	if curseUnaffected() and hasInitialColor(Game.COLOR.GLITCH): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"glitchMimic", setColor))
-	elif curseColor == Game.COLOR.GLITCH: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseGlitchMimic", setColor))
+	if curseUnaffected() and hasInitialColor(Game.COLOR.GLITCH) and starred == STAR_STATE.UNSTARRED: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"glitchMimic", setColor))
+	elif curseColor == Game.COLOR.GLITCH: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseMimic", setColor))
 	for lock in locks:
-		if (curseUnaffected() or lock.armament) and lock.color == Game.COLOR.GLITCH: GameChanges.addChange(GameChanges.PropertyChange.new(lock, &"glitchMimic", setColor))
+		if ((curseUnaffected() and starred == STAR_STATE.UNSTARRED) or lock.armament) and lock.color == Game.COLOR.GLITCH: GameChanges.addChange(GameChanges.PropertyChange.new(lock, &"glitchMimic", setColor))
 		lock.queue_redraw()
 	queue_redraw()
 	if type == TYPE.GATE:
@@ -876,17 +870,17 @@ func setGlitch(setColor:Game.COLOR) -> void:
 		Game.player.bufferCheckKeys() # if armaments
 
 func setError(setColor:Game.COLOR) -> void:
-	if curseUnaffected() and hasInitialColor(Game.COLOR.ERROR): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"errorMimic", setColor))
-	elif curseColor == Game.COLOR.ERROR: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseErrorMimic", setColor))
+	if curseUnaffected() and hasInitialColor(Game.COLOR.ERROR) and starred == STAR_STATE.UNSTARRED: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"errorMimic", setColor))
+	elif curseColor == Game.COLOR.ERROR: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseMimic", setColor))
 	for lock in locks:
-		if (curseUnaffected() or lock.armament) and lock.color == Game.COLOR.ERROR: GameChanges.addChange(GameChanges.PropertyChange.new(lock, &"errorMimic", setColor))
+		if ((curseUnaffected() and starred == STAR_STATE.UNSTARRED) or lock.armament) and lock.color == Game.COLOR.ERROR: GameChanges.addChange(GameChanges.PropertyChange.new(lock, &"errorMimic", setColor))
 		lock.queue_redraw()
 	queue_redraw()
 	if type == TYPE.GATE:
 		gateCheck(Game.player)
 		Game.player.bufferCheckKeys() # if armaments
 
-func curseUnaffected() -> bool: return !cursed or curseColor == Game.COLOR.PURE or starred != STAR_STATE.UNSTARRED
+func curseUnaffected() -> bool: return !cursed or curseColor == Game.COLOR.PURE
 
 func armamentColors() -> Array[Game.COLOR]:
 	var colors:Array[Game.COLOR]
