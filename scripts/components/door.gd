@@ -541,7 +541,7 @@ func tryOpen(player:Player) -> void:
 
 	if M.nex(gameCopies): destroy()
 	else: relockAnimation()
-	Game.player.bufferCheckKeys()
+	player.bufferCheckKeys()
 	GameChanges.bufferSave()
 
 func tryMasterOpen(player:Player) -> bool:
@@ -561,7 +561,7 @@ func tryMasterOpen(player:Player) -> bool:
 		addCopyAnimation()
 
 	player.dropMaster()
-	Game.player.bufferCheckKeys()
+	player.bufferCheckKeys()
 	GameChanges.bufferSave()
 	return true
 
@@ -584,7 +584,7 @@ func tryQuicksilverOpen(player:Player) -> bool:
 	Game.setGlitch(getColor(COLOR_STEP.EFFECTIVE))
 
 	player.dropMaster()
-	Game.player.bufferCheckKeys()
+	player.bufferCheckKeys()
 	GameChanges.bufferSave()
 
 	return true
@@ -635,14 +635,13 @@ func tryCosmicOpen(player:Player) -> bool:
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendGlisten", calculateCosts(player, ipow(), true, false, true)))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredColor", getColor(COLOR_STEP.FINAL)))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredipow", ipow()))
-		return true
 	elif starred != STAR_STATE.UNSTARRED and player.masterMode == M.nONE:
 		player.changeKeys(Game.COLOR.COSMIC, M.sub(player.key[Game.COLOR.COSMIC], player.masterMode))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starred", STAR_STATE.UNSTARRED))
 	else: return false
 	relockAnimation()
 	player.dropMaster()
-	Game.player.bufferCheckKeys()
+	player.bufferCheckKeys()
 	GameChanges.bufferSave()
 	return true
 
