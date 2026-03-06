@@ -537,7 +537,7 @@ func tryOpen(player:Player) -> void:
 				elif getColor(COLOR_STEP.FINAL) == Game.COLOR.MASTER and locks[0].getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.MASTER: AudioManager.play(preload("res://resources/sounds/door/master.wav"))
 				else: AudioManager.play(preload("res://resources/sounds/door/simple.wav"))
 			TYPE.COMBO: AudioManager.play(preload("res://resources/sounds/door/combo.wav"))
-		Game.setGlitch(getColor(COLOR_STEP.EFFECTIVE))
+		Game.setMimic(Game.COLOR.GLITCH, getColor(COLOR_STEP.EFFECTIVE))
 
 	if M.nex(gameCopies): destroy()
 	else: relockAnimation()
@@ -581,7 +581,7 @@ func tryQuicksilverOpen(player:Player) -> bool:
 	AudioManager.play(preload("res://resources/sounds/door/master.wav"))
 	relockAnimation()
 
-	Game.setGlitch(getColor(COLOR_STEP.EFFECTIVE))
+	Game.setMimic(Game.COLOR.GLITCH, getColor(COLOR_STEP.EFFECTIVE))
 
 	player.dropMaster()
 	player.bufferCheckKeys()
@@ -857,22 +857,17 @@ func complexCheck() -> void:
 	drawComplex = Game.playState != Game.PLAY_STATE.EDIT and M.nex(M.across(ipow(), Game.player.complexMode))
 	queue_redraw()
 
-func setGlitch(setColor:Game.COLOR) -> void:
-	if curseUnaffected() and hasInitialColor(Game.COLOR.GLITCH) and starred == STAR_STATE.UNSTARRED: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"glitchMimic", setColor))
-	elif curseColor == Game.COLOR.GLITCH: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseMimic", setColor))
+func setMimic(mimicType:Game.COLOR, setColor:Game.COLOR) -> void:
+	var property:StringName
+	match mimicType:
+		Game.COLOR.GLITCH: property = &"glitchMimic"
+		Game.COLOR.ERROR: property = &"errorMimic"
+	if starred == STAR_STATE.UNSTARRED:
+		if curseUnaffected():
+			if hasInitialColor(mimicType): GameChanges.addChange(GameChanges.PropertyChange.new(self, property, setColor))
+		elif curseColor == mimicType: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseMimic", setColor))
 	for lock in locks:
-		if ((curseUnaffected() and starred == STAR_STATE.UNSTARRED) or lock.armament) and lock.color == Game.COLOR.GLITCH: GameChanges.addChange(GameChanges.PropertyChange.new(lock, &"glitchMimic", setColor))
-		lock.queue_redraw()
-	queue_redraw()
-	if type == TYPE.GATE:
-		gateCheck(Game.player)
-		Game.player.bufferCheckKeys() # if armaments
-
-func setError(setColor:Game.COLOR) -> void:
-	if curseUnaffected() and hasInitialColor(Game.COLOR.ERROR) and starred == STAR_STATE.UNSTARRED: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"errorMimic", setColor))
-	elif curseColor == Game.COLOR.ERROR: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseMimic", setColor))
-	for lock in locks:
-		if ((curseUnaffected() and starred == STAR_STATE.UNSTARRED) or lock.armament) and lock.color == Game.COLOR.ERROR: GameChanges.addChange(GameChanges.PropertyChange.new(lock, &"errorMimic", setColor))
+		if ((curseUnaffected() and starred == STAR_STATE.UNSTARRED) or lock.armament) and lock.color == mimicType: GameChanges.addChange(GameChanges.PropertyChange.new(lock, property, setColor))
 		lock.queue_redraw()
 	queue_redraw()
 	if type == TYPE.GATE:

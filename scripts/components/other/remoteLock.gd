@@ -312,14 +312,18 @@ func checkDoors() -> void:
 	GameChanges.addChange(GameChanges.PropertyChange.new(self,&"active",any))
 	queue_redraw()
 
-func setGlitch(setColor:Game.COLOR) -> void:
-	if !cursed or curseColor == Game.COLOR.PURE: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"glitchMimic", setColor))
-	else: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseMimic", setColor))
+func setMimic(mimicType:Game.COLOR, setColor:Game.COLOR) -> void:
+	var property:StringName
+	match mimicType:
+		Game.COLOR.GLITCH: property = &"glitchMimic"
+		Game.COLOR.ERROR: property = &"errorMimic"
+	if curseUnaffected():
+		if color == mimicType: GameChanges.addChange(GameChanges.PropertyChange.new(self, property, setColor))
+	elif curseColor == mimicType: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseMimic", setColor))
 	queue_redraw()
-func setError(setColor:Game.COLOR) -> void:
-	if !cursed or curseColor == Game.COLOR.PURE: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"errorMimic", setColor))
-	else: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"curseMimic", setColor))
-	queue_redraw()
+
+func curseUnaffected() -> bool:
+	return !cursed or curseColor == Game.COLOR.PURE
 
 func curseCheck(player:Player) -> void:
 	if getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.PURE or armament: return
