@@ -330,15 +330,16 @@ func collect(player:Player) -> void:
 				if M.negative(M.sign(count)): AudioManager.play(preload("res://resources/sounds/key/negative.wav"))
 				else: AudioManager.play(preload("res://resources/sounds/key/normal.wav"))
 	
-	Game.setError(collectColor)
+	Game.setMimic(Game.COLOR.ERROR, collectColor)
 	Game.player.bufferCheckKeys()
 	GameChanges.bufferSave()
 
-func setGlitch(setColor:Game.COLOR) -> void:
-	if hasInitialColor(Game.COLOR.GLITCH): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"glitchMimic", setColor))
-	queue_redraw()
-func setError(setColor:Game.COLOR) -> void:
-	if hasInitialColor(Game.COLOR.ERROR): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"errorMimic", setColor))
+func setMimic(mimicType:Game.COLOR, setColor:Game.COLOR) -> void:
+	var property:StringName
+	match mimicType:
+		Game.COLOR.GLITCH: property = &"glitchMimic"
+		Game.COLOR.ERROR: property = &"errorMimic"
+	if hasInitialColor(mimicType): GameChanges.addChange(GameChanges.PropertyChange.new(self, property, setColor))
 	queue_redraw()
 
 func flashAnimation() -> void:
