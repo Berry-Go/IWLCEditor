@@ -472,9 +472,10 @@ func getColor(step:COLOR_STEP) -> Game.COLOR:
 	# the step used for normal immunities
 
 	if step < COLOR_STEP.AuraBreaker: return resultColor
-	if parent.gameFrozen: resultColor = Game.COLOR.ICE
-	if parent.gameCrumbled: resultColor = Game.COLOR.MUD
-	if parent.gamePainted: resultColor = Game.COLOR.GRAFFITI
+	if !armament:
+		if parent.gameFrozen: resultColor = Game.COLOR.ICE
+		if parent.gameCrumbled: resultColor = Game.COLOR.MUD
+		if parent.gamePainted: resultColor = Game.COLOR.GRAFFITI
 
 	# FINAL
 	# the step used for check and cost
