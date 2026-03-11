@@ -122,7 +122,7 @@ func _ready() -> void:
 	RenderingServer.canvas_item_set_parent(drawNegative,get_canvas_item())
 	RenderingServer.canvas_item_set_self_modulate(drawError, "#ffffffaa")
 	RenderingServer.canvas_item_set_material(drawError,Game.ADDITIVE_MATERIAL)
-	Game.connect(&"goldIndexChanged",queue_redraw)
+	Game.connect(&"goldIndexChanged",func(): if getColor(COLOR_STEP.DRAW_BASE) in Game.ANIMATED_COLORS: queue_redraw())
 
 func _freed() -> void:
 	RenderingServer.free_rid(drawDropShadow)
@@ -662,7 +662,7 @@ func checkCanOpen(player:Player, checkNonarmamentLocks:bool=true, checkArmamentL
 func calculateCosts(player:Player, costIpow:PackedInt64Array=ipow(), forGlisten:bool=false, checkNonarmamentLocks:bool=true, checkArmamentLocks:bool=true) -> PackedInt64Array:
 	var cost:PackedInt64Array = M.ZERO
 	for lock in locks: if ((lock.type == Lock.TYPE.GLISTENING) == forGlisten) and (checkArmamentLocks if lock.armament else checkNonarmamentLocks): cost = M.add(cost, lock.getCost(player, costIpow))
-	for lock in remoteLocks: if ((lock.type == Lock.TYPE.GLISTENING) == forGlisten) and (checkArmamentLocks if lock.armament else checkNonarmamentLocks): cost = M.add(cost, lock.getCost(player))
+	for lock in remoteLocks: if ((lock.type == Lock.TYPE.GLISTENING) == forGlisten) and (checkArmamentLocks if lock.armament else checkNonarmamentLocks): cost = M.add(cost, lock.cost)
 	return cost
 
 func hasEffectiveColor(color:Game.COLOR) -> bool:
