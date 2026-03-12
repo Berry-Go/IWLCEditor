@@ -57,11 +57,9 @@ enum BASE_FORM {FACTORED, DISTRIBUTED}
 	set(value):
 		allowZero = value
 		updateRestrictionDisplay()
-## the parent. usually focusDialog
-@export var context:Node
 
 func _ready() -> void:
-	context.numberEdits.append(self)
+	owner.numberEdits.append(self) # the scene root
 	shapedText = ts.create_shaped_text()
 	updateRestrictionDisplay()
 
@@ -215,7 +213,7 @@ func evaluate(manual:bool=false) -> void:
 				TYPE.NONNEGATIVE_INTEGER:
 					if M.isReal(result) and M.isInteger(result) and M.gte(result, M.ZERO): valueSet.emit(result)
 					else: expressionError = ERROR.NUMBER
-	theme_type_variation = (&"NumberEditPanelContainerError" if expressionError else &"NumberEditPanelContainerSelected") if context.interacted == self else &"NumberEditPanelContainer"
+	theme_type_variation = (&"NumberEditPanelContainerError" if expressionError else &"NumberEditPanelContainerSelected") if owner.interacted == self else &"NumberEditPanelContainer"
 	%type.modulate = ERROR_COLOR if expressionError == ERROR.NUMBER else Color.WHITE
 	%nonzero.modulate = ERROR_COLOR if expressionError == ERROR.ZERO else Color.WHITE
 
@@ -533,7 +531,7 @@ func _gui_input(event:InputEvent) -> void:
 	var mouseIndex:int = ts.shaped_text_hit_test_position(shapedText, mouseX)
 	if event is InputEventMouseMotion or event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if Editor.isLeftClick(event):
-			if context.interacted != self: context.interact(self)
+			if owner.interacted != self: owner.interact(self)
 			mouseDragStart = mouseIndex
 		if mouseDragStart != -1:
 			var mouseDragEnd:int = mouseIndex
