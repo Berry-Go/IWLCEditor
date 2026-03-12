@@ -106,8 +106,8 @@ func _ready() -> void:
 	Game.connect(&"goldIndexChanged",func():if hasAnimatedColor(): queue_redraw())
 
 func hasAnimatedColor() -> bool:
-	if color in Game.ANIMATED_COLORS: return true
-	if type == TYPE.OPERATOR and altColor in Game.ANIMATED_COLORS: return true
+	if getColor(COLOR_STEP.DRAW_BASE) in Game.ANIMATED_COLORS: return true
+	if type == TYPE.OPERATOR and getAltColor(COLOR_STEP.DRAW_BASE) in Game.ANIMATED_COLORS: return true
 	return false
 
 func _freed() -> void:
