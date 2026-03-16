@@ -301,8 +301,10 @@ static func drawLock(lockDrawScaled:RID, lockDrawAuraBreaker:RID, lockDrawGlitch
 				
 				if lockIsPartial:
 					var denom:String
-					if M.isComplex(lockDenominator) or M.isComplex(lockCount): numerator = M.str(lockCount)
-					if M.isComplex(lockDenominator) or M.isComplex(lockCount): denom = M.str(lockDenominator)
+					if M.isComplex(lockDenominator) or M.nex(lockDenominator) or M.isComplex(lockCount):
+						numerator = M.str(lockCount)
+						denom = M.str(lockDenominator)
+						ipow = 0
 					else: denom = M.str(M.abs(lockDenominator))
 					var denomWidth:float = Game.FTALK.get_string_size(denom,HORIZONTAL_ALIGNMENT_LEFT,-1,12).x
 					var denomStartX = round((lockSize.x - denomWidth)/2)
