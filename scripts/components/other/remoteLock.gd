@@ -327,20 +327,24 @@ func curseUnaffected() -> bool:
 
 func curseCheck(player:Player) -> void:
 	if getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.PURE or armament: return
-	if player.curseMode > 0 and color != player.curseColor and (!cursed or curseColor != player.curseColor):
+	var willCurse:bool = player.curseMode > 0 and (!cursed or (curseColor != player.curseColor and curseColor != Game.COLOR.PURE))
+	var willCurseRedundant:bool = willCurse and color == player.curseColor
+	if willCurse and !willCurseRedundant:
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"cursed",true))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"curseColor",player.curseColor))
+		if player.curseColor in [Game.COLOR.GLITCH, Game.COLOR.ERROR]:
+			GameChanges.addChange(GameChanges.PropertyChange.new(self,&"curseMimic",player.curseColor))
 		makeCurseParticles(curseColor, 1, 0.2, 0.5)
 		AudioManager.play(preload("res://resources/sounds/door/curse.wav"))
 		GameChanges.bufferSave()
-	elif player.curseMode < 0 and cursed and curseColor == player.curseColor:
+	elif cursed and (willCurseRedundant or (player.curseMode < 0 and curseColor == player.curseColor)):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"cursed",false))
-		if curseColor == Game.COLOR.GLITCH:
-			GameChanges.addChange(GameChanges.PropertyChange.new(self,&"curseMimic",Game.COLOR.GLITCH))
-		if curseColor == Game.COLOR.ERROR:
-			GameChanges.addChange(GameChanges.PropertyChange.new(self,&"curseMimic",Game.COLOR.ERROR))
-		makeCurseParticles(Game.COLOR.BROWN, -1, 0.2, 0.5)
-		AudioManager.play(preload("res://resources/sounds/door/decurse.wav"))
+		if willCurseRedundant:
+			makeCurseParticles(player.curseColor, 1, 0.2, 0.5)
+			AudioManager.play(preload("res://resources/sounds/door/curse.wav"))
+		else:
+			makeCurseParticles(Game.COLOR.BROWN, -1, 0.2, 0.5)
+			AudioManager.play(preload("res://resources/sounds/door/decurse.wav"))
 		GameChanges.bufferSave()
 
 func makeCurseParticles(particleColor:Game.COLOR, mode:int, scaleMin:float=1,scaleMax:float=1) -> void:

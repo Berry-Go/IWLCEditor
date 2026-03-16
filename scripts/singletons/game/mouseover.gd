@@ -54,9 +54,9 @@ func describe(object:GameObject, pos:Vector2, screenBottomRight:Vector2) -> void
 			
 		RemoteLock:
 			string += LOCK_TYPES[object.type] + Game.COLOR_NAMES[object.color] + " Remote Lock\n"
-			string += ("S" if object.satisfied else "Uns") + "atisfied, Cost: " + M.str(object.cost)
+			string += ("S" if object.satisfied else "Uns") + "atisfied, Cost: " + lockCost(object)
 			if object.type == Lock.TYPE.GLISTENING: string += " Glistening"
-			if object.type in [Lock.TYPE.BLAST, Lock.TYPE.ALL]: string += " (" + lockCost(object) + ")"
+			if object.type in [Lock.TYPE.BLAST, Lock.TYPE.ALL]: string += " (" + M.str(object.cost) + ")"
 			if object.armament: string += " (Armament)"
 			if object.color == Game.COLOR.GLITCH: string += "\nMimic: " + Game.COLOR_NAMES[object.glitchMimic]
 			elif object.color == Game.COLOR.ERROR: string += "\nMimic: " + Game.COLOR_NAMES[object.errorMimic]
@@ -106,14 +106,15 @@ func effects(object:GameObject) -> String:
 	if object.gameFrozen: string += "\nFrozen! (1xRed)"
 	if object.gameCrumbled: string += "\nEroded! (5xGreen)"
 	if object.gamePainted: string += "\nPainted! (3xBlue)"
-	match object.starred:
-		Door.STAR_STATE.STARRED_UNLOCKED: string += "\nStarred! (Unlocked)"
-		Door.STAR_STATE.STARRED_LOCKED: string += "\nStarred! (Locked)"
-	if object.starred != Door.STAR_STATE.UNSTARRED:
-		string += "\n    Spends " + M.str(object.starredSpendKey)
-		if M.ex(object.starredSpendGlisten):
-			string += "(" + M.str(object.starredSpendGlisten) + ")"
-		if object.hasArmamentLocks(): string += " (+ Armament locks)"
-		string += " " + Game.COLOR_NAMES[object.starredColor] + ")"
+	if object is Door:
+		match object.starred:
+			Door.STAR_STATE.STARRED_UNLOCKED: string += "\nStarred! (Unlocked)"
+			Door.STAR_STATE.STARRED_LOCKED: string += "\nStarred! (Locked)"
+		if object.starred != Door.STAR_STATE.UNSTARRED:
+			string += "\n    Spends " + M.str(object.starredSpendKey)
+			if M.ex(object.starredSpendGlisten):
+				string += "(" + M.str(object.starredSpendGlisten) + ")"
+			if object.hasArmamentLocks(): string += " (+ Armament locks)"
+			string += " " + Game.COLOR_NAMES[object.starredColor] + ")"
 	if string: string = "\n- Effects -" + string
 	return string
