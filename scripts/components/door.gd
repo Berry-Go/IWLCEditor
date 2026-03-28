@@ -315,9 +315,9 @@ func propertyChangedDo(property:StringName) -> void:
 	if property == &"type":
 		z_index = 7 if type == TYPE.GATE else 0
 	if property in [&"size", &"type"]:
-		%shape.shape.size = size
+		%shape.shape.size = size - Vector2(0.5, 0.5)
 		%shape.position = size/2
-		%interactShape.shape.size = size
+		%interactShape.shape.size = size - Vector2(0.5, 0.5)
 		%interactShape.position = size/2
 		if type == TYPE.COMBO: %interactShape.shape.size += Vector2(2,2)
 		elif type == TYPE.SIMPLE: %shape.shape.size -= Vector2(2,2)
