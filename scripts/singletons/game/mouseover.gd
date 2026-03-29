@@ -29,11 +29,8 @@ func describe(object:GameObject, pos:Vector2, screenBottomRight:Vector2) -> void
 		Door:
 			if object.type == Door.TYPE.SIMPLE:
 				string += LOCK_TYPES[object.locks[0].type] + Game.COLOR_NAMES[object.colorSpend] + " Door"
-				if object.locks[0].armament:
-					string += " (Armament"
-					if object.locks[0].glitchMimic != object.glitchMimic: string += ", Mimic: " + Game.COLOR_NAMES[object.locks[0].glitchMimic]
-					elif object.locks[0].errorMimic != object.errorMimic: string += ", Mimic: " + Game.COLOR_NAMES[object.locks[0].errorMimic]
-					string += ")"
+				var additional:String = lockAdditionalInfo(object.locks[0], object)
+				if additional: string += " (Lock " + additional + ")"
 				string += "\nCost: " + lockCost(object.locks[0])
 				if object.locks[0].color != object.colorSpend: string += " " + Game.COLOR_NAMES[object.locks[0].color]
 			else:
@@ -43,11 +40,8 @@ func describe(object:GameObject, pos:Vector2, screenBottomRight:Vector2) -> void
 				else: string += "Empty Gate" if len(object.locks) == 0 else "Gate"
 				for lock in object.locks:
 					string += "\nLock: " + LOCK_TYPES[lock.type] + Game.COLOR_NAMES[lock.color] + ", Cost: " + lockCost(lock)
-					if lock.armament:
-						string += " (Armament"
-						if lock.color == Game.COLOR.GLITCH and lock.glitchMimic != object.glitchMimic: string += ", Mimic: " + Game.COLOR_NAMES[lock.glitchMimic]
-						elif lock.color == Game.COLOR.ERROR and lock.errorMimic != object.errorMimic: string += ", Mimic: " + Game.COLOR_NAMES[lock.errorMimic]
-						string += ")"
+					var additional:String = lockAdditionalInfo(lock, object)
+					if additional: string += " (" + additional + ")"
 			if object.hasInitialColor(Game.COLOR.GLITCH): string += "\nMimic: " + Game.COLOR_NAMES[object.glitchMimic]
 			elif object.hasInitialColor(Game.COLOR.ERROR): string += "\nMimic: " + Game.COLOR_NAMES[object.errorMimic]
 			string += effects(object)
@@ -69,6 +63,13 @@ func describe(object:GameObject, pos:Vector2, screenBottomRight:Vector2) -> void
 	position = pos
 	if position.x + size.x > screenBottomRight.x: position.x -= size.x
 	if position.y + size.y > screenBottomRight.y: position.y -= size.y
+
+func lockAdditionalInfo(lock:Lock, door:Door) -> String:
+	var additional:Array[String] = []
+	if lock.armament: additional.append("Armament")
+	if door.colorSpend in [Game.COLOR.GLITCH, Game.COLOR.ERROR] and lock.getColor(Lock.COLOR_STEP.EFFECTIVE) != door.getColor(Door.COLOR_STEP.EFFECTIVE): additional.append("Mimic: " + Game.COLOR_NAMES[lock.getColor(Lock.COLOR_STEP.EFFECTIVE)])
+	if additional: return ", ".join(additional)
+	else: return ""
 
 func lockCost(lock:GameComponent) -> String:
 	var string:String = ""

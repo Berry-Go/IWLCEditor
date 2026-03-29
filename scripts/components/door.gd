@@ -122,7 +122,7 @@ func _ready() -> void:
 	RenderingServer.canvas_item_set_parent(drawNegative,get_canvas_item())
 	RenderingServer.canvas_item_set_self_modulate(drawError, "#ffffffaa")
 	RenderingServer.canvas_item_set_material(drawError,Game.ADDITIVE_MATERIAL)
-	Game.connect(&"goldIndexChanged",func(): if getColor(COLOR_STEP.DRAW_BASE) in Game.ANIMATED_COLORS: queue_redraw())
+	Game.connect(&"goldIndexChanged",func(): if getColor(COLOR_STEP.BASE) == Game.COLOR.ERROR or getColor(COLOR_STEP.DRAW_BASE) in Game.ANIMATED_COLORS: queue_redraw())
 
 func _freed() -> void:
 	RenderingServer.free_rid(drawDropShadow)
