@@ -297,7 +297,7 @@ func playTest(spawn:PlayerSpawn) -> void:
 		world.add_child(player)
 		player.position = spawn.position + Vector2(17, 23)
 		if spawn != levelStart:
-			GameChanges.assignAndFollowStack(spawn.undoStack)
+			if spawn.undoStack: GameChanges.assignAndFollowStack(spawn.undoStack) # surely this will not grow limbs and bite me
 			GameChanges.saveBuffered = spawn.saveBuffered
 			player.key.assign(spawn.key.map(func(number): return number.duplicate()))
 			player.star.assign(spawn.star)
