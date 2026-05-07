@@ -596,7 +596,7 @@ func tryDynamiteOpen(player:Player) -> bool:
 	var openedForwards:bool
 	var openedBackwards:bool
 
-	if M.simplies(gameCopies, player.key[Game.COLOR.DYNAMITE]) and M.nonNegative(M.sub(M.along(player.key[Game.COLOR.DYNAMITE], gameCopies), M.acrabs(gameCopies))) and M.nex(infCopies):
+	if M.simplies(gameCopies, player.key[Game.COLOR.DYNAMITE]) and !M.hasNegative(M.sub(M.along(player.key[Game.COLOR.DYNAMITE], gameCopies), M.acrabs(gameCopies))) and M.nex(infCopies):
 		# if the door can open, open it
 		player.changeKeys(Game.COLOR.DYNAMITE, M.sub(player.key[Game.COLOR.DYNAMITE], gameCopies))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"gameCopies", M.ZERO))
