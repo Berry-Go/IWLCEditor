@@ -742,35 +742,35 @@ func auraCheck(player:Player) -> void:
 	if type == TYPE.GATE: return
 	if animState != ANIM_STATE.IDLE: return
 	if starred != STAR_STATE.UNSTARRED: return
-	var deAuraed:bool = false
+	var playSound:bool = false
 	if player.auraRed and gameFrozen and !hasEffectiveColor(Game.COLOR.MAROON):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gameFrozen",false))
 		makeDebris(Debris, Game.COLOR.WHITE)
-		deAuraed = true
+		playSound = true
 	if player.auraGreen and gameCrumbled and !hasEffectiveColor(Game.COLOR.FOREST):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gameCrumbled",false))
 		makeDebris(Debris, Game.COLOR.BROWN)
-		deAuraed = true
+		playSound = true
 	if player.auraBlue and gamePainted and !hasEffectiveColor(Game.COLOR.NAVY):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gamePainted",false))
 		makeDebris(Debris, Game.COLOR.ORANGE)
-		deAuraed = true
-	var auraed:bool = false
-	if player.auraMaroon and !gameFrozen and !hasEffectiveColor(Game.COLOR.RED) and !isAllInitialColor(Game.COLOR.ICE):
+		playSound = true
+	if player.auraMaroon and !gameFrozen and !hasEffectiveColor(Game.COLOR.RED) and !isAllBaseColor(Game.COLOR.ICE):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gameFrozen",true))
 		makeDebris(Debris, Game.COLOR.WHITE)
-		auraed = true
-	if player.auraForest and !gameCrumbled and !hasEffectiveColor(Game.COLOR.GREEN) and !isAllInitialColor(Game.COLOR.MUD):
+		playSound = true
+	if player.auraForest and !gameCrumbled and !hasEffectiveColor(Game.COLOR.GREEN) and !isAllBaseColor(Game.COLOR.MUD):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gameCrumbled",true))
 		makeDebris(Debris, Game.COLOR.BROWN)
-		auraed = true
-	if player.auraNavy and !gamePainted and !hasEffectiveColor(Game.COLOR.BLUE) and !isAllInitialColor(Game.COLOR.GRAFFITI):
+		playSound = true
+	if player.auraNavy and !gamePainted and !hasEffectiveColor(Game.COLOR.BLUE) and !isAllBaseColor(Game.COLOR.GRAFFITI):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gamePainted",true))
 		makeDebris(Debris, Game.COLOR.ORANGE)
-		auraed = true
-	if deAuraed or auraed:
+		playSound = true
+	if playSound:
 		AudioManager.play(preload("res://resources/sounds/door/deaura.wav"))
 		GameChanges.bufferSave()
+
 
 func isAllInitialColor(color:Game.COLOR) -> bool:
 	if getColor(COLOR_STEP.INITIAL) != color: return false
