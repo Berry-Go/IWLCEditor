@@ -295,17 +295,20 @@ static func drawLock(lockDrawScaled:RID, lockDrawAuraBreaker:RID, lockDrawGlitch
 				if numerator == "1": numerator = ""
 				
 				const symbolOffsetX:float = 10
-				var strWidth:float = Game.FTALK.get_string_size(numerator,HORIZONTAL_ALIGNMENT_LEFT,-1,12).x + symbolOffsetX
-				var startX:int = round((lockSize.x - strWidth)/2)
-				var startY:int = round((lockSize.y+14)/2)
 				
+				var denom:String
 				if lockIsPartial:
-					var denom:String
 					if M.isComplex(lockDenominator) or M.nex(lockDenominator) or M.isComplex(lockCount):
 						numerator = M.str(lockCount)
 						denom = M.str(lockDenominator)
 						ipow = 0
 					else: denom = M.str(M.abs(lockDenominator))
+				
+				var strWidth:float = Game.FTALK.get_string_size(numerator,HORIZONTAL_ALIGNMENT_LEFT,-1,12).x + symbolOffsetX
+				var startX:int = round((lockSize.x - strWidth)/2)
+				var startY:int = round((lockSize.y+14)/2)
+
+				if lockIsPartial:
 					var denomWidth:float = Game.FTALK.get_string_size(denom,HORIZONTAL_ALIGNMENT_LEFT,-1,12).x
 					var denomStartX = round((lockSize.x - denomWidth)/2)
 					var denomStartY = startY + 10
