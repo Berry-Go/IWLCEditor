@@ -513,21 +513,23 @@ func tryOpen(player:Player) -> void:
 		if player.masterCycle == 1 and tryMasterOpen(player): return
 		if player.masterCycle == 2 and tryQuicksilverOpen(player): return
 		if player.masterCycle == 3 and tryCosmicOpen(player): return
-	match starred:
-		STAR_STATE.STARRED_LOCKED: return
-		STAR_STATE.STARRED_UNLOCKED:
-			if M.nex(gameCopies) or checkCanOpen(player, false, true):
-				player.changeGlisten(starredColor, M.sub(player.glisten[starredColor], M.add(starredSpendGlisten, calculateCosts(player, ipow(), true, false, true))))
-				player.changeKeys(starredColor, M.sub(player.key[starredColor],M.add(starredSpendKey, calculateCosts(player, ipow(), false, false, true))))
-			else: return
-		STAR_STATE.UNSTARRED:
-			if M.nex(gameCopies) or checkCanOpen(player):
-				var spendColor:Game.COLOR = getColor(COLOR_STEP.FINAL)
-				player.changeGlisten(spendColor, M.sub(player.glisten[spendColor], calculateCosts(player, ipow(), true)))
-				player.changeKeys(spendColor, M.sub(player.key[spendColor], calculateCosts(player)))
-			else: return
 	
-	GameChanges.addChange(GameChanges.PropertyChange.new(self, &"gameCopies", M.sub(gameCopies, M.across(ipow(), M.sub(M.allAxes(), infCopies)))))
+	if starred == STAR_STATE.STARRED_LOCKED: return
+	if M.ex(gameCopies):
+		match starred:
+			STAR_STATE.STARRED_UNLOCKED:
+				if checkCanOpen(player, false, true):
+					player.changeGlisten(starredColor, M.sub(player.glisten[starredColor], M.add(starredSpendGlisten, calculateCosts(player, ipow(), true, false, true))))
+					player.changeKeys(starredColor, M.sub(player.key[starredColor],M.add(starredSpendKey, calculateCosts(player, ipow(), false, false, true))))
+				else: return
+			STAR_STATE.UNSTARRED:
+				if checkCanOpen(player):
+					var spendColor:Game.COLOR = getColor(COLOR_STEP.FINAL)
+					player.changeGlisten(spendColor, M.sub(player.glisten[spendColor], calculateCosts(player, ipow(), true)))
+					player.changeKeys(spendColor, M.sub(player.key[spendColor], calculateCosts(player)))
+				else: return
+		
+		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"gameCopies", M.sub(gameCopies, M.across(ipow(), M.sub(M.allAxes(), infCopies)))))
 	
 	if gameFrozen or gameCrumbled or gamePainted: AudioManager.play(preload("res://resources/sounds/door/deaura.wav"))
 	else:
@@ -596,7 +598,7 @@ func tryDynamiteOpen(player:Player) -> bool:
 	var openedForwards:bool
 	var openedBackwards:bool
 
-	if M.simplies(gameCopies, player.key[Game.COLOR.DYNAMITE]) and !M.hasNegative(M.sub(M.along(player.key[Game.COLOR.DYNAMITE], gameCopies), M.acrabs(gameCopies))) and M.nex(infCopies):
+	if M.simplies(gameCopies, player.key[Game.COLOR.DYNAMITE]) and !M.hasNegative(M.sub(M.along(player.key[Game.COLOR.DYNAMITE], gameCopies), M.acrabs(gameCopies))) and M.ex(gameCopies) and M.nex(infCopies):
 		# if the door can open, open it
 		player.changeKeys(Game.COLOR.DYNAMITE, M.sub(player.key[Game.COLOR.DYNAMITE], gameCopies))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"gameCopies", M.ZERO))
