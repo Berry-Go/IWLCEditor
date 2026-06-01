@@ -106,6 +106,7 @@ func opened() -> void:
 	configFile.load("user://config.ini")
 	%thumbnailHideDescription.button_pressed = configFile.get_value("editor", "thumbnailHideDescription", false)
 	%thumbnailEntireLevel.button_pressed = configFile.get_value("editor", "thumbnailEntireLevel", true)
+	%thumbnailWithText.button_pressed = configFile.get_value("editor", "thumbnailWithText", true)
 	%fileDialogWorkaround.button_pressed = configFile.get_value("editor", "fileDialogWorkaround", false)
 	%fullscreen.button_pressed = configFile.get_value("editor", "fullscreen", false)
 	%uiScale.value = configFile.get_value("editor", "logUiScale", log(DisplayServer.screen_get_dpi()/96.0)/0.6931471806) # log2
@@ -128,6 +129,7 @@ func getMatches(matchName:String, default:Array[String]) -> Array[String]:
 func closed() -> void:
 	configFile.set_value("editor", "thumbnailHideDescription", %thumbnailHideDescription.button_pressed)
 	configFile.set_value("editor", "thumbnailEntireLevel", %thumbnailEntireLevel.button_pressed)
+	configFile.set_value("editor", "thumbnailWithText", %thumbnailWithText.button_pressed)
 	configFile.set_value("editor", "fileDialogWorkaround", %fileDialogWorkaround.button_pressed)
 	configFile.set_value("editor", "fullscreen", %fullscreen.button_pressed)
 	configFile.set_value("editor", "logUiScale", %uiScale.value)
@@ -161,7 +163,7 @@ func _fullscreenSet(toggled_on:bool) -> void:
 
 func _generateThumbnail() -> void:
 	editor.outline.visible = false
-	await editor.takeThumbnailScreenshot()
+	await editor.takeThumbnailScreenshot(editor.thumbnailWithText)
 	editor.outline.visible = true
 
 func _thumbnailHideDescriptionSet(toggled_on:bool) -> void:
@@ -169,6 +171,9 @@ func _thumbnailHideDescriptionSet(toggled_on:bool) -> void:
 
 func _thumbnailEntireLevelSet(toggled_on:bool) -> void:
 	editor.thumbnailEntireLevel = toggled_on
+
+func _thumbnailWithText(toggled_on: bool) -> void:
+	editor.thumbnailWithText = toggled_on
 
 func _uiScaleChanged(value:float) -> void:
 	Game.logUiScale = value
