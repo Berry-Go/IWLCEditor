@@ -419,12 +419,12 @@ func dragComponent() -> void: # returns whether or not an object is being dragge
 			# keycounter has only a few possible widths
 			if componentDragged is KeyCounter:
 				toPosition -= effectiveDragPivotRect.position
-				if toPosition.x <= effectiveDragPivotRect.size.x - KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.EXLONG]: toPosition.x = effectiveDragPivotRect.size.x - KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.EXLONG]
-				elif toPosition.x <= effectiveDragPivotRect.size.x - KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.VLONG]: toPosition.x = effectiveDragPivotRect.size.x - KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.VLONG]
+				if Mods.active(&"MoreKeyCounterWidths") and toPosition.x <= effectiveDragPivotRect.size.x - KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.EXLONG]: toPosition.x = effectiveDragPivotRect.size.x - KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.EXLONG]
+				elif Mods.active(&"MoreKeyCounterWidths") and toPosition.x <= effectiveDragPivotRect.size.x - KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.VLONG]: toPosition.x = effectiveDragPivotRect.size.x - KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.VLONG]
 				elif toPosition.x <= effectiveDragPivotRect.size.x - KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.LONG]: toPosition.x = effectiveDragPivotRect.size.x - KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.LONG]
 				elif toPosition.x <= effectiveDragPivotRect.size.x - KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.MEDIUM]: toPosition.x = effectiveDragPivotRect.size.x - KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.MEDIUM]
-				elif toPosition.x >= KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.EXLONG]: toPosition.x = KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.EXLONG]
-				elif toPosition.x >= KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.VLONG]: toPosition.x = KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.VLONG]
+				elif Mods.active(&"MoreKeyCounterWidths") and toPosition.x >= KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.EXLONG]: toPosition.x = KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.EXLONG]
+				elif Mods.active(&"MoreKeyCounterWidths") and toPosition.x >= KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.VLONG]: toPosition.x = KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.VLONG]
 				elif toPosition.x >= KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.LONG]: toPosition.x = KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.LONG]
 				elif toPosition.x >= KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.MEDIUM]: toPosition.x = KeyCounter.WIDTH_AMOUNT[KeyCounter.WIDTH.MEDIUM]
 				else: toPosition.x = 0
