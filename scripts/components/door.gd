@@ -755,15 +755,15 @@ func auraCheck(player:Player) -> void:
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gamePainted",false))
 		makeDebris(Debris, Game.COLOR.ORANGE)
 		playSound = true
-	if player.auraMaroon and !gameFrozen and !hasEffectiveColor(Game.COLOR.RED) and !isAllBaseColor(Game.COLOR.ICE):
+	if player.auraMaroon and !gameFrozen and !hasEffectiveColor(Game.COLOR.RED):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gameFrozen",true))
 		makeDebris(Debris, Game.COLOR.WHITE)
 		playSound = true
-	if player.auraForest and !gameCrumbled and !hasEffectiveColor(Game.COLOR.GREEN) and !isAllBaseColor(Game.COLOR.MUD):
+	if player.auraForest and !gameCrumbled and !hasEffectiveColor(Game.COLOR.GREEN):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gameCrumbled",true))
 		makeDebris(Debris, Game.COLOR.BROWN)
 		playSound = true
-	if player.auraNavy and !gamePainted and !hasEffectiveColor(Game.COLOR.BLUE) and !isAllBaseColor(Game.COLOR.GRAFFITI):
+	if player.auraNavy and !gamePainted and !hasEffectiveColor(Game.COLOR.BLUE):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gamePainted",true))
 		makeDebris(Debris, Game.COLOR.ORANGE)
 		playSound = true
@@ -775,11 +775,6 @@ func auraCheck(player:Player) -> void:
 func isAllInitialColor(color:Game.COLOR) -> bool:
 	if getColor(COLOR_STEP.INITIAL) != color: return false
 	for lock in locks: if lock.color != color: return false
-	return true
-
-func isAllBaseColor(color:Game.COLOR) -> bool:
-	if getColor(COLOR_STEP.BASE) != color: return false
-	for lock in locks: if lock.getColor(Lock.COLOR_STEP.BASE) != color: return false
 	return true
 
 func curseCheck(player:Player) -> void:

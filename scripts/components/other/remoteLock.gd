@@ -368,15 +368,15 @@ func auraCheck(player:Player) -> void:
 		deAuraed = true
 	if armament: return
 	var auraed:bool = false
-	if player.auraMaroon and !gameFrozen and getColor(Lock.COLOR_STEP.EFFECTIVE) != Game.COLOR.RED and getColor(Lock.COLOR_STEP.BASE) != Game.COLOR.ICE:
+	if player.auraMaroon and !gameFrozen and getColor(Lock.COLOR_STEP.EFFECTIVE) != Game.COLOR.RED:
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gameFrozen",true))
 		makeDebris(Door.Debris, Game.COLOR.WHITE)
 		auraed = true
-	if player.auraForest and !gameCrumbled and getColor(Lock.COLOR_STEP.EFFECTIVE) != Game.COLOR.GREEN and getColor(Lock.COLOR_STEP.BASE) != Game.COLOR.MUD:
+	if player.auraForest and !gameCrumbled and getColor(Lock.COLOR_STEP.EFFECTIVE) != Game.COLOR.GREEN:
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gameCrumbled",true))
 		makeDebris(Door.Debris, Game.COLOR.BROWN)
 		auraed = true
-	if player.auraNavy and !gamePainted and getColor(Lock.COLOR_STEP.EFFECTIVE) != Game.COLOR.BLUE and getColor(Lock.COLOR_STEP.BASE) != Game.COLOR.GRAFFITI:
+	if player.auraNavy and !gamePainted and getColor(Lock.COLOR_STEP.EFFECTIVE) != Game.COLOR.BLUE:
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gamePainted",true))
 		makeDebris(Door.Debris, Game.COLOR.ORANGE)
 		auraed = true
