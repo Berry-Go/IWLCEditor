@@ -352,8 +352,8 @@ func restart() -> void:
 		if editor: playTest(latestSpawn)
 	else: playGame.restart()
 
-func setMimic(mimicType:Colors.C, setColor:Colors.C) -> void:
-	if setColor == Colors.C.NONE: return
+func setMimic(mimicType:C.C, setColor:C.C) -> void:
+	if setColor == C.C.NONE: return
 	for object in objects.values():
 		if object.get_script() in [KeyBulk, Door, RemoteLock]:
 			object.setMimic(mimicType, setColor)

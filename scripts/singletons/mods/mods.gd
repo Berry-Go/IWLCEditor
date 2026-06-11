@@ -12,7 +12,7 @@ static var mods:Dictionary[StringName, Mod] = {
 	&"ErrorColor": Mod.new(
 		"Error Color",
 		"Adds the Error Color from the Negative Worlds",
-		{&"ErrorColorUsed": ColorProblem.new([Colors.C.ERROR], "Error Color Used")},
+		{&"ErrorColorUsed": ColorProblem.new([C.C.ERROR], "Error Color Used")},
 	),
 	&"MoreLockConfigs": Mod.new(
 		"More Lock Configurations",
@@ -48,7 +48,7 @@ static var mods:Dictionary[StringName, Mod] = {
 	&"NoneColor": Mod.new(
 		"None Color",
 		"Adds the None color from L4vo5's Lockpick Editor",
-		{&"NoneColorUsed": ColorProblem.new([Colors.C.NONE], "None Color Used")}
+		{&"NoneColorUsed": ColorProblem.new([C.C.NONE], "None Color Used")}
 	),
 	&"RemoteLocks": Mod.new(
 		"Remote Locks",
@@ -67,12 +67,12 @@ static var mods:Dictionary[StringName, Mod] = {
 	&"DynamiteColor": Mod.new(
 		"Dynamite Color",
 		"Adds the Dynamite color from world 2 of IWL:C",
-		{&"DynamiteColorUsed": ColorProblem.new([Colors.C.DYNAMITE], "Dynamite Color Used")}
+		{&"DynamiteColorUsed": ColorProblem.new([C.C.DYNAMITE], "Dynamite Color Used")}
 	),
 	&"QuicksilverColor": Mod.new(
 		"Quicksilver Color",
 		"Adds the Quicksilver color from world 2 of IWL:C",
-		{&"QuicksilverColorUsed": ColorProblem.new([Colors.C.QUICKSILVER], "Quicksilver Color Used")}
+		{&"QuicksilverColorUsed": ColorProblem.new([C.C.QUICKSILVER], "Quicksilver Color Used")}
 	),
 	&"PartialBlastLocks": Mod.new(
 		"Partial Blast Locks",
@@ -92,12 +92,12 @@ static var mods:Dictionary[StringName, Mod] = {
 	&"DarkAuraColors": Mod.new(
 		"Dark Aura Colors",
 		"Adds the Dark Aura colors from world 4 of IWL:C",
-		{&"DarkAuraColorUsed": ColorProblem.new([Colors.C.MAROON, Colors.C.FOREST, Colors.C.NAVY], "Dark Aura Color Used")}
+		{&"DarkAuraColorUsed": ColorProblem.new([C.C.MAROON, C.C.FOREST, C.C.NAVY], "Dark Aura Color Used")}
 	),
 	&"AuraBreakerColors": Mod.new(
 		"Aura Breaker Colors",
 		"Adds the Aura Breaker colors from world 4 of IWL:C",
-		{&"AuraBreakerColorUsed": ColorProblem.new([Colors.C.ICE, Colors.C.MUD, Colors.C.GRAFFITI], "Aura Breaker Color Used")}
+		{&"AuraBreakerColorUsed": ColorProblem.new([C.C.ICE, C.C.MUD, C.C.GRAFFITI], "Aura Breaker Color Used")}
 	),
 	&"CurseKeys": Mod.new(
 		"Curse/Uncurse Keys",
@@ -176,7 +176,7 @@ static var mods:Dictionary[StringName, Mod] = {
 	&"CosmicColor": Mod.new(
 		"Cosmic Color",
 		"Adds the Cosmic color. Added by Bored",
-		{&"CosmicColorUsed": ColorProblem.new([Colors.C.COSMIC], "Cosmic Color Used")}
+		{&"CosmicColorUsed": ColorProblem.new([C.C.COSMIC], "Cosmic Color Used")}
 	)
 }
 
@@ -268,34 +268,34 @@ func listIncompatibilities(mod:Mod) -> String:
 		string += "\n - " + mods[id].name
 	return string
 
-func colors() -> Array[Colors.C]:
-	var array:Array[Colors.C] = [
-		Colors.C.MASTER,
-		Colors.C.WHITE, Colors.C.ORANGE, Colors.C.PURPLE,
-		Colors.C.RED, Colors.C.GREEN, Colors.C.BLUE,
-		Colors.C.PINK, Colors.C.CYAN, Colors.C.BLACK,
-		Colors.C.BROWN,
-		Colors.C.PURE,
-		Colors.C.GLITCH,
-		Colors.C.STONE,
+func colors() -> Array[C.C]:
+	var array:Array[C.C] = [
+		C.C.MASTER,
+		C.C.WHITE, C.C.ORANGE, C.C.PURPLE,
+		C.C.RED, C.C.GREEN, C.C.BLUE,
+		C.C.PINK, C.C.CYAN, C.C.BLACK,
+		C.C.BROWN,
+		C.C.PURE,
+		C.C.GLITCH,
+		C.C.STONE,
 	]
-	if active(&"DynamiteColor"): array.append(Colors.C.DYNAMITE)
-	if active(&"QuicksilverColor"): array.append(Colors.C.QUICKSILVER)
-	if active(&"DarkAuraColors"): array.append_array([Colors.C.MAROON, Colors.C.FOREST, Colors.C.NAVY])
-	if active( &"AuraBreakerColors"): array.append_array([Colors.C.ICE, Colors.C.MUD, Colors.C.GRAFFITI])
-	if active(&"NoneColor"): array.append(Colors.C.NONE)
-	if active(&"CosmicColor"): array.append(Colors.C.COSMIC)
-	if active(&"ErrorColor"): array.append(Colors.C.ERROR)
+	if active(&"DynamiteColor"): array.append(C.C.DYNAMITE)
+	if active(&"QuicksilverColor"): array.append(C.C.QUICKSILVER)
+	if active(&"DarkAuraColors"): array.append_array([C.C.MAROON, C.C.FOREST, C.C.NAVY])
+	if active( &"AuraBreakerColors"): array.append_array([C.C.ICE, C.C.MUD, C.C.GRAFFITI])
+	if active(&"NoneColor"): array.append(C.C.NONE)
+	if active(&"CosmicColor"): array.append(C.C.COSMIC)
+	if active(&"ErrorColor"): array.append(C.C.ERROR)
 	return array
 
 ## wraps
-func nextColor(color:Colors.C) -> Colors.C:
-	var colorsArray:Array[Colors.C] = colors()
+func nextColor(color:C.C) -> C.C:
+	var colorsArray:Array[C.C] = colors()
 	return colorsArray[posmod(colorsArray.find(color) + 1, len(colorsArray))]
 
 ## wraps
-func previousColor(color:Colors.C) -> Colors.C:
-	var colorsArray:Array[Colors.C] = colors()
+func previousColor(color:C.C) -> C.C:
+	var colorsArray:Array[C.C] = colors()
 	return colorsArray[posmod(colorsArray.find(color) - 1, len(colorsArray))]
 
 func keyTypes() -> Array[KeyBulk.TYPE]:
@@ -404,8 +404,8 @@ class ComponentProblem extends Problem:
 		name = _name
 
 class ColorProblem extends Problem:
-	var colors:Array[Colors.C]
+	var colors:Array[C.C]
 
-	func _init(_colors:Array[Colors.C], _name:String) -> void:
+	func _init(_colors:Array[C.C], _name:String) -> void:
 		colors = _colors
 		name = _name

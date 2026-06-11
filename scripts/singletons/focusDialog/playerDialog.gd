@@ -3,14 +3,14 @@ class_name PlayerDialog
 
 @onready var main:FocusDialog = get_parent()
 
-var color:Colors.C
+var color:C.C
 
 func focus(focused:GameObject, new:bool, _dontRedirect:bool) -> void:
 	%playerSpawnSettings.visible = focused is PlayerSpawn
 	%playerStateSettings.visible = focused is PlayerPlaceholderObject or Game.levelStart != focused
 	%playerStateColorSettings.visible = %playerStateSettings.visible
 	%playerSettings.visible = focused is PlayerPlaceholderObject
-	if new: setSelectedColor(Colors.C.WHITE)
+	if new: setSelectedColor(C.C.WHITE)
 	else: _playerColorSelected(color)
 	var undoPositions:int = focused.undoStack.reduce(func(accum, change): return accum + 1 if change is GameChanges.UndoSeparator else accum, -1)
 	%playerUndostack.text = "%s positions in undo history" % undoPositions
@@ -21,11 +21,11 @@ func focus(focused:GameObject, new:bool, _dontRedirect:bool) -> void:
 	if %playerStateSettings.visible:
 		if !main.interacted: main.interact(%playerKeyCountEdit)
 
-func setSelectedColor(toColor:Colors.C) -> void:
+func setSelectedColor(toColor:C.C) -> void:
 	%playerColorSelector.setSelect(toColor)
 	_playerColorSelected(toColor)
 
-func _playerColorSelected(_color:Colors.C) -> void:
+func _playerColorSelected(_color:C.C) -> void:
 	var new:bool = color != _color
 	color = _color
 	if main.focused is PlayerPlaceholderObject:

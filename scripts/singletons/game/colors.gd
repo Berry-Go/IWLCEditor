@@ -1,4 +1,5 @@
 extends Node
+class_name C
 
 var COLORS:int = 0
 var DEFINITIONS:Array[ColorDef] = []
@@ -45,8 +46,8 @@ func _init() -> void:
 	defineColor("Cosmic",		Color("#240a44"), Color("#19072f"), Color("#110521")).texturedKeys().animatedDoors(8, true) \
 				   .brightTones(Color("#340e62"), Color("#240a44"), Color("#19072f"))
 
-func getDef(color:C) -> ColorDef: return DEFINITIONS[color]
-func getName(color:C) -> String: return DEFINITIONS[color].name
+func getDef(color:C.C) -> ColorDef: return DEFINITIONS[color]
+func getName(color:C.C) -> String: return DEFINITIONS[color].name
 
 
 func defineColor(_name:String, _highTone:Color, _mainTone:Color, _darkTone:Color) -> ColorDef:
