@@ -2,7 +2,7 @@ extends GameTextureLoader
 class_name ColorsTextureLoader
 # recursive
 
-var textures:Dictionary[C.C,GameTextureLoader] = {} # dictionary[color,textureloader]
+var textures:Dictionary[C.olors,GameTextureLoader] = {} # dictionary[color,textureloader]
 
 ## initialise the subloader
 func initLoader(path:String,frames:int,_params:Dictionary) -> GameTextureLoader:
