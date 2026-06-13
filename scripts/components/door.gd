@@ -518,7 +518,7 @@ func tryOpen(player:Player) -> void:
 	if M.ex(gameCopies):
 		match starred:
 			STAR_STATE.STARRED_UNLOCKED:
-				if checkCanOpen(player, false, true):
+				if checkCanOpen(player, func(lock): return lock.armament):
 					player.changeGlisten(starredColor, M.sub(player.glisten[starredColor], M.add(starredSpendGlisten, calculateCosts(player, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.armament))))
 					player.changeKeys(starredColor, M.sub(player.key[starredColor],M.add(starredSpendKey, calculateCosts(player, func(lock): return lock.type != Lock.TYPE.GLISTENING and lock.armament))))
 				else: return
@@ -631,7 +631,7 @@ func tryCosmicOpen(player:Player) -> bool:
 	if hasEffectiveColor(Game.COLOR.PURE): return false
 	if starred == STAR_STATE.UNSTARRED and player.masterMode == M.ONE:
 		player.changeKeys(Game.COLOR.COSMIC, M.sub(player.key[Game.COLOR.COSMIC], player.masterMode))
-		if checkCanOpen(player, true, false): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starred", STAR_STATE.STARRED_UNLOCKED))
+		if checkCanOpen(player, func(lock): return !lock.armament): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starred", STAR_STATE.STARRED_UNLOCKED))
 		else: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starred", STAR_STATE.STARRED_LOCKED))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendKey", calculateCosts(player, func(lock): return lock.type != Lock.TYPE.GLISTENING and !lock.armament)))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendGlisten", calculateCosts(player, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.armament)))
@@ -647,18 +647,20 @@ func tryCosmicOpen(player:Player) -> bool:
 	GameChanges.bufferSave()
 	return true
 
-func checkCanOpen(player:Player, checkNonarmamentLocks:bool=true, checkArmamentLocks:bool=true, checkCrash:bool=true) -> bool:
+func checkCanOpen(player:Player, predicate:Callable=func(_lock): return true, checkCrash:bool=true) -> bool:
 	var willCrash:bool = false
 	var canOpen:bool = true
 	if M.ex(gameCopies): # although nothing (yet) can make a door 0 copy without destroying it
 		for lock in locks:
 			if !lock.canOpen(player):
 				if lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE and checkCrash: willCrash = true
-				elif checkArmamentLocks if lock.armament else checkNonarmamentLocks: canOpen = false
+				elif predicate.call(lock): canOpen = false
 			elif lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE: canOpen = false
 		for lock in remoteLocks:
-			if !lock.satisfied and (checkArmamentLocks if lock.armament else checkNonarmamentLocks): canOpen = false
-		if willCrash: Game.crash(); return false
+			if !lock.satisfied and predicate.call(lock): canOpen = false
+		if willCrash:
+			Game.crash()
+			return false
 	return canOpen
 
 func calculateCosts(player:Player, predicate:Callable, costIpow:PackedInt64Array=ipow()) -> PackedInt64Array:
