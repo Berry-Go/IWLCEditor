@@ -525,10 +525,12 @@ static func getLockCanOpen(lock:GameComponent,player:Player, checkColor:Game.COL
 		TYPE.GLISTENING: can = M.cgte(M.along(glistenCount, lockCount), M.acrabs(lockCount))
 	return can != lock.negated
 
-func getCost(player:Player, ipow:PackedInt64Array=parent.ipow(), checkColor:Game.COLOR=getColor(COLOR_STEP.FINAL)) -> PackedInt64Array: return getLockCost(self, player, ipow, checkColor)
+func getCost(player:Player, ipow:PackedInt64Array=parent.ipow()) -> PackedInt64Array: return getLockCost(self, player, ipow)
 
-static func getLockCost(lock:GameComponent, player:Player, ipow:PackedInt64Array, checkColor:Game.COLOR=lock.getColor(COLOR_STEP.FINAL)) -> PackedInt64Array:
+static func getLockCost(lock:GameComponent, player:Player, ipow:PackedInt64Array) -> PackedInt64Array:
+	var checkColor:Game.COLOR
 	if M.ex(player.key[Game.COLOR.AIR]) and !lock.canOpen(player): checkColor = Game.COLOR.AIR
+	else: checkColor = lock.getColor(COLOR_STEP.FINAL)
 	var cost:PackedInt64Array = M.ZERO
 	var keyCount:PackedInt64Array = player.key[checkColor]
 	var lockCount:PackedInt64Array = lock.effectiveCount(ipow)
