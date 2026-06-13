@@ -91,6 +91,11 @@ static var mods:Dictionary[StringName, Mod] = {
 		"Cosmic Color",
 		"Adds the Cosmic color. Added by Bored",
 		[&"CosmicColor"]
+	),
+	&"ElementalColors": Mod.new(
+		"Elemental Colours",
+		"Adds four elemental colours that interact with locks. Added by BerryGo",
+		[&"ElementalColors"]
 	)
 }
 
@@ -186,6 +191,10 @@ func colors() -> Array[Game.COLOR]:
 	if active(&"NoneColor"): array.append(Game.COLOR.NONE)
 	if active(&"CosmicColor"): array.append(Game.COLOR.COSMIC)
 	if active(&"ErrorColor"): array.append(Game.COLOR.ERROR)
+	if active(&"ElementalColors"): array.append(Game.COLOR.FIRE)
+	if active(&"ElementalColors"): array.append(Game.COLOR.WATER)
+	if active(&"ElementalColors"): array.append(Game.COLOR.EARTH)
+	if active(&"ElementalColors"): array.append(Game.COLOR.AIR)
 	return array
 
 func nextColor(color:Game.COLOR) -> Game.COLOR:

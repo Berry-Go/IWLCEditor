@@ -494,12 +494,14 @@ func effectiveConfiguration() -> CONFIGURATION:
 		else: return CONFIGURATION.NONE
 	else: return configuration
 
-func canOpen(player:Player) -> bool: return getLockCanOpen(self, player)
+func canOpen(player:Player, checkColor:Game.COLOR=getColor(COLOR_STEP.FINAL)) -> bool: return getLockCanOpen(self, player, checkColor)
 
-static func getLockCanOpen(lock:GameComponent,player:Player) -> bool:
+static func getLockCanOpen(lock:GameComponent,player:Player, checkColor:Game.COLOR=lock.getColor(COLOR_STEP.FINAL)) -> bool:
+	if checkColor == Game.COLOR.FIRE:
+		return not(lock.negated)
 	var can:bool = true
-	var keyCount:PackedInt64Array = player.key[lock.getColor(COLOR_STEP.FINAL)]
-	var glistCount:PackedInt64Array = player.glisten[lock.getColor(COLOR_STEP.FINAL)]
+	var keyCount:PackedInt64Array = player.key[checkColor]
+	var glistCount:PackedInt64Array = player.glisten[checkColor]
 	var lockCount:PackedInt64Array = lock.effectiveCount()
 	var lockDenominator:PackedInt64Array = lock.effectiveDenominator()
 	match lock.type:
@@ -524,11 +526,11 @@ static func getLockCanOpen(lock:GameComponent,player:Player) -> bool:
 		TYPE.GLISTENING: can = M.cgte(M.along(glistCount, lockCount), M.acrabs(lockCount))
 	return can != lock.negated
 
-func getCost(player:Player, ipow:PackedInt64Array=parent.ipow()) -> PackedInt64Array: return getLockCost(self, player, ipow)
+func getCost(player:Player, ipow:PackedInt64Array=parent.ipow(), checkColor:Game.COLOR=getColor(COLOR_STEP.FINAL)) -> PackedInt64Array: return getLockCost(self, player, ipow, checkColor)
 
-static func getLockCost(lock:GameComponent, player:Player, ipow:PackedInt64Array) -> PackedInt64Array:
+static func getLockCost(lock:GameComponent, player:Player, ipow:PackedInt64Array, checkColor:Game.COLOR=lock.getColor(COLOR_STEP.FINAL)) -> PackedInt64Array:
 	var cost:PackedInt64Array = M.ZERO
-	var keyCount:PackedInt64Array = player.key[lock.getColor(COLOR_STEP.FINAL)]
+	var keyCount:PackedInt64Array = player.key[checkColor]
 	var lockCount:PackedInt64Array = lock.effectiveCount(ipow)
 	var lockDenominator:PackedInt64Array = lock.effectiveDenominator(ipow)
 	match lock.type:

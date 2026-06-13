@@ -7,7 +7,7 @@ class_name SelectMods
 
 # the way the select tree is laid out
 static var ModTree:Array = [
-	&"PartialInfKey", &"Glistening", &"CosmicColor",
+	&"PartialInfKey", &"Glistening", &"CosmicColor", &"ElementalColors",
 	SubTree.new(
 		"Benign",
 		"Mods that don't do much.",
@@ -39,6 +39,11 @@ static var ModTree:Array = [
 		"Surely this is a good idea",
 		[&"DisconnectedLock",&"OutOfBounds"]
 	),
+	#SubTree.new(
+	#	"ModTest1",
+	#	"This is another, even greater description.",
+	#	[&"ElementalColors"]
+	#),
 ]
 
 class SubTree extends RefCounted:

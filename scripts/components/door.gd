@@ -526,7 +526,9 @@ func tryOpen(player:Player) -> void:
 				if checkCanOpen(player):
 					var spendColor:Game.COLOR = getColor(COLOR_STEP.FINAL)
 					player.changeGlisten(spendColor, M.sub(player.glisten[spendColor], calculateCosts(player, ipow(), true)))
+					var waterCost = calculateCostsWater(player)
 					player.changeKeys(spendColor, M.sub(player.key[spendColor], calculateCosts(player)))
+					player.changeKeys(Game.COLOR.WATER, M.sub(player.key[Game.COLOR.WATER], waterCost))
 				else: return
 		
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"gameCopies", M.sub(gameCopies, M.across(ipow(), M.sub(M.allAxes(), infCopies)))))
@@ -653,18 +655,55 @@ func checkCanOpen(player:Player, checkNonarmamentLocks:bool=true, checkArmamentL
 	if M.ex(gameCopies): # although nothing (yet) can make a door 0 copy without destroying it
 		for lock in locks:
 			if !lock.canOpen(player):
-				if lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE and checkCrash: willCrash = true
-				elif checkArmamentLocks if lock.armament else checkNonarmamentLocks: canOpen = false
-			elif lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE: canOpen = false
+				if !lock.canOpen(player, Game.COLOR.AIR) or player.key[Game.COLOR.AIR] == M.ZERO:
+					if lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE and checkCrash:
+						willCrash = true
+					elif checkArmamentLocks if lock.armament else checkNonarmamentLocks:
+						canOpen = false
+				elif lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE:
+					canOpen = false
+			elif lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE:
+				canOpen = false
 		for lock in remoteLocks:
-			if !lock.satisfied and (checkArmamentLocks if lock.armament else checkNonarmamentLocks): canOpen = false
-		if willCrash: Game.crash(); return false
+			if !lock.satisfied and (checkArmamentLocks if lock.armament else checkNonarmamentLocks):
+				canOpen = false
+		if willCrash:
+			Game.crash(); return false
 	return canOpen
 
 func calculateCosts(player:Player, costIpow:PackedInt64Array=ipow(), forGlisten:bool=false, checkNonarmamentLocks:bool=true, checkArmamentLocks:bool=true) -> PackedInt64Array:
 	var cost:PackedInt64Array = M.ZERO
-	for lock in locks: if ((lock.type == Lock.TYPE.GLISTENING) == forGlisten) and (checkArmamentLocks if lock.armament else checkNonarmamentLocks): cost = M.add(cost, lock.getCost(player, costIpow))
-	for lock in remoteLocks: if ((lock.type == Lock.TYPE.GLISTENING) == forGlisten) and (checkArmamentLocks if lock.armament else checkNonarmamentLocks): cost = M.add(cost, lock.cost)
+	for lock in locks:
+		if ((lock.type == Lock.TYPE.GLISTENING) == forGlisten) and (checkArmamentLocks if lock.armament else checkNonarmamentLocks):
+			if lock.canOpen(player):
+				if lock.getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.EARTH and lock.type != Lock.TYPE.BLAST:
+					cost = M.add(cost, player.key[Game.COLOR.EARTH])
+				else:
+					cost = M.add(cost, lock.getCost(player, costIpow))
+			elif lock.canOpen(player, Game.COLOR.AIR) and player.key[Game.COLOR.AIR] != M.ZERO:
+				cost = M.add(cost, lock.getCost(player, costIpow, Game.COLOR.AIR))
+			
+	for lock in remoteLocks:
+		if ((lock.type == Lock.TYPE.GLISTENING) == forGlisten) and (checkArmamentLocks if lock.armament else checkNonarmamentLocks):
+			if lock.getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.EARTH and lock.type != Lock.TYPE.BLAST:
+				cost = M.add(cost, player.key[Game.COLOR.EARTH])
+			else:
+				cost = M.add(cost, lock.cost)
+	return cost
+
+func calculateCostsWater(player:Player, costIpow:PackedInt64Array=ipow(), forGlisten:bool=false, checkNonarmamentLocks:bool=true, checkArmamentLocks:bool=true) -> PackedInt64Array:
+	var cost:PackedInt64Array = M.ZERO
+	for lock in locks:
+		if ((lock.type == Lock.TYPE.GLISTENING) == forGlisten) and (checkArmamentLocks if lock.armament else checkNonarmamentLocks):
+			if lock.getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.WATER:
+				if lock.canOpen(player):
+					cost = M.add(cost, lock.getCost(player, costIpow))
+				elif lock.canOpen(player, Game.COLOR.AIR) and player.key[Game.COLOR.AIR] != M.ZERO:
+					cost = M.add(cost, lock.getCost(player, costIpow, Game.COLOR.AIR))
+	for lock in remoteLocks:
+		if ((lock.type == Lock.TYPE.GLISTENING) == forGlisten) and (checkArmamentLocks if lock.armament else checkNonarmamentLocks):
+			if lock.getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.WATER:
+				cost = M.add(cost, lock.cost)
 	return cost
 
 func hasEffectiveColor(color:Game.COLOR) -> bool:
