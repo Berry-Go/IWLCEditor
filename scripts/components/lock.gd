@@ -497,11 +497,10 @@ func effectiveConfiguration() -> CONFIGURATION:
 func canOpen(player:Player, checkColor:Game.COLOR=getColor(COLOR_STEP.FINAL)) -> bool: return getLockCanOpen(self, player, checkColor)
 
 static func getLockCanOpen(lock:GameComponent,player:Player, checkColor:Game.COLOR=lock.getColor(COLOR_STEP.FINAL)) -> bool:
-	if checkColor == Game.COLOR.FIRE:
-		return not(lock.negated)
+	if checkColor == Game.COLOR.FIRE: return !lock.negated
 	var can:bool = true
 	var keyCount:PackedInt64Array = player.key[checkColor]
-	var glistCount:PackedInt64Array = player.glisten[checkColor]
+	var glistenCount:PackedInt64Array = player.glisten[checkColor]
 	var lockCount:PackedInt64Array = lock.effectiveCount()
 	var lockDenominator:PackedInt64Array = lock.effectiveDenominator()
 	match lock.type:
@@ -523,7 +522,7 @@ static func getLockCanOpen(lock:GameComponent,player:Player, checkColor:Game.COL
 				if lock.effectiveZeroI(): can = M.nex(M.i(keyCount))
 				else: can = M.nex(M.r(keyCount))
 			else: can = M.eq(M.along(keyCount, lockCount), M.acrabs(lockCount))
-		TYPE.GLISTENING: can = M.cgte(M.along(glistCount, lockCount), M.acrabs(lockCount))
+		TYPE.GLISTENING: can = M.cgte(M.along(glistenCount, lockCount), M.acrabs(lockCount))
 	return can != lock.negated
 
 func getCost(player:Player, ipow:PackedInt64Array=parent.ipow(), checkColor:Game.COLOR=getColor(COLOR_STEP.FINAL)) -> PackedInt64Array: return getLockCost(self, player, ipow, checkColor)
@@ -533,11 +532,13 @@ static func getLockCost(lock:GameComponent, player:Player, ipow:PackedInt64Array
 	var keyCount:PackedInt64Array = player.key[checkColor]
 	var lockCount:PackedInt64Array = lock.effectiveCount(ipow)
 	var lockDenominator:PackedInt64Array = lock.effectiveDenominator(ipow)
-	match lock.type:
-		TYPE.NORMAL, TYPE.EXACT, TYPE.GLISTENING: cost = lockCount
-		TYPE.BLAST: if M.ex(lockDenominator): cost = M.divide(M.times(M.alongbs(keyCount, lockDenominator), lockCount), lockDenominator)
-		TYPE.ALL: if M.ex(lockDenominator): cost = M.divide(M.times(keyCount, lockCount), lockDenominator)
-	if lock.negated: return M.negate(cost)
+	if lock.getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.EARTH and lock.type != Lock.TYPE.BLAST: cost = player.key[Game.COLOR.EARTH]
+	else:
+		match lock.type:
+			TYPE.NORMAL, TYPE.EXACT, TYPE.GLISTENING: cost = lockCount
+			TYPE.BLAST: if M.ex(lockDenominator): cost = M.divide(M.times(M.alongbs(keyCount, lockDenominator), lockCount), lockDenominator)
+			TYPE.ALL: if M.ex(lockDenominator): cost = M.divide(M.times(keyCount, lockCount), lockDenominator)
+	if lock.negated: return M.negate(cost) # TODO: should negated earth locks spend earth keys * -1?
 	return cost
 
 func effectiveCount(ipow:PackedInt64Array=parent.ipow()) -> PackedInt64Array:

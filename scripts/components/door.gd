@@ -670,11 +670,10 @@ func calculateCosts(player:Player, predicate:Callable, costIpow:PackedInt64Array
 	for lock in locks:
 		if predicate.call(lock):
 			# TODO: AIR
-			if lock.getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.EARTH and lock.type != Lock.TYPE.BLAST: cost = M.add(cost, player.key[Game.COLOR.EARTH])
-			else: cost = M.add(cost, lock.getCost(player, costIpow))
+			cost = M.add(cost, lock.getCost(player, costIpow))
 	for lock in remoteLocks:
 		if predicate.call(lock):
-			# TODO: REMOTE LOCKS AIR & EARTH
+			# TODO: REMOTE LOCKS AIR
 			cost = M.add(cost, lock.cost)
 	return cost
 
