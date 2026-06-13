@@ -398,6 +398,8 @@ var starred:STAR_STATE = STAR_STATE.UNSTARRED
 var starredColor:Game.COLOR = Game.COLOR.WHITE 
 var starredSpendKey:PackedInt64Array = M.ZERO
 var starredSpendGlisten:PackedInt64Array = M.ZERO
+var starredSpendWater:PackedInt64Array = M.ZERO
+var starredSpendWaterGlisten:PackedInt64Array = M.ZERO
 
 enum ANIM_STATE {IDLE, ADD_COPY, RELOCK}
 var animState:ANIM_STATE = ANIM_STATE.IDLE
@@ -493,8 +495,10 @@ func stop() -> void:
 	curseMimic = Game.COLOR.GLITCH
 	justOpened = false
 	starred = STAR_STATE.UNSTARRED
-	starredSpendGlisten = M.ZERO
 	starredSpendKey = M.ZERO
+	starredSpendGlisten = M.ZERO
+	starredSpendWater = M.ZERO
+	starredSpendWaterGlisten = M.ZERO
 	starredColor = Game.COLOR.WHITE
 	super()
 
@@ -519,14 +523,20 @@ func tryOpen(player:Player) -> void:
 		match starred:
 			STAR_STATE.STARRED_UNLOCKED:
 				if checkCanOpen(player, func(lock): return lock.armament):
+					var waterGlistenArmamentCost = calculateCosts(player, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.WATER and lock.armament)
+					var waterArmamentCost = calculateCosts(player, func(lock): return lock.type != Lock.TYPE.GLISTENING and lock.getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.WATER and lock.armament)
 					player.changeGlisten(starredColor, M.sub(player.glisten[starredColor], M.add(starredSpendGlisten, calculateCosts(player, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.armament))))
+					player.changeGlisten(Game.COLOR.WATER, M.add(starredSpendWaterGlisten, waterGlistenArmamentCost))
 					player.changeKeys(starredColor, M.sub(player.key[starredColor],M.add(starredSpendKey, calculateCosts(player, func(lock): return lock.type != Lock.TYPE.GLISTENING and lock.armament))))
+					player.changeKeys(Game.COLOR.WATER, M.add(starredSpendWater, waterArmamentCost))
 				else: return
 			STAR_STATE.UNSTARRED:
 				if checkCanOpen(player):
 					var spendColor:Game.COLOR = getColor(COLOR_STEP.FINAL)
-					player.changeGlisten(spendColor, M.sub(player.glisten[spendColor], calculateCosts(player, func(lock): return lock.type == Lock.TYPE.GLISTENING)))
+					var waterGlistenCost = calculateCosts(player, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.WATER)
 					var waterCost = calculateCosts(player, func(lock): return lock.type != Lock.TYPE.GLISTENING and lock.getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.WATER)
+					player.changeGlisten(spendColor, M.sub(player.glisten[spendColor], calculateCosts(player, func(lock): return lock.type == Lock.TYPE.GLISTENING)))
+					player.changeGlisten(Game.COLOR.WATER, M.sub(player.glisten[Game.COLOR.WATER], waterGlistenCost))
 					player.changeKeys(spendColor, M.sub(player.key[spendColor], calculateCosts(player, func(lock): return lock.type != Lock.TYPE.GLISTENING)))
 					player.changeKeys(Game.COLOR.WATER, M.sub(player.key[Game.COLOR.WATER], waterCost))
 				else: return
@@ -577,7 +587,8 @@ func tryQuicksilverOpen(player:Player) -> bool:
 	var spendColor:Game.COLOR = getColor(COLOR_STEP.FINAL)
 	if starred != STAR_STATE.UNSTARRED:
 		player.changeGlisten(starredColor, M.sub(player.glisten[starredColor], M.add(starredSpendGlisten, calculateCosts(player, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.armament, player.masterMode))))
-		player.changeKeys(starredColor, M.sub(player.key[starredColor],M.add(starredSpendKey, calculateCosts(player, func(lock): return lock.type != Lock.TYPE.GLISTENING and lock.armament, player.masterMode))))
+		player.changeKeys(starredColor, M.sub(player.key[starredColor], M.add(starredSpendKey, calculateCosts(player, func(lock): return lock.type != Lock.TYPE.GLISTENING and lock.armament, player.masterMode))))
+		# TODO: should water's gimmick happen with quicksilver open?
 	else:
 		player.changeGlisten(spendColor, M.sub(player.glisten[spendColor], calculateCosts(player, func(lock): return lock.type == Lock.TYPE.GLISTENING, player.masterMode)))
 		player.changeKeys(spendColor, M.sub(player.key[spendColor],calculateCosts(player, func(lock): return lock.type != Lock.TYPE.GLISTENING, player.masterMode)))
@@ -636,7 +647,9 @@ func tryCosmicOpen(player:Player) -> bool:
 		if checkCanOpen(player, func(lock): return !lock.armament): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starred", STAR_STATE.STARRED_UNLOCKED))
 		else: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starred", STAR_STATE.STARRED_LOCKED))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendKey", calculateCosts(player, func(lock): return lock.type != Lock.TYPE.GLISTENING and !lock.armament)))
+		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendWater", calculateCosts(player, func(lock): return lock.type != Lock.TYPE.GLISTENING and !lock.armament and lock.getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.WATER)))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendGlisten", calculateCosts(player, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.armament)))
+		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendWaterGlisten", calculateCosts(player, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.armament and lock.getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.WATER)))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredColor", getColor(COLOR_STEP.FINAL)))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredipow", ipow()))
 	elif starred != STAR_STATE.UNSTARRED and player.masterMode == M.nONE:
