@@ -259,7 +259,7 @@ func blinkAnim() -> void:
 	animAlpha = 1
 	animColor = Color("#00ff66") if satisfied else Color("#ff0066")
 
-func canOpen(player:Player) -> bool: return Lock.getLockCanOpen(self, player)
+func canOpen(player:Player, checkColor:Game.COLOR=getColor(Lock.COLOR_STEP.FINAL)) -> bool: return Lock.getLockCanOpen(self, player, checkColor)
 
 func getCost(player:Player) -> PackedInt64Array: return Lock.getLockCost(self,player,M.ONE)
 

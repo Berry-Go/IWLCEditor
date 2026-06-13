@@ -6,10 +6,10 @@ static var NON_OBJECT_COMPONENTS:Array[GDScript] = [Lock, KeyCounterElement]
 static var RECTANGLE_COMPONENTS:Array[GDScript] = [Door, Lock, KeyCounter, RemoteLock, PlaceholderObject, FloatingTile]
 static var RESIZABLE_COMPONENTS:Array[GDScript] = [Door, Lock, KeyCounter, RemoteLock, PlaceholderObject, FloatingTile]
 
-const COLORS:int = 25
-enum COLOR {MASTER, WHITE, ORANGE, PURPLE, RED, GREEN, BLUE, PINK, CYAN, BLACK, BROWN, PURE, GLITCH, STONE, DYNAMITE, QUICKSILVER, MAROON, FOREST, NAVY, ICE, MUD, GRAFFITI, NONE, ERROR, COSMIC}
+const COLORS:int = 29
+enum COLOR {MASTER, WHITE, ORANGE, PURPLE, RED, GREEN, BLUE, PINK, CYAN, BLACK, BROWN, PURE, GLITCH, STONE, DYNAMITE, QUICKSILVER, MAROON, FOREST, NAVY, ICE, MUD, GRAFFITI, NONE, ERROR, COSMIC, FIRE, WATER, EARTH, AIR}
 const COLOR_NAMES:Array[String] = ["Master", "White", "Orange", "Purple", "Red", "Green", "Blue", "Pink", "Cyan", "Black", "Brown", "Pure", "Glitch", "Stone", 
-"Dynamite", "Quicksilver", "Maroon", "Forest", "Navy", "Ice", "Mud", "Graffiti", "None", "Error", "Cosmic"]
+"Dynamite", "Quicksilver", "Maroon", "Forest", "Navy", "Ice", "Mud", "Graffiti", "None", "Error", "Cosmic", "Fire", "Water", "Earth", "Air"]
 const NONFLAT_COLORS:Array[COLOR] = [COLOR.MASTER, COLOR.PURE, COLOR.GLITCH, COLOR.STONE, COLOR.DYNAMITE, COLOR.QUICKSILVER, COLOR.NONE, COLOR.ERROR, COLOR.COSMIC] # colors that cant be edited in colorblind settings
 const ANIMATED_COLORS:Array[COLOR] = [COLOR.MASTER, COLOR.PURE, COLOR.DYNAMITE, COLOR.QUICKSILVER, COLOR.ERROR, COLOR.COSMIC]
 const TEXTURED_COLORS:Array[COLOR] = [COLOR.MASTER, COLOR.PURE, COLOR.STONE, COLOR.DYNAMITE, COLOR.QUICKSILVER, COLOR.ERROR, COLOR.COSMIC]
@@ -39,7 +39,11 @@ const DEFAULT_HIGH:Array[Color] = [
 	Color("#d1ffff"), Color("#b57ea7"), Color("#f2e380"),
 	Color("#00000000"),
 	Color("#fff"),
-	Color("#240a44")
+	Color("#240a44"),
+	Color("#A79437"),
+	Color("#54A7FF"),
+	Color("#99BB00"),
+	Color("#A6CCEE")
 ]
 const BRIGHT_HIGH:Array[Color] = [
 	Color("#e7bf98"),
@@ -55,7 +59,11 @@ const BRIGHT_HIGH:Array[Color] = [
 	Color("#d1ffff"), Color("#b57ea7"), Color("#f2e380"),
 	Color("#00000000"),
 	Color("#fff"),
-	Color("#340e62")
+	Color("#340e62"),
+	Color("#A79437"),
+	Color("#54A7FF"),
+	Color("#99BB00"),
+	Color("#A6CCEE")
 ]
 
 var mainTone:Array[Color] = DEFAULT_MAIN.duplicate()
@@ -73,7 +81,11 @@ const DEFAULT_MAIN:Array[Color] = [
 	Color("#82f0ff"), Color("#966489"), Color("#e2c961"),
 	Color("#00000000"),
 	Color("#006dff"),
-	Color("#19072f")
+	Color("#19072f"),
+	Color("#ad511b"),
+	Color("#3D95F5"),
+	Color("#779900"),
+	Color("#86ACCC")
 	
 ]
 const BRIGHT_MAIN:Array[Color] = [
@@ -90,7 +102,11 @@ const BRIGHT_MAIN:Array[Color] = [
 	Color("#82f0ff"), Color("#966489"), Color("#e2c961"),
 	Color("#00000000"),
 	Color("#006dff"),
-	Color("#240a44")
+	Color("#240a44"),
+	Color("#ad511b"),
+	Color("#3D95F5"),
+	Color("#779900"),
+	Color("#86ACCC")
 ]
 
 var darkTone:Array[Color] = DEFAULT_DARK.duplicate()
@@ -108,7 +124,11 @@ const DEFAULT_DARK:Array[Color] = [
 	Color("#62b6c1"), Color("#7f4972"), Color("#c6af51"),
 	Color("#00000000"),
 	Color("#006dff"),
-	Color("#110521")
+	Color("#110521"),
+	Color("#8e0d0d"),
+	Color("#166CCC"),
+	Color("#664400"),
+	Color("#688CAC")
 
 ]
 const BRIGHT_DARK:Array[Color] = [
@@ -125,7 +145,11 @@ const BRIGHT_DARK:Array[Color] = [
 	Color("#62b6c1"), Color("#7f4972"), Color("#c6af51"),
 	Color("#00000000"),
 	Color("#006dff"),
-	Color("#19072f")
+	Color("#19072f"),
+	Color("#8e0d0d"),
+	Color("#166CCC"),
+	Color("#664400"),
+	Color("#688CAC")
 ]
 
 @onready var editor:Editor = get_node("/root/editor")

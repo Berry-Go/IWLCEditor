@@ -526,7 +526,9 @@ func tryOpen(player:Player) -> void:
 				if checkCanOpen(player):
 					var spendColor:Game.COLOR = getColor(COLOR_STEP.FINAL)
 					player.changeGlisten(spendColor, M.sub(player.glisten[spendColor], calculateCosts(player, func(lock): return lock.type == Lock.TYPE.GLISTENING)))
+					var waterCost = calculateCosts(player, func(lock): return lock.type != Lock.TYPE.GLISTENING and lock.getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.WATER)
 					player.changeKeys(spendColor, M.sub(player.key[spendColor], calculateCosts(player, func(lock): return lock.type != Lock.TYPE.GLISTENING)))
+					player.changeKeys(Game.COLOR.WATER, M.sub(player.key[Game.COLOR.WATER], waterCost))
 				else: return
 		
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"gameCopies", M.sub(gameCopies, M.across(ipow(), M.sub(M.allAxes(), infCopies)))))
@@ -652,7 +654,7 @@ func checkCanOpen(player:Player, predicate:Callable=func(_lock): return true, ch
 	var canOpen:bool = true
 	if M.ex(gameCopies): # although nothing (yet) can make a door 0 copy without destroying it
 		for lock in locks:
-			if !lock.canOpen(player):
+			if !lock.canOpen(player) and (M.nex(player.key[Game.COLOR.AIR]) or !lock.canOpen(player, Game.COLOR.AIR)):
 				if lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE and checkCrash: willCrash = true
 				elif predicate.call(lock): canOpen = false
 			elif lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE: canOpen = false
@@ -665,8 +667,15 @@ func checkCanOpen(player:Player, predicate:Callable=func(_lock): return true, ch
 
 func calculateCosts(player:Player, predicate:Callable, costIpow:PackedInt64Array=ipow()) -> PackedInt64Array:
 	var cost:PackedInt64Array = M.ZERO
-	for lock in locks: if predicate.call(lock): cost = M.add(cost, lock.getCost(player, costIpow))
-	for lock in remoteLocks: if predicate.call(lock): cost = M.add(cost, lock.cost)
+	for lock in locks:
+		if predicate.call(lock):
+			# TODO: AIR
+			if lock.getColor(Lock.COLOR_STEP.FINAL) == Game.COLOR.EARTH and lock.type != Lock.TYPE.BLAST: cost = M.add(cost, player.key[Game.COLOR.EARTH])
+			else: cost = M.add(cost, lock.getCost(player, costIpow))
+	for lock in remoteLocks:
+		if predicate.call(lock):
+			# TODO: REMOTE LOCKS AIR & EARTH
+			cost = M.add(cost, lock.cost)
 	return cost
 
 func hasEffectiveColor(color:Game.COLOR) -> bool:
@@ -729,7 +738,7 @@ func gateCheck(player:Player, starting:bool=false) -> void:
 	var shouldOpen:bool = true
 	var willCrash:bool = false
 	for lock in locks:
-		if !lock.canOpen(player):
+		if !lock.canOpen(player) and (player.key[Game.COLOR.AIR] == M.ZERO or lock.canOpen(player, Game.COLOR.AIR)):
 			if lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE: willCrash = true
 			else: shouldOpen = false
 		elif lock.getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE: shouldOpen = false
