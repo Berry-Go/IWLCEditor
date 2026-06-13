@@ -539,7 +539,7 @@ static func getLockCost(lock:GameComponent, player:Player, ipow:PackedInt64Array
 			TYPE.NORMAL, TYPE.EXACT, TYPE.GLISTENING: cost = lockCount
 			TYPE.BLAST: if M.ex(lockDenominator): cost = M.divide(M.times(M.alongbs(keyCount, lockDenominator), lockCount), lockDenominator)
 			TYPE.ALL: if M.ex(lockDenominator): cost = M.divide(M.times(keyCount, lockCount), lockDenominator)
-	if lock.negated: return M.negate(cost) # TODO: should negated earth locks spend earth keys * -1?
+	if lock.negated: return M.negate(cost)
 	return cost
 
 func effectiveCount(ipow:PackedInt64Array=parent.ipow()) -> PackedInt64Array:
