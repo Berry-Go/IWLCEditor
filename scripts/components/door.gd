@@ -682,11 +682,9 @@ func calculateCosts(player:Player, predicate:Callable, costIpow:PackedInt64Array
 	var cost:PackedInt64Array = M.ZERO
 	for lock in locks:
 		if predicate.call(lock):
-			# TODO: AIR
 			cost = M.add(cost, lock.getCost(player, costIpow))
 	for lock in remoteLocks:
 		if predicate.call(lock):
-			# TODO: REMOTE LOCKS AIR
 			cost = M.add(cost, lock.cost)
 	return cost
 
