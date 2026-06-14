@@ -95,7 +95,7 @@ static var mods:Dictionary[StringName, Mod] = {
 	&"ElementalColors": Mod.new(
 		"Elemental Colors",
 		"Adds four elemental colours that interact with locks. Added by BerryGo",
-		[&"ElementalColors"]
+		[&"ElementalColor"]
 	)
 }
 

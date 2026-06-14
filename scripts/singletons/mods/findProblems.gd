@@ -125,6 +125,8 @@ func findColorProblems(component:GameComponent, color:Game.COLOR) -> void:
 	if &"C4" in modsWindow.modsRemoved:
 		noteProblem(&"C4", &"DarkAuraColor", component, color in [Game.COLOR.MAROON, Game.COLOR.FOREST, Game.COLOR.NAVY])
 		noteProblem(&"C4", &"AuraBreakerColor", component, color in [Game.COLOR.ICE, Game.COLOR.MUD, Game.COLOR.GRAFFITI])
+	if &"ElementalColors" in modsWindow.modsRemoved:
+		noteProblem(&"ElementalColors", &"ElementalColor", component, color in [Game.COLOR.FIRE, Game.COLOR.WATER, Game.COLOR.EARTH, Game.COLOR.AIR])
 
 func noteProblem(mod:StringName, type:StringName, component:GameComponent, isProblem:bool) -> void:
 	var problem:Array = [mod, type]
