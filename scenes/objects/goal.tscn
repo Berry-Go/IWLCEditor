@@ -4,7 +4,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g85mp"]
 resource_local_to_scene = true
-size = Vector2(31.5, 31.5)
+size = Vector2(32, 32)
 
 [node name="goal" type="Node2D" unique_id=539491521]
 script = ExtResource("1_d1k5b")

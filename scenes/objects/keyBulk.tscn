@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://boiwo8vk6byve" path="res://scripts/components/keyBulk.gd" id="1_v3lj7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_47wsx"]
-size = Vector2(31.5, 31.5)
+size = Vector2(32, 32)
 
 [node name="keyBulk" type="Node2D" unique_id=292751317]
 script = ExtResource("1_v3lj7")

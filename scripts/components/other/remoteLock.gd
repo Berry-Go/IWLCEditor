@@ -152,7 +152,7 @@ func propertyChangedInit(property:StringName) -> void:
 func propertyChangedDo(property:StringName) -> void:
 	super(property)
 	if property == &"size":
-		%shape.shape.size = size - Vector2(0.5, 0.5)
+		%shape.shape.size = size
 		%shape.position = size/2 - getOffset()
 
 func receiveMouseInput(event:InputEventMouse) -> bool:
