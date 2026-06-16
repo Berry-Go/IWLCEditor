@@ -223,7 +223,7 @@ func start() -> void:
 	gameFrozen = frozen
 	gameCrumbled = crumbled
 	gamePainted = painted
-	cost = getCost(Game.player)
+	cost = getCost(Game.player, true)
 
 func stop() -> void:
 	cursed = false
@@ -246,7 +246,7 @@ func check(player:Player) -> void:
 	var satisfiedBefore:bool = satisfied
 	var costBefore:PackedInt64Array = cost
 	GameChanges.addChange(GameChanges.PropertyChange.new(self,&"satisfied",canOpen(player)))
-	GameChanges.addChange(GameChanges.PropertyChange.new(self,&"cost",getCost(player)))
+	GameChanges.addChange(GameChanges.PropertyChange.new(self,&"cost",getCost(player, true)))
 	if getColor(Lock.COLOR_STEP.EFFECTIVE) == Game.COLOR.NONE and !satisfied: Game.crash(); return
 	if !(satisfiedBefore == satisfied and M.eq(costBefore, cost)):
 		if satisfied: AudioManager.play(preload("res://resources/sounds/remoteLock/success.wav"))
@@ -261,7 +261,7 @@ func blinkAnim() -> void:
 
 func canOpen(player:Player, checkColor:Game.COLOR=getColor(Lock.COLOR_STEP.FINAL)) -> bool: return Lock.getLockCanOpen(self, player, checkColor)
 
-func getCost(player:Player) -> PackedInt64Array: return Lock.getLockCost(self,player,M.ONE)
+func getCost(player:Player, airEffect:bool) -> PackedInt64Array: return Lock.getLockCost(self,airEffect,player,M.ONE)
 
 func getColor(step:Lock.COLOR_STEP) -> Game.COLOR:
 	var resultColor:Game.COLOR = color

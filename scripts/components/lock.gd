@@ -496,7 +496,7 @@ func effectiveConfiguration() -> CONFIGURATION:
 
 func canOpen(player:Player, checkColor:Game.COLOR=getColor(COLOR_STEP.FINAL)) -> bool: return getLockCanOpen(self, player, checkColor)
 
-static func getLockCanOpen(lock:GameComponent,player:Player, checkColor:Game.COLOR=lock.getColor(COLOR_STEP.FINAL)) -> bool:
+static func getLockCanOpen(lock:GameComponent, player:Player, checkColor:Game.COLOR=lock.getColor(COLOR_STEP.FINAL)) -> bool:
 	if checkColor == Game.COLOR.FIRE: return !lock.negated
 	var can:bool = true
 	var keyCount:PackedInt64Array = player.key[checkColor]
@@ -525,11 +525,11 @@ static func getLockCanOpen(lock:GameComponent,player:Player, checkColor:Game.COL
 		TYPE.GLISTENING: can = M.cgte(M.along(glistenCount, lockCount), M.acrabs(lockCount))
 	return can != lock.negated
 
-func getCost(player:Player, ipow:PackedInt64Array=parent.ipow()) -> PackedInt64Array: return getLockCost(self, player, ipow)
+func getCost(player:Player, airEffect:bool, ipow:PackedInt64Array=parent.ipow()) -> PackedInt64Array: return getLockCost(self, airEffect, player, ipow)
 
-static func getLockCost(lock:GameComponent, player:Player, ipow:PackedInt64Array) -> PackedInt64Array:
+static func getLockCost(lock:GameComponent, airEffect:bool, player:Player, ipow:PackedInt64Array) -> PackedInt64Array:
 	var checkColor:Game.COLOR
-	if M.ex(player.key[Game.COLOR.AIR]) and !lock.canOpen(player): checkColor = Game.COLOR.AIR
+	if airEffect and M.ex(player.key[Game.COLOR.AIR]) and !lock.canOpen(player): checkColor = Game.COLOR.AIR
 	else: checkColor = lock.getColor(COLOR_STEP.FINAL)
 	var cost:PackedInt64Array = M.ZERO
 	var keyCount:PackedInt64Array = player.key[checkColor]
