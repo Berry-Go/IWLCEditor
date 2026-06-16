@@ -291,7 +291,7 @@ func colors() -> Array[C.olors]:
 	if active(&"NoneColor"): array.append(C.olors.NONE)
 	if active(&"CosmicColor"): array.append(C.olors.COSMIC)
 	if active(&"ErrorColor"): array.append(C.olors.ERROR)
-	if active( &"ElementalColors"): array.append_array([C.olors.FIRE, C.olors.WATER, C.olors.EARTH, C.olors.AIR])
+	if active(&"ElementalColors"): array.append_array([C.olors.FIRE, C.olors.WATER, C.olors.EARTH, C.olors.AIR])
 	return array
 
 ## wraps

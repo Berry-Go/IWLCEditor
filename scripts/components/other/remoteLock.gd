@@ -266,7 +266,7 @@ func blinkAnim() -> void:
 	animAlpha = 1
 	animColor = Color("#00ff66") if satisfied else Color("#ff0066")
 
-func canOpen(player:Player, checkColor:C.olor=getColor(Lock.COLOR_STEP.FINAL)) -> bool: return Lock.getLockCanOpen(self, player, checkColor)
+func canOpen(player:Player, checkColor:C.olors=getColor(Lock.COLOR_STEP.FINAL)) -> bool: return Lock.getLockCanOpen(self, player, checkColor)
 
 func getCost(player:Player, airEffect:bool) -> PackedInt64Array: return Lock.getLockCost(self,airEffect,player,M.ONE)
 
@@ -334,12 +334,12 @@ func curseUnaffected() -> bool:
 
 func curseCheck(player:Player) -> void:
 	if getColor(Lock.COLOR_STEP.EFFECTIVE) == C.olors.PURE or armament: return
-	var willCurse:bool = player.curseMode > 0 and (!cursed or (curseColor != player.curseColor and curseColor != C.olor.PURE))
+	var willCurse:bool = player.curseMode > 0 and (!cursed or (curseColor != player.curseColor and curseColor != C.olors.PURE))
 	var willCurseRedundant:bool = willCurse and color == player.curseColor
 	if willCurse and !willCurseRedundant:
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"cursed",true))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"curseColor",player.curseColor))
-		if player.curseColor in [C.olor.GLITCH, C.olor.ERROR]:
+		if player.curseColor in [C.olors.GLITCH, C.olors.ERROR]:
 			GameChanges.addChange(GameChanges.PropertyChange.new(self,&"curseMimic",player.curseColor))
 		makeCurseParticles(curseColor, 1, 0.2, 0.5)
 		AudioManager.play(preload("res://resources/sounds/door/curse.wav"))
@@ -354,7 +354,7 @@ func curseCheck(player:Player) -> void:
 			makeCurseParticles(player.curseColor, 1, 0.2, 0.5)
 			AudioManager.play(preload("res://resources/sounds/door/curse.wav"))
 		else:
-			makeCurseParticles(C.olor.BROWN, -1, 0.2, 0.5)
+			makeCurseParticles(C.olors.BROWN, -1, 0.2, 0.5)
 			AudioManager.play(preload("res://resources/sounds/door/decurse.wav"))
 		GameChanges.bufferSave()
 

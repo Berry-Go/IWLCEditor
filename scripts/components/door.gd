@@ -590,24 +590,24 @@ func tryQuicksilverOpen(player:Player) -> bool:
 	return true
 
 func applyCosts(player:Player, costIpow:PackedInt64Array=ipow()) -> void:
-	var pure:bool = hasEffectiveColor(C.olor.PURE)
+	var pure:bool = hasEffectiveColor(C.olors.PURE)
 	# DECIDE: should armaments be immune to air?
 	# DECIDE: should pure doors/gates be immune to the other elemental colors?
 	if starred != STAR_STATE.UNSTARRED:
-		var waterGlistenArmamentCost = calculateCosts(player, pure, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.getColor(Lock.COLOR_STEP.FINAL) == C.olor.WATER and lock.armament, costIpow)
-		var waterArmamentCost = calculateCosts(player, pure, func(lock): return lock.type != Lock.TYPE.GLISTENING and lock.getColor(Lock.COLOR_STEP.FINAL) == C.olor.WATER and lock.armament, costIpow)
+		var waterGlistenArmamentCost = calculateCosts(player, pure, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.getColor(Lock.COLOR_STEP.FINAL) == C.olors.WATER and lock.armament, costIpow)
+		var waterArmamentCost = calculateCosts(player, pure, func(lock): return lock.type != Lock.TYPE.GLISTENING and lock.getColor(Lock.COLOR_STEP.FINAL) == C.olors.WATER and lock.armament, costIpow)
 		player.changeGlisten(starredColor, M.sub(player.glisten[starredColor], M.add(starredSpendGlisten, calculateCosts(player, pure, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.armament, costIpow))))
-		player.changeGlisten(C.olor.WATER, M.add(starredSpendWaterGlisten, waterGlistenArmamentCost))
+		player.changeGlisten(C.olors.WATER, M.add(starredSpendWaterGlisten, waterGlistenArmamentCost))
 		player.changeKeys(starredColor, M.sub(player.key[starredColor],M.add(starredSpendKey, calculateCosts(player, pure, func(lock): return lock.type != Lock.TYPE.GLISTENING and lock.armament, costIpow))))
-		player.changeKeys(C.olor.WATER, M.add(starredSpendWater, waterArmamentCost))
+		player.changeKeys(C.olors.WATER, M.add(starredSpendWater, waterArmamentCost))
 	else:
-		var spendColor:C.olor = getColor(COLOR_STEP.FINAL)
-		var waterGlistenCost = calculateCosts(player, pure, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.getColor(Lock.COLOR_STEP.FINAL) == C.olor.WATER, costIpow)
-		var waterCost = calculateCosts(player, pure, func(lock): return lock.type != Lock.TYPE.GLISTENING and lock.getColor(Lock.COLOR_STEP.FINAL) == C.olor.WATER, costIpow)
+		var spendColor:C.olors = getColor(COLOR_STEP.FINAL)
+		var waterGlistenCost = calculateCosts(player, pure, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.getColor(Lock.COLOR_STEP.FINAL) == C.olors.WATER, costIpow)
+		var waterCost = calculateCosts(player, pure, func(lock): return lock.type != Lock.TYPE.GLISTENING and lock.getColor(Lock.COLOR_STEP.FINAL) == C.olors.WATER, costIpow)
 		player.changeGlisten(spendColor, M.sub(player.glisten[spendColor], calculateCosts(player, pure, func(lock): return lock.type == Lock.TYPE.GLISTENING, costIpow)))
-		player.changeGlisten(C.olor.WATER, M.sub(player.glisten[C.olor.WATER], waterGlistenCost))
+		player.changeGlisten(C.olors.WATER, M.sub(player.glisten[C.olors.WATER], waterGlistenCost))
 		player.changeKeys(spendColor, M.sub(player.key[spendColor], calculateCosts(player, pure, func(lock): return lock.type != Lock.TYPE.GLISTENING, costIpow)))
-		player.changeKeys(C.olor.WATER, M.sub(player.key[C.olor.WATER], waterCost))
+		player.changeKeys(C.olors.WATER, M.sub(player.key[C.olors.WATER], waterCost))
 
 func tryDynamiteOpen(player:Player) -> bool:
 	if hasEffectiveColor(C.olors.DYNAMITE): return false
@@ -651,11 +651,11 @@ func tryCosmicOpen(player:Player) -> bool:
 		player.changeKeys(C.olors.COSMIC, M.sub(player.key[C.olors.COSMIC], player.masterMode))
 		if checkCanOpen(player, func(lock): return !lock.armament): GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starred", STAR_STATE.STARRED_UNLOCKED))
 		else: GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starred", STAR_STATE.STARRED_LOCKED))
-		var pure:bool = hasEffectiveColor(C.olor.PURE)
+		var pure:bool = hasEffectiveColor(C.olors.PURE)
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendKey", calculateCosts(player, pure, func(lock): return lock.type != Lock.TYPE.GLISTENING and !lock.armament)))
-		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendWater", calculateCosts(player, pure, func(lock): return lock.type != Lock.TYPE.GLISTENING and !lock.armament and lock.getColor(Lock.COLOR_STEP.FINAL) == C.olor.WATER)))
+		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendWater", calculateCosts(player, pure, func(lock): return lock.type != Lock.TYPE.GLISTENING and !lock.armament and lock.getColor(Lock.COLOR_STEP.FINAL) == C.olors.WATER)))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendGlisten", calculateCosts(player, pure, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.armament)))
-		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendWaterGlisten", calculateCosts(player, pure, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.armament and lock.getColor(Lock.COLOR_STEP.FINAL) == C.olor.WATER)))
+		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredSpendWaterGlisten", calculateCosts(player, pure, func(lock): return lock.type == Lock.TYPE.GLISTENING and lock.armament and lock.getColor(Lock.COLOR_STEP.FINAL) == C.olors.WATER)))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredColor", getColor(COLOR_STEP.FINAL)))
 		GameChanges.addChange(GameChanges.PropertyChange.new(self, &"starredipow", ipow()))
 	elif starred != STAR_STATE.UNSTARRED and player.masterMode == M.nONE:
@@ -773,36 +773,36 @@ func auraCheck(player:Player) -> void:
 	if animState != ANIM_STATE.IDLE: return
 	if starred != STAR_STATE.UNSTARRED: return
 	var playSound:bool = false
-	if player.auraRed and gameFrozen and !hasEffectiveColor(C.olor.MAROON):
+	if player.auraRed and gameFrozen and !hasEffectiveColor(C.olors.MAROON):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gameFrozen",false))
-		makeDebris(Debris, C.olor.WHITE)
+		makeDebris(Debris, C.olors.WHITE)
 		playSound = true
-	if player.auraGreen and gameCrumbled and !hasEffectiveColor(C.olor.FOREST):
+	if player.auraGreen and gameCrumbled and !hasEffectiveColor(C.olors.FOREST):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gameCrumbled",false))
-		makeDebris(Debris, C.olor.BROWN)
+		makeDebris(Debris, C.olors.BROWN)
 		playSound = true
-	if player.auraBlue and gamePainted and !hasEffectiveColor(C.olor.NAVY):
+	if player.auraBlue and gamePainted and !hasEffectiveColor(C.olors.NAVY):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gamePainted",false))
-		makeDebris(Debris, C.olor.ORANGE)
+		makeDebris(Debris, C.olors.ORANGE)
 		playSound = true
-	if player.auraMaroon and !gameFrozen and !hasEffectiveColor(C.olor.RED):
+	if player.auraMaroon and !gameFrozen and !hasEffectiveColor(C.olors.RED):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gameFrozen",true))
-		makeDebris(Debris, C.olor.WHITE)
+		makeDebris(Debris, C.olors.WHITE)
 		playSound = true
-	if player.auraForest and !gameCrumbled and !hasEffectiveColor(C.olor.GREEN):
+	if player.auraForest and !gameCrumbled and !hasEffectiveColor(C.olors.GREEN):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gameCrumbled",true))
-		makeDebris(Debris, C.olor.BROWN)
+		makeDebris(Debris, C.olors.BROWN)
 		playSound = true
-	if player.auraNavy and !gamePainted and !hasEffectiveColor(C.olor.BLUE):
+	if player.auraNavy and !gamePainted and !hasEffectiveColor(C.olors.BLUE):
 		GameChanges.addChange(GameChanges.PropertyChange.new(self,&"gamePainted",true))
-		makeDebris(Debris, C.olor.ORANGE)
+		makeDebris(Debris, C.olors.ORANGE)
 		playSound = true
 	if playSound:
 		AudioManager.play(preload("res://resources/sounds/door/deaura.wav"))
 		GameChanges.bufferSave()
 
 
-func isAllInitialColor(color:C.olor) -> bool:
+func isAllInitialColor(color:C.olors) -> bool:
 	if getColor(COLOR_STEP.INITIAL) != color: return false
 	for lock in locks: if lock.color != color: return false
 	return true

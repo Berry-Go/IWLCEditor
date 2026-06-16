@@ -177,7 +177,7 @@ func _thumbnailEntireLevelSet(toggled_on:bool) -> void:
 	Game.editor.thumbnailEntireLevel = toggled_on
 
 func _thumbnailWithText(toggled_on: bool) -> void:
-	editor.thumbnailWithText = toggled_on
+	Game.editor.thumbnailWithText = toggled_on
 
 func _uiScaleChanged(value:float) -> void:
 	Game.logUiScale = value

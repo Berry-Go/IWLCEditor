@@ -81,7 +81,7 @@ func describe(object:GameObject, pos:Vector2, screenBottomRight:Vector2) -> void
 func lockAdditionalInfo(lock:Lock, door:Door) -> String:
 	var additional:Array[String] = []
 	if lock.armament: additional.append("Armament")
-	if door.colorSpend in [C.olor.GLITCH, C.olor.ERROR] and lock.color in [C.olor.GLITCH, C.olor.ERROR] and lock.getColor(Lock.COLOR_STEP.EFFECTIVE) != door.getColor(Door.COLOR_STEP.EFFECTIVE): additional.append("Mimic: " + Colors.getName(lock.getColor(Lock.COLOR_STEP.EFFECTIVE)))
+	if door.colorSpend in [C.olors.GLITCH, C.olors.ERROR] and lock.color in [C.olors.GLITCH, C.olors.ERROR] and lock.getColor(Lock.COLOR_STEP.EFFECTIVE) != door.getColor(Door.COLOR_STEP.EFFECTIVE): additional.append("Mimic: " + Colors.getName(lock.getColor(Lock.COLOR_STEP.EFFECTIVE)))
 	if additional: return ", ".join(additional)
 	else: return ""
 
